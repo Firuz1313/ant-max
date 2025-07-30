@@ -78,7 +78,7 @@ const ANTSupport = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 relative overflow-hidden">
-      {/* Улучшенный анимированный ф��н */}
+      {/* Улучшенный анимированный фон */}
       <div className="fixed inset-0 -z-10">
         {/* Основные световые эффекты */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
@@ -109,7 +109,7 @@ const ANTSupport = () => {
         />
       </div>
 
-      {/* У��учшенная навигационная панель */}
+      {/* Улучшенная навигационная панель */}
       <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-white/10 shadow-2xl">
         <div className="container mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
