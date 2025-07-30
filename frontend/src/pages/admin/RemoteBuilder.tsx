@@ -765,7 +765,7 @@ const RemoteBuilder = () => {
                     <Target className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>Нет кнопок</p>
                     <p className="text-xs">
-                      Используйте пипетку для добавле��ия
+                      Используйте пипетку для добавления
                     </p>
                   </div>
                 )}

@@ -189,7 +189,7 @@ const DragDropManager = () => {
     {
       id: "deactivate",
       name: "Деактивировать",
-      description: "Деактивировать выбранные элементы",
+      description: "Деактивировать выбранные элемен��ы",
       icon: EyeOff,
       action: async (items) => {
         // Implementation for bulk deactivation
@@ -322,7 +322,7 @@ const DragDropManager = () => {
 
   const handleBulkOperation = async (operation: BulkOperation) => {
     if (selectedItems.length === 0) {
-      alert("Выберите элементы для вы��олнения операции");
+      alert("Выберите элементы для выполнения операции");
       return;
     }
 
