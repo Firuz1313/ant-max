@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
   getProblems,
   getProblemById,
@@ -15,8 +15,8 @@ import {
   unpublishProblem,
   getProblemStats,
   updateProblemStats,
-  exportProblems
-} from '../controllers/problemController.js';
+  exportProblems,
+} from "../controllers/problemController.js";
 
 const router = express.Router();
 
@@ -36,7 +36,7 @@ const router = express.Router();
  * @query {boolean} [include_details=false] - Включить детальную информацию
  * @query {boolean} [admin=false] - Расширенная информация для админ панели
  */
-router.get('/', getProblems);
+router.get("/", getProblems);
 
 /**
  * @route GET /api/v1/problems/search
@@ -46,7 +46,7 @@ router.get('/', getProblems);
  * @query {number} [limit=20] - Максимальное количество результатов
  * @query {number} [offset=0] - Смещение для пагинации
  */
-router.get('/search', searchProblems);
+router.get("/search", searchProblems);
 
 /**
  * @route GET /api/v1/problems/popular
@@ -54,14 +54,14 @@ router.get('/search', searchProblems);
  * @access Public
  * @query {number} [limit=10] - Количество проблем
  */
-router.get('/popular', getPopularProblems);
+router.get("/popular", getPopularProblems);
 
 /**
  * @route GET /api/v1/problems/stats
  * @desc Получение статистики проблем
  * @access Public
  */
-router.get('/stats', getProblemStats);
+router.get("/stats", getProblemStats);
 
 /**
  * @route GET /api/v1/problems/export
@@ -69,9 +69,9 @@ router.get('/stats', getProblemStats);
  * @access Public
  * @query {string} [format=json] - Формат экспорта
  * @query {string} [device_id] - Фильтр по устройству
- * @query {boolean} [include_steps=false] - Включить свя��анные шаги
+ * @query {boolean} [include_steps=false] - Включить связанные шаги
  */
-router.get('/export', exportProblems);
+router.get("/export", exportProblems);
 
 /**
  * @route GET /api/v1/problems/device/:deviceId
@@ -82,7 +82,7 @@ router.get('/export', exportProblems);
  * @query {number} [limit=20] - Максимальное количество результатов
  * @query {number} [offset=0] - Смещение для пагинации
  */
-router.get('/device/:deviceId', getProblemsByDevice);
+router.get("/device/:deviceId", getProblemsByDevice);
 
 /**
  * @route GET /api/v1/problems/category/:category
@@ -93,7 +93,7 @@ router.get('/device/:deviceId', getProblemsByDevice);
  * @query {number} [limit=20] - Максимальное количество результатов
  * @query {number} [offset=0] - Смещение для пагинации
  */
-router.get('/category/:category', getProblemsByCategory);
+router.get("/category/:category", getProblemsByCategory);
 
 /**
  * @route GET /api/v1/problems/:id
@@ -102,7 +102,7 @@ router.get('/category/:category', getProblemsByCategory);
  * @params {string} id - ID проблемы
  * @query {boolean} [include_details=false] - Включить детальную информацию
  */
-router.get('/:id', getProblemById);
+router.get("/:id", getProblemById);
 
 /**
  * @route POST /api/v1/problems
@@ -123,16 +123,16 @@ router.get('/:id', getProblemById);
  * @body {string} [problem.status] - Статус проблемы
  * @body {object} [problem.metadata] - Дополнительные данные
  */
-router.post('/', createProblem);
+router.post("/", createProblem);
 
 /**
  * @route POST /api/v1/problems/:id/duplicate
  * @desc Дублирование проблемы
  * @access Admin
- * @params {string} id - ID пробл��мы для дублирования
+ * @params {string} id - ID проблемы для дублирования
  * @body {string} [target_device_id] - ID целевого устройства
  */
-router.post('/:id/duplicate', duplicateProblem);
+router.post("/:id/duplicate", duplicateProblem);
 
 /**
  * @route POST /api/v1/problems/:id/publish
@@ -140,7 +140,7 @@ router.post('/:id/duplicate', duplicateProblem);
  * @access Admin
  * @params {string} id - ID проблемы
  */
-router.post('/:id/publish', publishProblem);
+router.post("/:id/publish", publishProblem);
 
 /**
  * @route POST /api/v1/problems/:id/unpublish
@@ -148,7 +148,7 @@ router.post('/:id/publish', publishProblem);
  * @access Admin
  * @params {string} id - ID проблемы
  */
-router.post('/:id/unpublish', unpublishProblem);
+router.post("/:id/unpublish", unpublishProblem);
 
 /**
  * @route POST /api/v1/problems/:id/update-stats
@@ -157,7 +157,7 @@ router.post('/:id/unpublish', unpublishProblem);
  * @params {string} id - ID проблемы
  * @body {string} session_result - Результат сессии (success/failure)
  */
-router.post('/:id/update-stats', updateProblemStats);
+router.post("/:id/update-stats", updateProblemStats);
 
 /**
  * @route POST /api/v1/problems/:id/restore
@@ -165,7 +165,7 @@ router.post('/:id/update-stats', updateProblemStats);
  * @access Admin
  * @params {string} id - ID проблемы
  */
-router.post('/:id/restore', restoreProblem);
+router.post("/:id/restore", restoreProblem);
 
 /**
  * @route PUT /api/v1/problems/:id
@@ -174,7 +174,7 @@ router.post('/:id/restore', restoreProblem);
  * @params {string} id - ID проблемы
  * @body {object} problem - Данные для обновления
  */
-router.put('/:id', updateProblem);
+router.put("/:id", updateProblem);
 
 /**
  * @route DELETE /api/v1/problems/:id
@@ -183,6 +183,6 @@ router.put('/:id', updateProblem);
  * @params {string} id - ID проблемы
  * @query {boolean} [force=false] - Принудительное удаление
  */
-router.delete('/:id', deleteProblem);
+router.delete("/:id", deleteProblem);
 
 export default router;

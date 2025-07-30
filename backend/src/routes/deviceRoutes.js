@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import {
   getDevices,
   getDeviceById,
@@ -11,8 +11,8 @@ import {
   reorderDevices,
   getDeviceStats,
   bulkUpdateDevices,
-  exportDevices
-} from '../controllers/deviceController.js';
+  exportDevices,
+} from "../controllers/deviceController.js";
 
 const router = express.Router();
 
@@ -30,7 +30,7 @@ const router = express.Router();
  * @query {boolean} [include_stats=false] - Включить статистику
  * @query {boolean} [admin=false] - Расширенная информация для админ панели
  */
-router.get('/', getDevices);
+router.get("/", getDevices);
 
 /**
  * @route GET /api/v1/devices/search
@@ -40,7 +40,7 @@ router.get('/', getDevices);
  * @query {number} [limit=20] - Максимальное количество результатов
  * @query {number} [offset=0] - Смещение для пагинации
  */
-router.get('/search', searchDevices);
+router.get("/search", searchDevices);
 
 /**
  * @route GET /api/v1/devices/popular
@@ -48,14 +48,14 @@ router.get('/search', searchDevices);
  * @access Public
  * @query {number} [limit=10] - Количество устройств
  */
-router.get('/popular', getPopularDevices);
+router.get("/popular", getPopularDevices);
 
 /**
  * @route GET /api/v1/devices/stats
  * @desc Получение статистики устройств
  * @access Public
  */
-router.get('/stats', getDeviceStats);
+router.get("/stats", getDeviceStats);
 
 /**
  * @route GET /api/v1/devices/export
@@ -64,7 +64,7 @@ router.get('/stats', getDeviceStats);
  * @query {string} [format=json] - Формат экспорта
  * @query {boolean} [include_problems=false] - Включить связанные проблемы
  */
-router.get('/export', exportDevices);
+router.get("/export", exportDevices);
 
 /**
  * @route GET /api/v1/devices/:id
@@ -73,11 +73,11 @@ router.get('/export', exportDevices);
  * @params {string} id - ID устройства
  * @query {boolean} [include_stats=false] - Включить статистику
  */
-router.get('/:id', getDeviceById);
+router.get("/:id", getDeviceById);
 
 /**
  * @route POST /api/v1/devices
- * @desc Создание нового устройства
+ * @desc Создание нового устройст��а
  * @access Admin
  * @body {object} device - Данные устройства
  * @body {string} device.name - Название устройства
@@ -91,7 +91,7 @@ router.get('/:id', getDeviceById);
  * @body {string} [device.status] - Статус устройства
  * @body {object} [device.metadata] - Дополнительные данные
  */
-router.post('/', createDevice);
+router.post("/", createDevice);
 
 /**
  * @route PUT /api/v1/devices/reorder
@@ -99,26 +99,26 @@ router.post('/', createDevice);
  * @access Admin
  * @body {array} deviceIds - Массив ID устройств в новом порядке
  */
-router.put('/reorder', reorderDevices);
+router.put("/reorder", reorderDevices);
 
 /**
  * @route PUT /api/v1/devices/bulk
  * @desc Массовое обновление устройств
  * @access Admin
  * @body {array} updates - Массив обновлений
- * @body {string} updates[].id - ID устройства дл�� обновления
+ * @body {string} updates[].id - ID устройства для обновле��ия
  * @body {object} updates[].data - Данные для обновления
  */
-router.put('/bulk', bulkUpdateDevices);
+router.put("/bulk", bulkUpdateDevices);
 
 /**
  * @route PUT /api/v1/devices/:id
- * @desc Обнов��ение устройства
+ * @desc Обновление устройства
  * @access Admin
  * @params {string} id - ID устройства
  * @body {object} device - Данные для обновления
  */
-router.put('/:id', updateDevice);
+router.put("/:id", updateDevice);
 
 /**
  * @route POST /api/v1/devices/:id/restore
@@ -126,7 +126,7 @@ router.put('/:id', updateDevice);
  * @access Admin
  * @params {string} id - ID устройства
  */
-router.post('/:id/restore', restoreDevice);
+router.post("/:id/restore", restoreDevice);
 
 /**
  * @route DELETE /api/v1/devices/:id
@@ -135,6 +135,6 @@ router.post('/:id/restore', restoreDevice);
  * @params {string} id - ID устройства
  * @query {boolean} [force=false] - Принудительное удаление
  */
-router.delete('/:id', deleteDevice);
+router.delete("/:id", deleteDevice);
 
 export default router;
