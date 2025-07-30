@@ -168,9 +168,9 @@ const SystemSettings = () => {
           <TabsTrigger value="general">Общие</TabsTrigger>
           <TabsTrigger value="diagnostic">Диагностика</TabsTrigger>
           <TabsTrigger value="notifications">Уведомления</TabsTrigger>
-          <TabsTrigger value="security">Б��зопасность</TabsTrigger>
+          <TabsTrigger value="security">Безопасность</TabsTrigger>
           <TabsTrigger value="appearance">Внешний вид</TabsTrigger>
-          <TabsTrigger value="backup">Резервн��е копирование</TabsTrigger>
+          <TabsTrigger value="backup">Резервное копирование</TabsTrigger>
         </TabsList>
 
         {/* General Settings */}
