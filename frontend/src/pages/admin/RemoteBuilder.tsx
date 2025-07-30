@@ -595,7 +595,7 @@ const RemoteBuilder = () => {
                   className="w-full"
                 >
                   <Crosshair className="h-4 w-4 mr-2" />
-                  {isCreatingButton ? "Отменить" : "Пипетка"}
+                  {isCreatingButton ? "Отменить" : "Выбрать позицию"}
                 </Button>
                 <Button
                   variant="outline"
@@ -876,7 +876,7 @@ const RemoteBuilder = () => {
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Описание пульта"
+                    placeholder="Введите описание пульта"
                   />
                 </div>
 
@@ -1048,7 +1048,7 @@ const RemoteBuilder = () => {
                       <Badge variant="default">По умолчанию</Badge>
                     )}
                     <Badge variant={remote.isActive ? "default" : "secondary"}>
-                      {remote.isActive ? "Активен" : "Неактивен"}
+                      {remote.isActive ? "Активный" : "Неактивный"}
                     </Badge>
                   </div>
                 </div>
@@ -1286,7 +1286,7 @@ const RemoteBuilder = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                placeholder="Описание пульта"
+                placeholder="Введите описание пульта"
               />
             </div>
 

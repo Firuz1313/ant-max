@@ -986,7 +986,7 @@ const TVInterfaceBuilder = () => {
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    placeholder="Описание интерфейса"
+                    placeholder="Введите описание интерфейса"
                   />
                 </div>
 
@@ -1142,7 +1142,7 @@ const TVInterfaceBuilder = () => {
                     <Badge variant="default">По умолчанию</Badge>
                   )}
                   <Badge variant={iface.isActive ? "default" : "secondary"}>
-                    {iface.isActive ? "Активен" : "Неактивен"}
+                    {iface.isActive ? "Активный" : "Неактивный"}
                   </Badge>
                 </div>
               </div>
@@ -1427,7 +1427,7 @@ const TVInterfaceBuilder = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                placeholder="Описание интерфейса"
+                placeholder="Введите описание интерфейса"
               />
             </div>
 

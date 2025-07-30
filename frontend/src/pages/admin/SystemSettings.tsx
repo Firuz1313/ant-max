@@ -214,7 +214,7 @@ const SystemSettings = () => {
                   id="siteDescription"
                   value={settings.siteDescription}
                   onChange={(e) => updateSetting("siteDescription", e.target.value)}
-                  placeholder="Описание вашего сайта"
+                  placeholder="Введите описание сайта"
                 />
               </div>
 

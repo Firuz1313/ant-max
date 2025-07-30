@@ -460,7 +460,7 @@ const StepsManager = () => {
         <div className="w-full lg:w-80 space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Пипетка позиции</CardTitle>
+              <CardTitle className="text-lg">Выбор позиции</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 gap-2">
@@ -865,7 +865,7 @@ const StepsManager = () => {
                           {remote.name}
                           {remote.isDefault && (
                             <span className="ml-2 text-xs text-blue-600">
-                              (умолч.)
+                              (по умолчанию)
                             </span>
                           )}
                         </div>
@@ -945,7 +945,7 @@ const StepsManager = () => {
                                   step.isActive ? "default" : "secondary"
                                 }
                               >
-                                {step.isActive ? "Активен" : "Неактивен"}
+                                {step.isActive ? "Активный" : "Неактивный"}
                               </Badge>
                               {step.requiredAction && (
                                 <Badge variant="outline">

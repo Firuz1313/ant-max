@@ -404,7 +404,7 @@ const UsersManager = () => {
                         {getRoleInfo(user.role).label}
                       </Badge>
                       <Badge variant={user.status === "active" ? "default" : "secondary"}>
-                        {user.status === "active" ? "Активен" : "Неактивен"}
+                        {user.status === "active" ? "Активный" : "Неактивный"}
                       </Badge>
                     </div>
                     
