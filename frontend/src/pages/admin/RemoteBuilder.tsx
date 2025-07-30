@@ -765,7 +765,7 @@ const RemoteBuilder = () => {
                     <Target className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>Нет кнопок</p>
                     <p className="text-xs">
-                      Используйте пипетку для добавления
+                      Используйте указатель для добавления
                     </p>
                   </div>
                 )}
@@ -1217,7 +1217,7 @@ const RemoteBuilder = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Редактировать пульт</DialogTitle>
+            <DialogTitle>Редактиров��ть пульт</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
