@@ -29,7 +29,7 @@ const dbConfig = {
   max: 20,                    // максимальное количество соединений в pool
   min: 5,                     // минимальное количество соединений
   idleTimeoutMillis: 30000,   // время простоя перед закрытием соединения
-  connectionTimeoutMillis: 5000, // та��маут подключения
+  connectionTimeoutMillis: 5000, // таймаут подключения
   maxUses: 7500,              // максимальное количество использований соединения
 };
 
@@ -211,7 +211,7 @@ export async function createDatabase() {
       await client.query(`CREATE DATABASE "${dbConfig.database}"`);
       console.log('✅ База данных создана успешно');
     } else {
-      console.log(`📊 База данных ${dbConfig.database} уже ��уществует`);
+      console.log(`📊 База данных ${dbConfig.database} уже существует`);
     }
   } catch (error) {
     console.error('❌ Ошибка создания базы данных:', error.message);
@@ -250,7 +250,7 @@ export async function runMigrations() {
     const executedResult = await query('SELECT filename FROM migrations ORDER BY id');
     const executedMigrations = new Set(executedResult.rows.map(row => row.filename));
     
-    // Читаем файлы ми��раций
+    // Читаем файлы миграций
     const migrationsDir = path.join(__dirname, '../../migrations');
     const migrationFiles = fs.readdirSync(migrationsDir)
       .filter(file => file.endsWith('.sql'))
@@ -328,7 +328,7 @@ export async function closePool() {
     await pool.end();
     console.log('✅ Пул соединений закрыт');
   } catch (error) {
-    console.error('�� Ошибка закрытия пула:', error.message);
+    console.error('❌ Ошибка закрытия пула:', error.message);
   }
 }
 
@@ -422,7 +422,7 @@ export async function searchText(searchTerm, tables = ['problems', 'devices', 'd
     
     return searchResults;
   } catch (error) {
-    console.error('❌ Ошибка полнотекстового поиска:', error.message);
+    console.error('❌ Ошибка полнотекстового пои��ка:', error.message);
     throw error;
   }
 }
