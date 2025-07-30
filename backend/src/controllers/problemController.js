@@ -151,7 +151,7 @@ class ProblemController {
       res.status(201).json({
         success: true,
         data: newProblem,
-        message: 'Проблема успеш��о создана',
+        message: 'Проблема успешно создана',
         timestamp: new Date().toISOString()
       });
     } catch (error) {
@@ -340,7 +340,7 @@ class ProblemController {
   }
 
   /**
-   * Получение популярных проблем
+   * Получение популярны�� проблем
    * GET /api/v1/problems/popular
    */
   async getPopularProblems(req, res, next) {
@@ -641,7 +641,7 @@ class ProblemController {
 // Создаем экземпляр контроллера
 const problemController = new ProblemController();
 
-// Применяем ��алидацию к методам
+// Применяем валидацию к методам
 const validateProblemCreation = validateRequest(problemValidation.create);
 const validateProblemUpdate = validateRequest(problemValidation.update);
 
