@@ -39,7 +39,7 @@ class DiagnosticSession extends BaseModel {
         return result.rows[0];
       });
     } catch (error) {
-      console.error('Ошибка создания се��сии диагностики:', error.message);
+      console.error('Ошибка создания сессии диагностики:', error.message);
       throw error;
     }
   }
@@ -478,7 +478,7 @@ class DiagnosticSession extends BaseModel {
         avg_completion_rate: row.avg_completion_rate ? Math.round(parseFloat(row.avg_completion_rate)) : 0
       }));
     } catch (error) {
-      console.error('Ошибка получения временной ан��литики:', error.message);
+      console.error('Ошибка получения временной аналитики:', error.message);
       throw error;
     }
   }
