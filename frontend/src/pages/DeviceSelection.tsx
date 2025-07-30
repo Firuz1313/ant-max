@@ -199,7 +199,7 @@ const DeviceSelection = () => {
                     <div className="text-sm text-gray-400">Успешных решений</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">< 5 мин</div>
+                    <div className="text-2xl font-bold text-white mb-1">5 мин</div>
                     <div className="text-sm text-gray-400">Среднее время</div>
                   </div>
                   <div className="text-center">
