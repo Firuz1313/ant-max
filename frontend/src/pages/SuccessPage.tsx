@@ -40,7 +40,7 @@ const SuccessPage = () => {
   const getProblemTitle = (id: string) => {
     const titles: Record<string, string> = {
       "no-signal": "Проблема с сигналом решена!",
-      "no-power": "Проблема с питанием решена!",
+      "no-power": "Проблема �� питанием решена!",
       "no-image": "Проблема с изображением решена!",
       "no-sound": "Проблема со звуком решена!",
       "wifi-issues": "Проблема с Wi-Fi решена!",
@@ -244,7 +244,7 @@ const SuccessPage = () => {
                   Нужна дополнительная помощь?
                 </h3>
                 <p className="text-gray-300 mb-4">
-                  Если проблема повторится или у вас возникнут другие ��опросы,
+                  Если проблема повторится или у вас возникнут другие вопросы,
                   мы всегда готовы помочь.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2 justify-center">
