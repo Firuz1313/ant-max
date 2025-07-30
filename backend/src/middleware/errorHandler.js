@@ -39,7 +39,7 @@ const logError = (error, req) => {
 
 // Основной обработчик ошибок
 const errorHandler = (error, req, res, next) => {
-  // Логи��уем ошибку
+  // Логируем ошибку
   console.error('🚨 Ошибка сервера:', error.message);
   
   if (process.env.NODE_ENV === 'development') {
@@ -49,7 +49,7 @@ const errorHandler = (error, req, res, next) => {
   // Логируем в файл
   logError(error, req);
   
-  // Определяем тип ошибки и соответствующий статус код
+  // Определяем ти�� ошибки и соответствующий статус код
   let statusCode = 500;
   let message = 'Внутренняя ошибка сервера';
   let errorType = 'INTERNAL_ERROR';
@@ -110,7 +110,7 @@ const errorHandler = (error, req, res, next) => {
   res.status(statusCode).json(errorResponse);
 };
 
-// Обрабо��чик 404 ошибок
+// Обработчик 404 ошибок
 export const notFoundHandler = (req, res) => {
   const error = {
     success: false,
