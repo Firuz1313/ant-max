@@ -29,7 +29,7 @@ const dbConfig = {
   max: 20,                    // максимальное количество соединений в pool
   min: 5,                     // минимальное количество соединений
   idleTimeoutMillis: 30000,   // время простоя перед закрытием соединения
-  connectionTimeoutMillis: 5000, // таймаут подключения
+  connectionTimeoutMillis: 5000, // та��маут подключения
   maxUses: 7500,              // максимальное количество использований соединения
 };
 
@@ -211,7 +211,7 @@ export async function createDatabase() {
       await client.query(`CREATE DATABASE "${dbConfig.database}"`);
       console.log('✅ База данных создана успешно');
     } else {
-      console.log(`📊 База данных ${dbConfig.database} уже существует`);
+      console.log(`📊 База данных ${dbConfig.database} уже ��уществует`);
     }
   } catch (error) {
     console.error('❌ Ошибка создания базы данных:', error.message);
@@ -250,13 +250,13 @@ export async function runMigrations() {
     const executedResult = await query('SELECT filename FROM migrations ORDER BY id');
     const executedMigrations = new Set(executedResult.rows.map(row => row.filename));
     
-    // Читаем файлы миграций
+    // Читаем файлы ми��раций
     const migrationsDir = path.join(__dirname, '../../migrations');
     const migrationFiles = fs.readdirSync(migrationsDir)
       .filter(file => file.endsWith('.sql'))
       .sort();
     
-    console.log(`📁 Найдено ${migrationFiles.length} фай��ов миграций`);
+    console.log(`📁 Найдено ${migrationFiles.length} файлов миграций`);
     
     for (const filename of migrationFiles) {
       if (executedMigrations.has(filename)) {
@@ -328,14 +328,14 @@ export async function closePool() {
     await pool.end();
     console.log('✅ Пул соединений закрыт');
   } catch (error) {
-    console.error('❌ Ошибка закрытия пула:', error.message);
+    console.error('�� Ошибка закрытия пула:', error.message);
   }
 }
 
 // Функция очистки старых данных (maintenance)
 export async function cleanupOldData(daysToKeep = 90) {
   try {
-    console.log(`��� Очистка данных старше ${daysToKeep} дней...`);
+    console.log(`🧹 Очистка данных старше ${daysToKeep} дней...`);
     
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
