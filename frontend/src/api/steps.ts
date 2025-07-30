@@ -238,7 +238,7 @@ export class StepsApi {
   }
 
   /**
-   * Получен��е статистики использования шага
+   * Получение статистики использования шага
    */
   async getStepStats(id: string): Promise<APIResponse<StepUsageStats>> {
     return apiClient.get<APIResponse<StepUsageStats>>(`${this.basePath}/${id}/stats`);
