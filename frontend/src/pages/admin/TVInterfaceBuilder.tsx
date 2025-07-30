@@ -985,9 +985,7 @@ const TVInterfaceBuilder = () => {
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     placeholder="Описание интерфейса"
                   />
                 </div>
@@ -1024,7 +1022,7 @@ const TVInterfaceBuilder = () => {
                     <div className="mt-2">
                       <img
                         src={backgroundImage}
-                        alt="��редварительный просмотр"
+                        alt="Предварительный просмотр"
                         className="w-full h-32 object-cover bg-gray-100 dark:bg-gray-800 rounded"
                       />
                     </div>

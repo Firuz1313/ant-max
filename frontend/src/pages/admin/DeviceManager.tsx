@@ -254,7 +254,7 @@ const DeviceManager = () => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Доба��ить новую приставку</DialogTitle>
+                <DialogTitle>Добавить новую приставку</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -624,7 +624,7 @@ const DeviceManager = () => {
           <CardContent className="p-12 text-center">
             <Tv className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              Приставки не най��ены
+              Приставки не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               Попробуйте изменить поисковый запрос или создайте новую приставку.

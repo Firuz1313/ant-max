@@ -223,7 +223,8 @@ const UsersManager = () => {
                 <Input
                   id="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })
+                  }
                   placeholder="Введите имя пользователя"
                 />
               </div>
@@ -307,7 +308,7 @@ const UsersManager = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Админ��страторов
+                  Администраторов
                 </p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
                   {users.filter(u => u.role === "admin").length}
@@ -467,7 +468,7 @@ const UsersManager = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Редактиров��ть пользователя</DialogTitle>
+            <DialogTitle>Редактировать пользователя</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>

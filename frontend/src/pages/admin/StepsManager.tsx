@@ -391,7 +391,7 @@ const StepsManager = () => {
 
   const getDeviceName = (deviceId: string) => {
     const device = devices.find((d) => d.id === deviceId);
-    return device?.name || "Н��известная п��иставка";
+    return device?.name || "Неизвестная приставка";
   };
 
   const getProblemTitle = (problemId: string) => {
@@ -470,7 +470,7 @@ const StepsManager = () => {
                   className="w-full"
                 >
                   <Target className="h-4 w-4 mr-2" />
-                  {isPickingButton ? "Отмени��ь выбор" : "Выбрать позицию"}
+                  {isPickingButton ? "Отменить выбор" : "Выбрать позицию"}
                 </Button>
                 <Button
                   variant="outline"
@@ -751,7 +751,7 @@ const StepsManager = () => {
             Управление шагами
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Создание ш��гов диагностики с привязкой к приставкам и проблемам
+            Создание шагов диагностики с привязкой к приставкам и проблемам
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>

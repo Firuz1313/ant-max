@@ -621,7 +621,7 @@ const RemoteBuilder = () => {
                   <AlertDescription>
                     <div className="space-y-3">
                       <p className="text-sm">
-                        Кликните на изображение пульта для добав��ения кнопки
+                        Кликните на изображение пульта для добавления кнопки
                       </p>
                       <div>
                         <Label htmlFor="button-label">Название кнопки</Label>
@@ -875,10 +875,8 @@ const RemoteBuilder = () => {
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
-                    placeholder="��писание пульта"
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    placeholder="Описание пульта"
                   />
                 </div>
 
