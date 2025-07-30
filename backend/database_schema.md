@@ -7,6 +7,7 @@
 ## Основные таблицы
 
 ### 1. devices (Устройства)
+
 Хранит информацию о поддерживаемых моделях ТВ-приставок.
 
 ```sql
@@ -29,6 +30,7 @@ CREATE TABLE devices (
 ```
 
 ### 2. problems (Проблемы)
+
 Описания типичных проблем для каждого устройства.
 
 ```sql
@@ -55,6 +57,7 @@ CREATE TABLE problems (
 ```
 
 ### 3. remotes (Пульты ДУ)
+
 Интерактивные модели пультов дистанционного управления.
 
 ```sql
@@ -84,6 +87,7 @@ CREATE TABLE remotes (
 ```
 
 ### 4. tv_interfaces (ТВ интерфейсы)
+
 Снимки экранов приставок с интерактивными областями.
 
 ```sql
@@ -108,6 +112,7 @@ CREATE TABLE tv_interfaces (
 ```
 
 ### 5. diagnostic_steps (Диагностические шаги)
+
 Пошаговые инструкции для решения проблем.
 
 ```sql
@@ -120,44 +125,45 @@ CREATE TABLE diagnostic_steps (
     description TEXT,
     instruction TEXT NOT NULL,
     estimated_time INTEGER NOT NULL DEFAULT 30, -- в секундах
-    
+
     -- Визуальные элементы
     highlight_remote_button VARCHAR(255),
     highlight_tv_area VARCHAR(255),
     tv_interface_id VARCHAR(255) REFERENCES tv_interfaces(id) ON DELETE SET NULL,
-    
+
     -- Интерактивные элементы
     remote_id VARCHAR(255) REFERENCES remotes(id) ON DELETE SET NULL,
     action_type VARCHAR(50) CHECK (action_type IN ('button_press', 'navigation', 'wait', 'check', 'input', 'selection', 'confirmation', 'custom')),
     button_position JSONB, -- {"x": number, "y": number}
     svg_path TEXT,
     zone_id VARCHAR(255),
-    
+
     -- Логика и валидация
     required_action VARCHAR(500),
     validation_rules JSONB DEFAULT '[]'::jsonb,
     success_condition VARCHAR(500),
     failure_actions JSONB DEFAULT '[]'::jsonb,
-    
+
     -- Контент
     hint TEXT,
     warning_text TEXT,
     success_text TEXT,
     media JSONB DEFAULT '[]'::jsonb,
-    
+
     -- Логика ветвления
     next_step_conditions JSONB DEFAULT '[]'::jsonb,
-    
+
     is_active BOOLEAN NOT NULL DEFAULT true,
     metadata JSONB,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    
+
     UNIQUE(problem_id, step_number)
 );
 ```
 
 ### 6. diagnostic_sessions (Сессии диагностики)
+
 Трекинг прохождения пользователем диагностики.
 
 ```sql
@@ -185,6 +191,7 @@ CREATE TABLE diagnostic_sessions (
 ```
 
 ### 7. session_steps (Выполненные шаги в сессии)
+
 Детальный трекинг каждого шага в сессии.
 
 ```sql
@@ -207,6 +214,7 @@ CREATE TABLE session_steps (
 ```
 
 ### 8. users (Пользователи/Администраторы)
+
 Учетные записи пользователей системы.
 
 ```sql
@@ -231,6 +239,7 @@ CREATE TABLE users (
 ```
 
 ### 9. step_actions (Действия шагов)
+
 Детализированные действия для каждого шага.
 
 ```sql
@@ -258,6 +267,7 @@ CREATE TABLE step_actions (
 ```
 
 ### 10. change_logs (Журнал изменений)
+
 Аудит всех изменений в системе.
 
 ```sql
@@ -280,6 +290,7 @@ CREATE TABLE change_logs (
 ```
 
 ### 11. site_settings (Настройки сайта)
+
 Глобальные настройки системы.
 
 ```sql
@@ -294,23 +305,23 @@ CREATE TABLE site_settings (
     accent_color VARCHAR(50) NOT NULL DEFAULT '#10b981',
     logo_url VARCHAR(500),
     favicon_url VARCHAR(500),
-    
+
     -- Возможности
     enable_analytics BOOLEAN NOT NULL DEFAULT true,
     enable_feedback BOOLEAN NOT NULL DEFAULT true,
     enable_offline_mode BOOLEAN NOT NULL DEFAULT false,
     enable_notifications BOOLEAN NOT NULL DEFAULT true,
-    
+
     -- Лимиты и квоты
     max_steps_per_problem INTEGER NOT NULL DEFAULT 20,
     max_media_size INTEGER NOT NULL DEFAULT 10, -- MB
     session_timeout INTEGER NOT NULL DEFAULT 30, -- минуты
-    
+
     -- Расширенные настройки
     api_settings JSONB DEFAULT '{}'::jsonb,
     email_settings JSONB DEFAULT '{}'::jsonb,
     storage_settings JSONB DEFAULT '{}'::jsonb,
-    
+
     is_active BOOLEAN NOT NULL DEFAULT true,
     metadata JSONB,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

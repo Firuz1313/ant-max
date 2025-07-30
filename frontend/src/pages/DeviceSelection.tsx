@@ -23,7 +23,7 @@ const DeviceSelection = () => {
   useEffect(() => {
     // Создаем анимацию для floating icons
     const timer = setInterval(() => {
-      setAnimatedIcons(prev => prev.map(() => Math.random() > 0.7));
+      setAnimatedIcons((prev) => prev.map(() => Math.random() > 0.7));
     }, 2000);
     return () => clearInterval(timer);
   }, []);
@@ -164,18 +164,28 @@ const DeviceSelection = () => {
                     <div
                       key={i}
                       className={`absolute transition-all duration-1000 ${
-                        animatedIcons[i] ? 'opacity-100 scale-110' : 'opacity-30 scale-100'
+                        animatedIcons[i]
+                          ? "opacity-100 scale-110"
+                          : "opacity-30 scale-100"
                       }`}
                       style={{
-                        left: `${10 + (i * 12)}%`,
-                        top: `${20 + ((i % 3) * 25)}%`,
+                        left: `${10 + i * 12}%`,
+                        top: `${20 + (i % 3) * 25}%`,
                         animationDelay: `${i * 200}ms`,
                       }}
                     >
-                      {i % 4 === 0 && <Sparkles className="h-4 w-4 text-purple-400 animate-pulse" />}
-                      {i % 4 === 1 && <Heart className="h-4 w-4 text-pink-400 animate-bounce" />}
-                      {i % 4 === 2 && <Star className="h-4 w-4 text-yellow-400 animate-spin" />}
-                      {i % 4 === 3 && <Zap className="h-4 w-4 text-blue-400 animate-pulse" />}
+                      {i % 4 === 0 && (
+                        <Sparkles className="h-4 w-4 text-purple-400 animate-pulse" />
+                      )}
+                      {i % 4 === 1 && (
+                        <Heart className="h-4 w-4 text-pink-400 animate-bounce" />
+                      )}
+                      {i % 4 === 2 && (
+                        <Star className="h-4 w-4 text-yellow-400 animate-spin" />
+                      )}
+                      {i % 4 === 3 && (
+                        <Zap className="h-4 w-4 text-blue-400 animate-pulse" />
+                      )}
                     </div>
                   ))}
                 </div>
@@ -183,27 +193,36 @@ const DeviceSelection = () => {
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-400 via-blue-500 to-emerald-400 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl animate-bounce-gentle">
                   <Sparkles className="h-10 w-10 text-white animate-pulse" />
                 </div>
-                
+
                 <h3 className="text-2xl font-bold text-white mb-4">
                   Профессиональная поддержка 24/7
                 </h3>
-                
+
                 <p className="text-gray-300 mb-6 text-lg leading-relaxed max-w-2xl mx-auto">
-                  Наша команда экспертов всегда готова помочь вам решить любые проблемы 
-                  с вашей ТВ-приставкой. Быстро, качественно, эффективно.
+                  Наша команда экспертов всегда готова помочь вам решить любые
+                  проблемы с вашей ТВ-приставкой. Быстро, качественно,
+                  эффективно.
                 </p>
 
                 <div className="grid grid-cols-3 gap-6 mb-8">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">99.9%</div>
-                    <div className="text-sm text-gray-400">Успешных решений</div>
+                    <div className="text-2xl font-bold text-white mb-1">
+                      99.9%
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      Успешных решений
+                    </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">5 мин</div>
+                    <div className="text-2xl font-bold text-white mb-1">
+                      5 мин
+                    </div>
                     <div className="text-sm text-gray-400">Среднее время</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-1">24/7</div>
+                    <div className="text-2xl font-bold text-white mb-1">
+                      24/7
+                    </div>
                     <div className="text-sm text-gray-400">Поддержка</div>
                   </div>
                 </div>

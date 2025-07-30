@@ -49,8 +49,8 @@ const Index = () => {
               </span>
             </h2>
             <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Профессиональные решения для любых проблем. 
-              Простой интерфейс, быстрые результаты.
+              Профессиональные решения для любых проблем. Простой интерфейс,
+              быстрые результаты.
             </p>
 
             <Button
@@ -98,7 +98,9 @@ const Index = () => {
                   <Zap className="h-7 w-7 text-white" />
                 </div>
                 <div className="text-3xl font-bold text-white mb-2">5 мин</div>
-                <div className="text-sm text-gray-300">Среднее время решения</div>
+                <div className="text-sm text-gray-300">
+                  Среднее время решения
+                </div>
               </CardContent>
             </Card>
 
@@ -107,9 +109,7 @@ const Index = () => {
                 <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-700 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <Clock className="h-7 w-7 text-white" />
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">
-                  24/7
-                </div>
+                <div className="text-3xl font-bold text-white mb-2">24/7</div>
                 <div className="text-sm text-gray-300">Доступность</div>
               </CardContent>
             </Card>
@@ -140,7 +140,10 @@ const Index = () => {
                       <div className="text-sm text-gray-300">
                         {device.model}
                       </div>
-                      <Badge variant="secondary" className="mt-2 text-xs bg-green-500/20 text-green-300 border-green-500/30">
+                      <Badge
+                        variant="secondary"
+                        className="mt-2 text-xs bg-green-500/20 text-green-300 border-green-500/30"
+                      >
                         Доступно
                       </Badge>
                     </CardContent>

@@ -1,6 +1,9 @@
-import DiagnosticStep from '../models/DiagnosticStep.js';
-import Problem from '../models/Problem.js';
-import { stepValidation, validateRequest } from '../middleware/validateRequest.js';
+import DiagnosticStep from "../models/DiagnosticStep.js";
+import Problem from "../models/Problem.js";
+import {
+  stepValidation,
+  validateRequest,
+} from "../middleware/validateRequest.js";
 
 const stepModel = new DiagnosticStep();
 const problemModel = new Problem();
@@ -15,36 +18,38 @@ class StepController {
    */
   async getSteps(req, res, next) {
     try {
-      const { 
+      const {
         problem_id,
         device_id,
-        search, 
-        is_active, 
-        page = 1, 
-        limit = 20, 
-        sort = 'step_number', 
-        order = 'asc',
-        include_details = false
+        search,
+        is_active,
+        page = 1,
+        limit = 20,
+        sort = "step_number",
+        order = "asc",
+        include_details = false,
       } = req.query;
 
       const filters = {};
       if (problem_id) filters.problem_id = problem_id;
       if (device_id) filters.device_id = device_id;
       if (search) filters.search = search;
-      if (is_active !== undefined) filters.is_active = is_active === 'true';
+      if (is_active !== undefined) filters.is_active = is_active === "true";
 
       const options = {
         limit: Math.min(parseInt(limit), 100),
         offset: (parseInt(page) - 1) * Math.min(parseInt(limit), 100),
         sortBy: sort,
-        sortOrder: order.toUpperCase()
+        sortOrder: order.toUpperCase(),
       };
 
       let steps;
-      if (include_details === 'true') {
+      if (include_details === "true") {
         // Получаем шаги с дополнительной информацией
         if (problem_id) {
-          steps = await stepModel.findByProblem(problem_id, { is_active: filters.is_active });
+          steps = await stepModel.findByProblem(problem_id, {
+            is_active: filters.is_active,
+          });
         } else {
           steps = await stepModel.findAll(filters, options);
         }
@@ -65,9 +70,9 @@ class StepController {
           total,
           totalPages,
           hasNext: parseInt(page) < totalPages,
-          hasPrev: parseInt(page) > 1
+          hasPrev: parseInt(page) > 1,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -84,7 +89,7 @@ class StepController {
       const { include_details = false, include_stats = false } = req.query;
 
       let step;
-      if (include_details === 'true') {
+      if (include_details === "true") {
         step = await stepModel.findByIdWithDetails(id);
       } else {
         step = await stepModel.findById(id);
@@ -93,14 +98,14 @@ class StepController {
       if (!step) {
         return res.status(404).json({
           success: false,
-          error: 'Диагностический шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Диагностический шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       // Добавляем статистику использования если запрошено
-      if (include_stats === 'true') {
+      if (include_stats === "true") {
         const stats = await stepModel.getUsageStats(id);
         step.usage_stats = stats;
       }
@@ -108,7 +113,7 @@ class StepController {
       res.json({
         success: true,
         data: step,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -129,9 +134,9 @@ class StepController {
         if (!problem || !problem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Указанная проблема не найдена или неактивна',
-            errorType: 'VALIDATION_ERROR',
-            timestamp: new Date().toISOString()
+            error: "Указанная проблема не найдена или неактивна",
+            errorType: "VALIDATION_ERROR",
+            timestamp: new Date().toISOString(),
           });
         }
       }
@@ -141,15 +146,15 @@ class StepController {
         const existingStep = await stepModel.findOne({
           problem_id: stepData.problem_id,
           step_number: stepData.step_number,
-          is_active: true
+          is_active: true,
         });
 
         if (existingStep) {
           return res.status(409).json({
             success: false,
             error: `Шаг с номером ${stepData.step_number} уже существует для данной проблемы`,
-            errorType: 'DUPLICATE_ERROR',
-            timestamp: new Date().toISOString()
+            errorType: "DUPLICATE_ERROR",
+            timestamp: new Date().toISOString(),
           });
         }
       }
@@ -165,8 +170,8 @@ class StepController {
       res.status(201).json({
         success: true,
         data: newStep,
-        message: 'Диагностический шаг успешно создан',
-        timestamp: new Date().toISOString()
+        message: "Диагностический шаг успешно создан",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -187,40 +192,47 @@ class StepController {
       if (!existingStep) {
         return res.status(404).json({
           success: false,
-          error: 'Диагностический шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Диагностический шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       // Проверяем существование проблемы при изменении
-      if (updateData.problem_id && updateData.problem_id !== existingStep.problem_id) {
+      if (
+        updateData.problem_id &&
+        updateData.problem_id !== existingStep.problem_id
+      ) {
         const problem = await problemModel.findById(updateData.problem_id);
         if (!problem || !problem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Указанная проблема не найдена или неактивна',
-            errorType: 'VALIDATION_ERROR',
-            timestamp: new Date().toISOString()
+            error: "Указанная проблема не найдена или неактивна",
+            errorType: "VALIDATION_ERROR",
+            timestamp: new Date().toISOString(),
           });
         }
       }
 
       // Проверяем уникальность номера шага при изменении
-      if (updateData.step_number && updateData.step_number !== existingStep.step_number) {
-        const problemIdToCheck = updateData.problem_id || existingStep.problem_id;
+      if (
+        updateData.step_number &&
+        updateData.step_number !== existingStep.step_number
+      ) {
+        const problemIdToCheck =
+          updateData.problem_id || existingStep.problem_id;
         const duplicateStep = await stepModel.findOne({
           problem_id: problemIdToCheck,
           step_number: updateData.step_number,
-          is_active: true
+          is_active: true,
         });
 
         if (duplicateStep && duplicateStep.id !== id) {
           return res.status(409).json({
             success: false,
             error: `Шаг с номером ${updateData.step_number} уже существует для данной проблемы`,
-            errorType: 'DUPLICATE_ERROR',
-            timestamp: new Date().toISOString()
+            errorType: "DUPLICATE_ERROR",
+            timestamp: new Date().toISOString(),
           });
         }
       }
@@ -230,8 +242,8 @@ class StepController {
       res.json({
         success: true,
         data: updatedStep,
-        message: 'Диагностический шаг успешно обновлен',
-        timestamp: new Date().toISOString()
+        message: "Диагностический шаг успешно обновлен",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -252,28 +264,28 @@ class StepController {
       if (!existingStep) {
         return res.status(404).json({
           success: false,
-          error: 'Диагностический шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Диагностический шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       // Проверяем возможность удаления
       const deleteCheck = await stepModel.canDelete(id);
-      if (!deleteCheck.canDelete && force !== 'true') {
+      if (!deleteCheck.canDelete && force !== "true") {
         return res.status(409).json({
           success: false,
           error: deleteCheck.reason,
-          errorType: 'CONSTRAINT_ERROR',
-          timestamp: new Date().toISOString()
+          errorType: "CONSTRAINT_ERROR",
+          timestamp: new Date().toISOString(),
         });
       }
 
       let deletedStep;
-      if (reorder === 'true') {
+      if (reorder === "true") {
         // Удаление с переупорядочиванием
         deletedStep = await stepModel.deleteWithReorder(id);
-      } else if (force === 'true') {
+      } else if (force === "true") {
         // Жесткое удаление
         deletedStep = await stepModel.delete(id);
       } else {
@@ -284,8 +296,9 @@ class StepController {
       res.json({
         success: true,
         data: deletedStep,
-        message: force === 'true' ? 'Шаг удален безвозвратно' : 'Шаг архивирован',
-        timestamp: new Date().toISOString()
+        message:
+          force === "true" ? "Шаг удален безвозвратно" : "Шаг архивирован",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -304,17 +317,17 @@ class StepController {
       if (!restoredStep) {
         return res.status(404).json({
           success: false,
-          error: 'Шаг не найден или уже активен',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Шаг не найден или уже активен",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       res.json({
         success: true,
         data: restoredStep,
-        message: 'Диагностический шаг успешно восстановлен',
-        timestamp: new Date().toISOString()
+        message: "Диагностический шаг успешно восстановлен",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -335,13 +348,15 @@ class StepController {
       if (!problem) {
         return res.status(404).json({
           success: false,
-          error: 'Проблема не найдена',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Проблема не найдена",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
-      const steps = await stepModel.findByProblem(problemId, { is_active: is_active === 'true' });
+      const steps = await stepModel.findByProblem(problemId, {
+        is_active: is_active === "true",
+      });
 
       res.json({
         success: true,
@@ -349,9 +364,9 @@ class StepController {
         problem: {
           id: problem.id,
           title: problem.title,
-          device_id: problem.device_id
+          device_id: problem.device_id,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -369,22 +384,22 @@ class StepController {
       if (!searchTerm || searchTerm.trim().length < 2) {
         return res.status(400).json({
           success: false,
-          error: 'Поисковый запрос должен содержать минимум 2 символа',
-          errorType: 'VALIDATION_ERROR',
-          timestamp: new Date().toISOString()
+          error: "Поисковый запрос должен содержать минимум 2 символа",
+          errorType: "VALIDATION_ERROR",
+          timestamp: new Date().toISOString(),
         });
       }
 
       const steps = await stepModel.search(searchTerm.trim(), {
         limit: Math.min(parseInt(limit), 50),
-        offset: parseInt(offset)
+        offset: parseInt(offset),
       });
 
       res.json({
         success: true,
         data: steps,
         query: searchTerm.trim(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -402,9 +417,9 @@ class StepController {
       if (!problem_id || !Array.isArray(step_ids) || step_ids.length === 0) {
         return res.status(400).json({
           success: false,
-          error: 'Необходимо указать ID проблемы и массив ID шагов',
-          errorType: 'VALIDATION_ERROR',
-          timestamp: new Date().toISOString()
+          error: "Необходимо указать ID проблемы и массив ID шагов",
+          errorType: "VALIDATION_ERROR",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -413,9 +428,9 @@ class StepController {
       if (!problem) {
         return res.status(404).json({
           success: false,
-          error: 'Проблема не найдена',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Проблема не найдена",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -424,8 +439,8 @@ class StepController {
       res.json({
         success: true,
         data: reorderedSteps,
-        message: 'Порядок шагов обновлен',
-        timestamp: new Date().toISOString()
+        message: "Порядок шагов обновлен",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -443,9 +458,10 @@ class StepController {
       if (!problem_id || after_step_number === undefined) {
         return res.status(400).json({
           success: false,
-          error: 'Необходимо указать ID проблемы и номер шага, после которого вставить новый',
-          errorType: 'VALIDATION_ERROR',
-          timestamp: new Date().toISOString()
+          error:
+            "Необходимо указать ID проблемы и номер шага, после которого вставить новый",
+          errorType: "VALIDATION_ERROR",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -454,19 +470,23 @@ class StepController {
       if (!problem) {
         return res.status(404).json({
           success: false,
-          error: 'Проблема не найдена',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Проблема не найдена",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
-      const insertedStep = await stepModel.insertStep(problem_id, after_step_number, stepData);
+      const insertedStep = await stepModel.insertStep(
+        problem_id,
+        after_step_number,
+        stepData,
+      );
 
       res.status(201).json({
         success: true,
         data: insertedStep,
         message: `Шаг вставлен после шага №${after_step_number}`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -487,9 +507,9 @@ class StepController {
       if (!existingStep) {
         return res.status(404).json({
           success: false,
-          error: 'Диагностический шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Диагностический шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -499,9 +519,9 @@ class StepController {
         if (!targetProblem || !targetProblem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Целевая проблема не найдена или неактивна',
-            errorType: 'VALIDATION_ERROR',
-            timestamp: new Date().toISOString()
+            error: "Целевая проблема не найдена или неактивна",
+            errorType: "VALIDATION_ERROR",
+            timestamp: new Date().toISOString(),
           });
         }
       }
@@ -511,8 +531,8 @@ class StepController {
       res.status(201).json({
         success: true,
         data: duplicatedStep,
-        message: 'Диагностический шаг успешно продублирован',
-        timestamp: new Date().toISOString()
+        message: "Диагностический шаг успешно продублирован",
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -531,16 +551,16 @@ class StepController {
       if (!nextStep) {
         return res.status(404).json({
           success: false,
-          error: 'Следующий шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Следующий шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       res.json({
         success: true,
         data: nextStep,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -559,16 +579,16 @@ class StepController {
       if (!previousStep) {
         return res.status(404).json({
           success: false,
-          error: 'Предыдущий шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Предыдущий шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
       res.json({
         success: true,
         data: previousStep,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -588,9 +608,9 @@ class StepController {
       if (!step) {
         return res.status(404).json({
           success: false,
-          error: 'Диагностический шаг не найден',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Диагностический шаг не найден",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -602,9 +622,9 @@ class StepController {
         step: {
           id: step.id,
           title: step.title,
-          step_number: step.step_number
+          step_number: step.step_number,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -624,9 +644,9 @@ class StepController {
       if (!problem) {
         return res.status(404).json({
           success: false,
-          error: 'Проблема не найдена',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Проблема не найдена",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -637,9 +657,9 @@ class StepController {
         data: validation,
         problem: {
           id: problem.id,
-          title: problem.title
+          title: problem.title,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -659,9 +679,9 @@ class StepController {
       if (!problem) {
         return res.status(404).json({
           success: false,
-          error: 'Проблема не найдена',
-          errorType: 'NOT_FOUND',
-          timestamp: new Date().toISOString()
+          error: "Проблема не найдена",
+          errorType: "NOT_FOUND",
+          timestamp: new Date().toISOString(),
         });
       }
 
@@ -673,9 +693,9 @@ class StepController {
         message: `Исправлена нумерация для ${fixedSteps.length} шагов`,
         problem: {
           id: problem.id,
-          title: problem.title
+          title: problem.title,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       next(error);
@@ -693,19 +713,29 @@ const validateStepUpdate = validateRequest(stepValidation.update);
 // Экспортируем методы с примененной валидацией
 export const getSteps = stepController.getSteps.bind(stepController);
 export const getStepById = stepController.getStepById.bind(stepController);
-export const createStep = [validateStepCreation, stepController.createStep.bind(stepController)];
-export const updateStep = [validateStepUpdate, stepController.updateStep.bind(stepController)];
+export const createStep = [
+  validateStepCreation,
+  stepController.createStep.bind(stepController),
+];
+export const updateStep = [
+  validateStepUpdate,
+  stepController.updateStep.bind(stepController),
+];
 export const deleteStep = stepController.deleteStep.bind(stepController);
 export const restoreStep = stepController.restoreStep.bind(stepController);
-export const getStepsByProblem = stepController.getStepsByProblem.bind(stepController);
+export const getStepsByProblem =
+  stepController.getStepsByProblem.bind(stepController);
 export const searchSteps = stepController.searchSteps.bind(stepController);
 export const reorderSteps = stepController.reorderSteps.bind(stepController);
 export const insertStep = stepController.insertStep.bind(stepController);
 export const duplicateStep = stepController.duplicateStep.bind(stepController);
 export const getNextStep = stepController.getNextStep.bind(stepController);
-export const getPreviousStep = stepController.getPreviousStep.bind(stepController);
+export const getPreviousStep =
+  stepController.getPreviousStep.bind(stepController);
 export const getStepStats = stepController.getStepStats.bind(stepController);
-export const validateStepOrder = stepController.validateStepOrder.bind(stepController);
-export const fixStepNumbering = stepController.fixStepNumbering.bind(stepController);
+export const validateStepOrder =
+  stepController.validateStepOrder.bind(stepController);
+export const fixStepNumbering =
+  stepController.fixStepNumbering.bind(stepController);
 
 export default stepController;
