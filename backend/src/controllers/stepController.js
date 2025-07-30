@@ -147,7 +147,7 @@ class StepController {
         if (existingStep) {
           return res.status(409).json({
             success: false,
-            error: `Шаг с номером ${stepData.step_number} уже сущ��ствует для данной проблемы`,
+            error: `Шаг с номером ${stepData.step_number} уже существует для данной проблемы`,
             errorType: 'DUPLICATE_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -218,7 +218,7 @@ class StepController {
         if (duplicateStep && duplicateStep.id !== id) {
           return res.status(409).json({
             success: false,
-            error: `Шаг с номером ${updateData.step_number} уже существуе�� для данной проблемы`,
+            error: `Шаг с номером ${updateData.step_number} уже существует для данной проблемы`,
             errorType: 'DUPLICATE_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -647,7 +647,7 @@ class StepController {
   }
 
   /**
-   * Автоматическое исправление нумерации шагов
+   * Автомат��ческое исправление нумерации шагов
    * POST /api/v1/steps/fix-numbering/:problemId
    */
   async fixStepNumbering(req, res, next) {
