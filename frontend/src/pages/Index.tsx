@@ -50,7 +50,7 @@ const Index = () => {
             </h2>
             <p className="text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
               Профессиональные решения для любых проблем. 
-              Простой ин��ерфейс, быстрые результаты.
+              Простой интерфейс, быстрые результаты.
             </p>
 
             <Button
@@ -172,7 +172,7 @@ const Index = () => {
                   <Zap className="h-10 w-10 text-white" />
                 </div>
                 <h4 className="text-xl font-semibold text-white mb-3">
-                  Быстро��а
+                  Быстрота
                 </h4>
                 <p className="text-gray-300">
                   Среднее время решения проблемы составляет всего 5 минут
@@ -186,7 +186,7 @@ const Index = () => {
                   Эффективность
                 </h4>
                 <p className="text-gray-300">
-                  Комплексный подход к решению проблем без вызова техника
+                  Комплексный подход к решению проб��ем без вызова техника
                 </p>
               </div>
             </div>
