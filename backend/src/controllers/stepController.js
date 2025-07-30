@@ -42,7 +42,7 @@ class StepController {
 
       let steps;
       if (include_details === 'true') {
-        // Получаем шаги с дополнительной информацией
+        // ��олучаем шаги с дополнительной информацией
         if (problem_id) {
           steps = await stepModel.findByProblem(problem_id, { is_active: filters.is_active });
         } else {
@@ -304,7 +304,7 @@ class StepController {
       if (!restoredStep) {
         return res.status(404).json({
           success: false,
-          error: 'Шаг не найд��н или уже активен',
+          error: 'Шаг не найден или уже активен',
           errorType: 'NOT_FOUND',
           timestamp: new Date().toISOString()
         });
@@ -482,7 +482,7 @@ class StepController {
       const { id } = req.params;
       const { target_problem_id } = req.body;
 
-      // Проверяем сущес��вование шага
+      // Проверяем существование шага
       const existingStep = await stepModel.findById(id);
       if (!existingStep) {
         return res.status(404).json({
