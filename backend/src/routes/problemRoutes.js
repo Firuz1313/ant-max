@@ -69,7 +69,7 @@ router.get('/stats', getProblemStats);
  * @access Public
  * @query {string} [format=json] - Формат экспорта
  * @query {string} [device_id] - Фильтр по устройству
- * @query {boolean} [include_steps=false] - Включить свя��анные шаги
+ * @query {boolean} [include_steps=false] - Включить связанные шаги
  */
 router.get('/export', exportProblems);
 
@@ -129,7 +129,7 @@ router.post('/', createProblem);
  * @route POST /api/v1/problems/:id/duplicate
  * @desc Дублирование проблемы
  * @access Admin
- * @params {string} id - ID пробл��мы для дублирования
+ * @params {string} id - ID проблемы для дублирования
  * @body {string} [target_device_id] - ID целевого устройства
  */
 router.post('/:id/duplicate', duplicateProblem);
