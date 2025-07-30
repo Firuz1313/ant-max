@@ -193,11 +193,11 @@ const Index = () => {
               </div>
               <div>
                 <div className="font-semibold text-gray-900">ANT Support</div>
-                <div className="text-sm text-gray-600">v2.0.0</div>
+                <div className="text-sm text-gray-600">v1.0.0</div>
               </div>
             </div>
             <div className="text-sm text-gray-600">
-              © 2024 ANT Support. Все права защищены.
+              © 2025 ANT Support. Все права защищены.
             </div>
           </div>
         </div>
