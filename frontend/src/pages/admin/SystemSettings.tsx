@@ -334,7 +334,7 @@ const SystemSettings = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="emailNotifications">Email уведомления</Label>
-                    <p className="text-sm text-gray-500">Отправлять ув��домления по email</p>
+                    <p className="text-sm text-gray-500">Отправлять уведомления по email</p>
                   </div>
                   <Switch
                     id="emailNotifications"
@@ -544,7 +544,7 @@ const SystemSettings = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label htmlFor="autoBackup">Автоматическое резервное копирование</Label>
-                      <p className="text-sm text-gray-500">Создавать резервные копии автоматически</p>
+                      <p className="text-sm text-gray-500">Создавать резе��вные копии автоматически</p>
                     </div>
                     <Switch
                       id="autoBackup"
