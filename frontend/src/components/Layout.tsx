@@ -73,6 +73,7 @@ export function Layout({
               <Button
                 variant="ghost"
                 size="icon"
+                onClick={handleHome}
                 className="text-white hover:bg-white/10"
               >
                 <Settings className="h-5 w-5" />
