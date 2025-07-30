@@ -850,7 +850,7 @@ const RemoteBuilder = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="device">Прис��авка</Label>
+                    <Label htmlFor="device">Приставка</Label>
                     <Select
                       value={formData.deviceId}
                       onValueChange={(value) =>
@@ -1112,7 +1112,7 @@ const RemoteBuilder = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
-                        Испо��ьзований:
+                        Использований:
                       </span>
                       <span className="font-medium">{usageCount}</span>
                     </div>
@@ -1344,7 +1344,7 @@ const RemoteBuilder = () => {
               </div>
 
               <div>
-                <Label htmlFor="edit-colorScheme">Цветовая с��ема</Label>
+                <Label htmlFor="edit-colorScheme">Цветовая схема</Label>
                 <Select
                   value={formData.colorScheme}
                   onValueChange={(value) =>

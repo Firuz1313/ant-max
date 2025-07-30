@@ -2,7 +2,7 @@
 
 ## Обзор архитектуры
 
-Схема базы данных спроектирована на основе анализа frontend компонентов и типов данных из `src/types/index.ts`. Система поддерживает полный цикл диагностики ТВ-приставок с интерактивными элементами.
+Схема базы данных спроектирована на основе анализа frontend компонентов и типов данных из `src/types/index.ts`. Система поддержи��ает полный цикл диагностики ТВ-приставок с интерактивными элементами.
 
 ## Основные таблицы
 
@@ -126,7 +126,7 @@ CREATE TABLE diagnostic_steps (
     highlight_tv_area VARCHAR(255),
     tv_interface_id VARCHAR(255) REFERENCES tv_interfaces(id) ON DELETE SET NULL,
     
-    -- Интерактивные элементы
+    -- Интерактивные элеме��ты
     remote_id VARCHAR(255) REFERENCES remotes(id) ON DELETE SET NULL,
     action_type VARCHAR(50) CHECK (action_type IN ('button_press', 'navigation', 'wait', 'check', 'input', 'selection', 'confirmation', 'custom')),
     button_position JSONB, -- {"x": number, "y": number}
@@ -295,7 +295,7 @@ CREATE TABLE site_settings (
     logo_url VARCHAR(500),
     favicon_url VARCHAR(500),
     
-    -- В��зможности
+    -- Возможности
     enable_analytics BOOLEAN NOT NULL DEFAULT true,
     enable_feedback BOOLEAN NOT NULL DEFAULT true,
     enable_offline_mode BOOLEAN NOT NULL DEFAULT false,

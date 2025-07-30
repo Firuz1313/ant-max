@@ -114,7 +114,7 @@ const SelectDeviceWorking = () => {
                       {/* USB порт или разъем */}
                       <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-1 h-0.5 bg-gray-600 rounded-sm"></div>
 
-                      {/* Дополн��тельные детали */}
+                      {/* Дополнительные детали */}
                       <div className="absolute center-2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 left-1/2">
                         <div className="w-1 h-1 bg-gray-500 rounded-full opacity-60"></div>
                       </div>

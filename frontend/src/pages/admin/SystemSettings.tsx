@@ -334,7 +334,7 @@ const SystemSettings = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <Label htmlFor="emailNotifications">Email уведомления</Label>
-                    <p className="text-sm text-gray-500">Отправлять ув��домления по email</p>
+                    <p className="text-sm text-gray-500">Отправлять уведомления по email</p>
                   </div>
                   <Switch
                     id="emailNotifications"

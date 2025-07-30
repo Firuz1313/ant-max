@@ -197,7 +197,7 @@ export class SessionsApi {
   }
 
   /**
-   * По��учение активных сессий
+   * Получение активных сессий
    */
   async getActiveSessions(
     limit: number = 50,

@@ -70,7 +70,7 @@ router.get('/docs', (req, res) => {
         devices: {
           description: 'Управление устройствами (ТВ приставки)',
           routes: {
-            'GET /devices': 'Получение списка ��стройств',
+            'GET /devices': 'Получение списка устройств',
             'GET /devices/:id': 'Получение устройства по ID',
             'POST /devices': 'Создание нового устройства',
             'PUT /devices/:id': 'Обновление устройства',

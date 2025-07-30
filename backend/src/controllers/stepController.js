@@ -129,7 +129,7 @@ class StepController {
         if (!problem || !problem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Указанная проблема не найдена или неактивна',
+            error: 'Указ��нная проблема не найдена или неактивна',
             errorType: 'VALIDATION_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -147,7 +147,7 @@ class StepController {
         if (existingStep) {
           return res.status(409).json({
             success: false,
-            error: `Шаг с номером ${stepData.step_number} уже сущ��ствует для данной проблемы`,
+            error: `Шаг с номером ${stepData.step_number} уже существует для данной проблемы`,
             errorType: 'DUPLICATE_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -218,7 +218,7 @@ class StepController {
         if (duplicateStep && duplicateStep.id !== id) {
           return res.status(409).json({
             success: false,
-            error: `Шаг с номером ${updateData.step_number} уже существуе�� для данной проблемы`,
+            error: `Шаг с номером ${updateData.step_number} уже существует для данной проблемы`,
             errorType: 'DUPLICATE_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -304,7 +304,7 @@ class StepController {
       if (!restoredStep) {
         return res.status(404).json({
           success: false,
-          error: 'Шаг не найд��н или уже активен',
+          error: 'Шаг не найден или уже активен',
           errorType: 'NOT_FOUND',
           timestamp: new Date().toISOString()
         });
@@ -482,7 +482,7 @@ class StepController {
       const { id } = req.params;
       const { target_problem_id } = req.body;
 
-      // Проверяем сущес��вование шага
+      // Проверяем существование шага
       const existingStep = await stepModel.findById(id);
       if (!existingStep) {
         return res.status(404).json({

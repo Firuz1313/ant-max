@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useData } from "@/contexts/DataContext";
-import { ApiStatus } from "@/components/ApiStatus";
 import {
   PlayCircle,
   Tv,
@@ -28,42 +27,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Tv className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">ANT Support</h1>
-                <p className="text-sm text-gray-600">
-                  Профессиональная диагностика ТВ-приставок
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <ApiStatus className="max-w-xs" />
-              <Button
-                variant="outline"
-                onClick={() => navigate("/api-test")}
-                className="text-blue-600 border-blue-300 hover:bg-blue-50"
-              >
-                Тест API
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => navigate("/admin")}
-                className="text-gray-600 border-gray-300 hover:bg-gray-50"
-              >
-                <Settings className="h-4 w-4 mr-2" />
-                Админ-панель
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Удален дублирующий заголовок - заголовок уже есть в Layout */}
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12">
