@@ -42,7 +42,7 @@ class StepController {
 
       let steps;
       if (include_details === 'true') {
-        // ��олучаем шаги с дополнительной информацией
+        // Получаем шаги с дополнительной информацией
         if (problem_id) {
           steps = await stepModel.findByProblem(problem_id, { is_active: filters.is_active });
         } else {
@@ -129,7 +129,7 @@ class StepController {
         if (!problem || !problem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Указанная проблема не найдена или неактивна',
+            error: 'Указ��нная проблема не найдена или неактивна',
             errorType: 'VALIDATION_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -647,7 +647,7 @@ class StepController {
   }
 
   /**
-   * Автомат��ческое исправление нумерации шагов
+   * Автоматическое исправление нумерации шагов
    * POST /api/v1/steps/fix-numbering/:problemId
    */
   async fixStepNumbering(req, res, next) {
