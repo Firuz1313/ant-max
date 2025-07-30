@@ -71,7 +71,7 @@ router.get('/export', exportDevices);
  * @desc Получение устройства по ID
  * @access Public
  * @params {string} id - ID устройства
- * @query {boolean} [include_stats=false] - Включит�� статистику
+ * @query {boolean} [include_stats=false] - Включить статистику
  */
 router.get('/:id', getDeviceById);
 
@@ -106,14 +106,14 @@ router.put('/reorder', reorderDevices);
  * @desc Массовое обновление устройств
  * @access Admin
  * @body {array} updates - Массив обновлений
- * @body {string} updates[].id - ID устройства для обновления
+ * @body {string} updates[].id - ID устройства дл�� обновления
  * @body {object} updates[].data - Данные для обновления
  */
 router.put('/bulk', bulkUpdateDevices);
 
 /**
  * @route PUT /api/v1/devices/:id
- * @desc Обновление устройства
+ * @desc Обнов��ение устройства
  * @access Admin
  * @params {string} id - ID устройства
  * @body {object} device - Данные для обновления
