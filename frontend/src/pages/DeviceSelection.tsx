@@ -187,20 +187,22 @@ const DeviceSelection = () => {
         {/* Help Section */}
         <div className="container mx-auto px-4 mt-16">
           <div className="max-w-4xl mx-auto">
-            <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-white/20 backdrop-blur-md">
-              <CardContent className="p-8 text-center">
-                <Wifi className="h-12 w-12 text-blue-400 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">
+            <Card className="bg-gradient-to-br from-emerald-500/10 via-blue-500/10 to-purple-600/10 border-white/20 backdrop-blur-md hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-500">
+              <CardContent className="p-10 text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                  <Settings className="h-8 w-8 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-4">
                   Не знаете модель приставки?
                 </h3>
-                <p className="text-gray-300 mb-4">
-                  Обычно модель указана на корпусе приставки или в главном меню
-                  системы
+                <p className="text-gray-300 mb-6 text-lg leading-relaxed max-w-2xl mx-auto">
+                  Обычно модель указана на корпусе приставки или в главном меню системы
                 </p>
                 <Button
                   variant="outline"
-                  className="border-white/20 text-white hover:bg-white/10"
+                  className="border-white/30 text-white hover:bg-white/20 bg-white/10 backdrop-blur-sm px-8 py-3 text-lg rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
+                  <Wifi className="h-5 w-5 mr-2" />
                   Помощь в определении модели
                 </Button>
               </CardContent>
