@@ -49,7 +49,7 @@ const errorHandler = (error, req, res, next) => {
   // Логируем в файл
   logError(error, req);
   
-  // Определяем ти�� ошибки и соответствующий статус код
+  // Определяем тип ��шибки и соответствующий статус код
   let statusCode = 500;
   let message = 'Внутренняя ошибка сервера';
   let errorType = 'INTERNAL_ERROR';
