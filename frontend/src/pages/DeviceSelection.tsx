@@ -141,38 +141,39 @@ const DeviceSelection = () => {
                       <p className="text-gray-400 text-sm">{device.model}</p>
                     </CardHeader>
 
-                    <CardContent className="space-y-4">
-                      <p className="text-gray-300 text-sm text-center">
+                    <CardContent className="space-y-6">
+                      <p className="text-gray-300 text-center leading-relaxed">
                         {device.description}
                       </p>
 
-                      {/* Features */}
-                      <div className="space-y-2">
-                        <h4 className="text-white text-sm font-semibold">
-                          Особенности:
-                        </h4>
-                        <div className="flex flex-wrap gap-1">
-                          {features.slice(0, 3).map((feature, index) => (
-                            <Badge
-                              key={index}
-                              variant="secondary"
-                              className="text-xs"
-                            >
-                              {feature}
-                            </Badge>
-                          ))}
-                          {features.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
-                              +{features.length - 3}
-                            </Badge>
-                          )}
-                        </div>
+                      {/* Key Features */}
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {features.slice(0, 3).map((feature, index) => (
+                          <Badge
+                            key={index}
+                            variant="secondary"
+                            className="bg-blue-500/20 text-blue-300 border-blue-500/30 px-3 py-1 text-xs font-medium"
+                          >
+                            {feature}
+                          </Badge>
+                        ))}
+                        {features.length > 3 && (
+                          <Badge
+                            variant="outline"
+                            className="border-gray-500/30 text-gray-400 px-3 py-1 text-xs"
+                          >
+                            +{features.length - 3}
+                          </Badge>
+                        )}
                       </div>
 
                       {/* Problems count */}
-                      <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                        <div className="text-sm text-gray-400">
-                          {problemsCount} типов проблем
+                      <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                          <span className="text-sm text-gray-300 font-medium">
+                            {problemsCount} решений доступно
+                          </span>
                         </div>
                         <ChevronRight className="h-5 w-5 text-blue-400 group-hover:translate-x-1 transition-transform" />
                       </div>
