@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useData } from "@/contexts/DataContext";
-import { ApiStatus } from "@/components/ApiStatus";
 import {
   PlayCircle,
   Tv,
@@ -150,7 +149,7 @@ const Index = () => {
                   <Shield className="h-8 w-8 text-white" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                  Надежность
+                  Наде��ность
                 </h4>
                 <p className="text-gray-600">
                   Проверенные решения от профессиональных техников с многолетним
@@ -198,7 +197,7 @@ const Index = () => {
               </div>
             </div>
             <div className="text-sm text-gray-600">
-              © 2024 ANT Support. Все п��ава защищены.
+              © 2024 ANT Support. Все права защищены.
             </div>
           </div>
         </div>
