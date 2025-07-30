@@ -15,7 +15,7 @@ const TVDisplay = ({ currentStep, highlightArea, showInterface = true, interface
         return (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <Monitor className="h-16 w-16 text-gray-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-300 mb-2">НЕТ СИГНАЛ��</h2>
+            <h2 className="text-2xl font-bold text-gray-300 mb-2">НЕТ СИГНАЛА</h2>
             <p className="text-gray-400">Проверьте подключение кабелей</p>
           </div>
         );
