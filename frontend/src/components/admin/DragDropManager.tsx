@@ -189,7 +189,7 @@ const DragDropManager = () => {
     {
       id: "deactivate",
       name: "Деактивировать",
-      description: "Деактивировать выбранные элемен��ы",
+      description: "Деактивировать выбранные элементы",
       icon: EyeOff,
       action: async (items) => {
         // Implementation for bulk deactivation
@@ -200,7 +200,7 @@ const DragDropManager = () => {
     {
       id: "duplicate",
       name: "Дублировать",
-      description: "Создать копии выбранных элементов",
+      description: "Созд��ть копии выбранных элементов",
       icon: Copy,
       action: async (items) => {
         for (const item of items) {
@@ -690,7 +690,7 @@ const DragDropManager = () => {
                   проблемы
                 </li>
                 <li>
-                  • Перетащите проблемы на устройства для смены принадлежности
+                  • Перет��щите проблемы на устройства для смены принадлежности
                 </li>
                 <li>• Выберите несколько элементов для массовых операций</li>
                 <li>
