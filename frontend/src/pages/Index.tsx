@@ -149,7 +149,7 @@ const Index = () => {
                   <Shield className="h-8 w-8 text-white" />
                 </div>
                 <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                  Наде��ность
+                  Надежность
                 </h4>
                 <p className="text-gray-600">
                   Проверенные решения от профессиональных техников с многолетним
