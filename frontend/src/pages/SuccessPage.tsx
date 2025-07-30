@@ -40,7 +40,7 @@ const SuccessPage = () => {
   const getProblemTitle = (id: string) => {
     const titles: Record<string, string> = {
       "no-signal": "Проблема с сигналом решена!",
-      "no-power": "Проблема �� питанием решена!",
+      "no-power": "Проблема с питанием решена!",
       "no-image": "Проблема с изображением решена!",
       "no-sound": "Проблема со звуком решена!",
       "wifi-issues": "Проблема с Wi-Fi решена!",

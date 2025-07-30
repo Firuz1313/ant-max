@@ -357,7 +357,7 @@ const SystemSettings = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="userActivityLogs">Логи активности пользователей</Label>
+                    <Label htmlFor="userActivityLogs">Логи активнос��и пользователей</Label>
                     <p className="text-sm text-gray-500">Записывать действия пользователей</p>
                   </div>
                   <Switch
@@ -477,7 +477,7 @@ const SystemSettings = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="primaryColor">Основной цвет</Label>
+                    <Label htmlFor="primaryColor">Осно��ной цвет</Label>
                     <div className="flex items-center space-x-2">
                       <Input
                         id="primaryColor"
@@ -544,7 +544,7 @@ const SystemSettings = () => {
                   <div className="flex items-center justify-between">
                     <div>
                       <Label htmlFor="autoBackup">Автоматическое резервное копирование</Label>
-                      <p className="text-sm text-gray-500">Создавать резе��вные копии автоматически</p>
+                      <p className="text-sm text-gray-500">Создавать резервные копии автоматически</p>
                     </div>
                     <Switch
                       id="autoBackup"
