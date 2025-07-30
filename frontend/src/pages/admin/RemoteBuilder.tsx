@@ -850,7 +850,7 @@ const RemoteBuilder = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="device">Прис��авка</Label>
+                    <Label htmlFor="device">Приставка</Label>
                     <Select
                       value={formData.deviceId}
                       onValueChange={(value) =>
@@ -1112,7 +1112,7 @@ const RemoteBuilder = () => {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
-                        Испо��ьзований:
+                        Использований:
                       </span>
                       <span className="font-medium">{usageCount}</span>
                     </div>
@@ -1169,7 +1169,7 @@ const RemoteBuilder = () => {
                         )}
                         <DropdownMenuItem>
                           <Download className="h-4 w-4 mr-2" />
-                          Экспортировать
+                          ��кспортировать
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleDelete(remote.id)}
@@ -1344,7 +1344,7 @@ const RemoteBuilder = () => {
               </div>
 
               <div>
-                <Label htmlFor="edit-colorScheme">Цветовая с��ема</Label>
+                <Label htmlFor="edit-colorScheme">Цветовая схема</Label>
                 <Select
                   value={formData.colorScheme}
                   onValueChange={(value) =>
@@ -1378,7 +1378,7 @@ const RemoteBuilder = () => {
                 Отмена
               </Button>
               <Button onClick={handleEdit} disabled={!formData.name}>
-                Сохранить
+                С��хранить
               </Button>
             </div>
           </div>
