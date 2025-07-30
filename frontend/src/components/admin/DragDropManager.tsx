@@ -322,7 +322,7 @@ const DragDropManager = () => {
 
   const handleBulkOperation = async (operation: BulkOperation) => {
     if (selectedItems.length === 0) {
-      alert("Выберите элементы для выполнения операции");
+      alert("Выберите элементы для выполнения опе��ации");
       return;
     }
 
@@ -461,7 +461,7 @@ const DragDropManager = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Все типы</SelectItem>
-                  <SelectItem value="device">У��тройства</SelectItem>
+                  <SelectItem value="device">Устройства</SelectItem>
                   <SelectItem value="problem">Проблемы</SelectItem>
                   <SelectItem value="step">Шаги</SelectItem>
                   <SelectItem value="remote">Пульты</SelectItem>
