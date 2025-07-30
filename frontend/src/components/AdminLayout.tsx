@@ -66,7 +66,7 @@ const adminMenuItems = [
     title: "Настройки системы",
     path: "/admin/settings",
     icon: Settings,
-    description: "Конфигурация и системн��е настройки",
+    description: "Конфигурация и системные настройки",
   },
 ];
 
@@ -188,10 +188,10 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               </Button>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Админ-пане��ь
+                  Админ-панель
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Управление си��темой диагностики ТВ-приставок
+                  Управление системой диагностики ТВ-приставок
                 </p>
               </div>
             </div>
