@@ -168,7 +168,7 @@ const SystemSettings = () => {
           <TabsTrigger value="general">Общие</TabsTrigger>
           <TabsTrigger value="diagnostic">Диагностика</TabsTrigger>
           <TabsTrigger value="notifications">Уведомления</TabsTrigger>
-          <TabsTrigger value="security">Безопасность</TabsTrigger>
+          <TabsTrigger value="security">Б��зопасность</TabsTrigger>
           <TabsTrigger value="appearance">Внешний вид</TabsTrigger>
           <TabsTrigger value="backup">Резервное копирование</TabsTrigger>
         </TabsList>
@@ -357,7 +357,7 @@ const SystemSettings = () => {
                 
                 <div className="flex items-center justify-between">
                   <div>
-                    <Label htmlFor="userActivityLogs">Логи активнос��и пользователей</Label>
+                    <Label htmlFor="userActivityLogs">Логи активности пользователей</Label>
                     <p className="text-sm text-gray-500">Записывать действия пользователей</p>
                   </div>
                   <Switch
