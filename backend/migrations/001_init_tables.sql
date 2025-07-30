@@ -23,7 +23,7 @@ CREATE TABLE devices (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
--- 2. Таблица пультов дистанционного упр��вления
+-- 2. Таблица пультов дистанционного управления
 CREATE TABLE remotes (
     id VARCHAR(255) PRIMARY KEY,
     device_id VARCHAR(255) REFERENCES devices(id) ON DELETE SET NULL,
@@ -309,9 +309,9 @@ COMMENT ON TABLE tv_interfaces IS 'Снимки экранов приставо�
 COMMENT ON TABLE problems IS 'Типичные проблемы для каждого устройства';
 COMMENT ON TABLE diagnostic_steps IS 'Пошаговые инструкции для решения проблем';
 COMMENT ON TABLE users IS 'Учетные записи пользователей и администраторов';
-COMMENT ON TABLE diagnostic_sessions IS 'Сессии диагностики пользователей';
+COMMENT ON TABLE diagnostic_sessions IS 'Сесс��и диагностики пользователей';
 COMMENT ON TABLE session_steps IS 'Детальный трекинг шагов в сессиях';
-COMMENT ON TABLE step_actions IS 'Детализированные действия для шагов';
+COMMENT ON TABLE step_actions IS 'Детализи��ованные действия для шагов';
 COMMENT ON TABLE change_logs IS 'Журнал всех изменений в системе';
 COMMENT ON TABLE site_settings IS 'Глобальные настройки системы';
 
