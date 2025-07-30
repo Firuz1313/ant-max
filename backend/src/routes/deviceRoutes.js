@@ -77,7 +77,7 @@ router.get('/:id', getDeviceById);
 
 /**
  * @route POST /api/v1/devices
- * @desc Создание нового устройства
+ * @desc Создание нового устройст��а
  * @access Admin
  * @body {object} device - Данные устройства
  * @body {string} device.name - Название устройства
@@ -106,14 +106,14 @@ router.put('/reorder', reorderDevices);
  * @desc Массовое обновление устройств
  * @access Admin
  * @body {array} updates - Массив обновлений
- * @body {string} updates[].id - ID устройства дл�� обновления
+ * @body {string} updates[].id - ID устройства для обновле��ия
  * @body {object} updates[].data - Данные для обновления
  */
 router.put('/bulk', bulkUpdateDevices);
 
 /**
  * @route PUT /api/v1/devices/:id
- * @desc Обнов��ение устройства
+ * @desc Обновление устройства
  * @access Admin
  * @params {string} id - ID устройства
  * @body {object} device - Данные для обновления
