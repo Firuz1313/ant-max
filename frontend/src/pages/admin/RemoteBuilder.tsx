@@ -157,7 +157,7 @@ const RemoteBuilder = () => {
     { value: "dark", label: "Темная", preview: "bg-gray-800" },
     { value: "light", label: "Светлая", preview: "bg-gray-200" },
     { value: "blue", label: "Синяя", preview: "bg-blue-600" },
-    { value: "red", label: "Красн��я", preview: "bg-red-600" },
+    { value: "red", label: "Красная", preview: "bg-red-600" },
     { value: "green", label: "Зеленая", preview: "bg-green-600" },
   ];
 
@@ -765,7 +765,7 @@ const RemoteBuilder = () => {
                     <Target className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>Нет кнопок</p>
                     <p className="text-xs">
-                      Используйте пипетку для добавления
+                      Используйте пипетку для добавле��ия
                     </p>
                   </div>
                 )}
@@ -1164,7 +1164,7 @@ const RemoteBuilder = () => {
                           <DropdownMenuItem
                             onClick={() => handleSetDefault(remote.id)}
                           >
-                            Сделать по ��молчанию
+                            Сделать по умолчанию
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem>
