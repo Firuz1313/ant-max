@@ -129,7 +129,7 @@ class StepController {
         if (!problem || !problem.is_active) {
           return res.status(400).json({
             success: false,
-            error: 'Указ��нная проблема не найдена или неактивна',
+            error: 'Указанная проблема не найдена или неактивна',
             errorType: 'VALIDATION_ERROR',
             timestamp: new Date().toISOString()
           });
@@ -247,7 +247,7 @@ class StepController {
       const { id } = req.params;
       const { force = false, reorder = true } = req.query;
 
-      // Проверяем существование шага
+      // Проверяем с��ществование шага
       const existingStep = await stepModel.findById(id);
       if (!existingStep) {
         return res.status(404).json({
