@@ -157,7 +157,7 @@ const RemoteBuilder = () => {
     { value: "dark", label: "Темная", preview: "bg-gray-800" },
     { value: "light", label: "Светлая", preview: "bg-gray-200" },
     { value: "blue", label: "Синяя", preview: "bg-blue-600" },
-    { value: "red", label: "Красная", preview: "bg-red-600" },
+    { value: "red", label: "Красн��я", preview: "bg-red-600" },
     { value: "green", label: "Зеленая", preview: "bg-green-600" },
   ];
 
@@ -1164,7 +1164,7 @@ const RemoteBuilder = () => {
                           <DropdownMenuItem
                             onClick={() => handleSetDefault(remote.id)}
                           >
-                            Сделать по умолчанию
+                            Сделать по ��молчанию
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem>
@@ -1393,7 +1393,7 @@ const RemoteBuilder = () => {
               Пульты не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Попробуйте изменить фильтры поиска или с��здайте новый пульт.
+              Попробуйте изменить фильтры поиска или создайте новый пульт.
             </p>
           </CardContent>
         </Card>

@@ -170,7 +170,7 @@ const SystemSettings = () => {
           <TabsTrigger value="notifications">Уведомления</TabsTrigger>
           <TabsTrigger value="security">Б��зопасность</TabsTrigger>
           <TabsTrigger value="appearance">Внешний вид</TabsTrigger>
-          <TabsTrigger value="backup">Резервное копирование</TabsTrigger>
+          <TabsTrigger value="backup">Резервн��е копирование</TabsTrigger>
         </TabsList>
 
         {/* General Settings */}
@@ -477,7 +477,7 @@ const SystemSettings = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="primaryColor">Осно��ной цвет</Label>
+                    <Label htmlFor="primaryColor">Основной цвет</Label>
                     <div className="flex items-center space-x-2">
                       <Input
                         id="primaryColor"
