@@ -1169,7 +1169,7 @@ const RemoteBuilder = () => {
                         )}
                         <DropdownMenuItem>
                           <Download className="h-4 w-4 mr-2" />
-                          ��кспортировать
+                          Экспортировать
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleDelete(remote.id)}
@@ -1378,7 +1378,7 @@ const RemoteBuilder = () => {
                 Отмена
               </Button>
               <Button onClick={handleEdit} disabled={!formData.name}>
-                С��хранить
+                Сохранить
               </Button>
             </div>
           </div>
@@ -1393,7 +1393,7 @@ const RemoteBuilder = () => {
               Пульты не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Попробуйте изменить фильтры поиска или создайте новый пульт.
+              Попробуйте изменить фильтры поиска или с��здайте новый пульт.
             </p>
           </CardContent>
         </Card>
