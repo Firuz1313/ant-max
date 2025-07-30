@@ -340,7 +340,7 @@ class ProblemController {
   }
 
   /**
-   * Получение популярны�� проблем
+   * Получение популярных проблем
    * GET /api/v1/problems/popular
    */
   async getPopularProblems(req, res, next) {
