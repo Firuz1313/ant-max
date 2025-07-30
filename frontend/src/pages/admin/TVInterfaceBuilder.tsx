@@ -54,21 +54,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import TVDisplay from "@/components/TVDisplay";
 import { useData } from "@/contexts/DataContext";
-
-interface TVInterface {
-  id: string;
-  name: string;
-  type: "home" | "settings" | "channels" | "no-signal" | "custom";
-  description: string;
-  elements: TVInterfaceElement[];
-  backgroundColor: string;
-  backgroundImage?: string;
-  isDefault: boolean;
-  isActive: boolean;
-  usageCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import type { TVInterface as GlobalTVInterface } from "@/types";
 
 interface TVInterfaceElement {
   id: string;
@@ -95,8 +81,22 @@ interface TVInterfaceElement {
   animation?: "none" | "pulse" | "bounce" | "fade";
 }
 
+interface TVInterface {
+  id: string;
+  name: string;
+  type: "home" | "settings" | "channels" | "no-signal" | "custom";
+  description: string;
+  elements: TVInterfaceElement[];
+  backgroundColor: string;
+  backgroundImage?: string;
+  isDefault: boolean;
+  isActive: boolean;
+  usageCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 const TVInterfaceBuilder = () => {
-  const { updateTVInterfaces } = useData();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -264,7 +264,7 @@ const TVInterfaceBuilder = () => {
     return matchesSearch && matchesType;
   });
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     const newInterface: TVInterface = {
       id: Date.now().toString(),
       ...formData,
@@ -278,7 +278,7 @@ const TVInterfaceBuilder = () => {
     };
     const newInterfaces = [...interfaces, newInterface];
     setInterfaces(newInterfaces);
-    updateTVInterfaces(newInterfaces);
+    // updateTVInterface(newInterface.id, newInterface); // Removed
     setIsCreateDialogOpen(false);
     resetForm();
   };
@@ -297,7 +297,7 @@ const TVInterfaceBuilder = () => {
         : iface,
     );
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
     setIsEditDialogOpen(false);
     setSelectedInterface(null);
     resetForm();
@@ -308,7 +308,7 @@ const TVInterfaceBuilder = () => {
       (iface) => iface.id !== interfaceId,
     );
     setInterfaces(newInterfaces);
-    updateTVInterfaces(newInterfaces);
+    // updateTVInterface(newInterfaces); // Removed
   };
 
   const handleToggleStatus = (interfaceId: string) => {
@@ -322,7 +322,7 @@ const TVInterfaceBuilder = () => {
         : iface,
     );
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
   };
 
   const handleSetDefault = (interfaceId: string, type: TVInterface["type"]) => {
@@ -335,7 +335,7 @@ const TVInterfaceBuilder = () => {
           : iface.updatedAt,
     }));
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
   };
 
   const handleDuplicate = (iface: TVInterface) => {
@@ -350,7 +350,7 @@ const TVInterfaceBuilder = () => {
     };
     const newInterfaces = [...interfaces, duplicated];
     setInterfaces(newInterfaces);
-    updateTVInterfaces(newInterfaces);
+    // updateTVInterface(newInterfaces); // Removed
   };
 
   const handleCanvasClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
@@ -385,7 +385,7 @@ const TVInterfaceBuilder = () => {
       );
 
       setInterfaces(updatedInterfaces);
-      updateTVInterfaces(updatedInterfaces);
+      // updateTVInterface(updatedInterfaces); // Removed
       setSelectedInterface(updatedInterface);
       setSelectedElement(updatedElement);
     }
@@ -426,7 +426,7 @@ const TVInterfaceBuilder = () => {
     );
 
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
     setSelectedInterface(updatedInterface);
     setIsElementDialogOpen(false);
     resetElementForm();
@@ -455,7 +455,7 @@ const TVInterfaceBuilder = () => {
     );
 
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
     setSelectedInterface(updatedInterface);
     setIsElementDialogOpen(false);
     setSelectedElement(null);
@@ -480,7 +480,7 @@ const TVInterfaceBuilder = () => {
     );
 
     setInterfaces(updatedInterfaces);
-    updateTVInterfaces(updatedInterfaces);
+    // updateTVInterface(updatedInterfaces); // Removed
     setSelectedInterface(updatedInterface);
   };
 
@@ -1115,7 +1115,7 @@ const TVInterfaceBuilder = () => {
                       : iface,
                   );
                   setInterfaces(updatedInterfaces);
-                  updateTVInterfaces(updatedInterfaces);
+                  // updateTVInterface(updatedInterfaces); // Removed
                 }
                 setIsDesignerOpen(false);
               }}

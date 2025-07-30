@@ -87,6 +87,7 @@ const SystemSettings = () => {
 
     // Update site settings in context
     updateSiteSettings({
+      ...siteSettings,
       siteName: settings.siteName,
       siteDescription: settings.siteDescription,
       defaultLanguage: settings.defaultLanguage,

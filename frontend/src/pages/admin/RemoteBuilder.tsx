@@ -56,11 +56,12 @@ interface RemoteButton {
   label: string;
   position: { x: number; y: number };
   size: { width: number; height: number };
-  shape: "rectangle" | "circle" | "rounded";
+  shape: "rectangle" | "circle" | "rounded" | "custom";
   color: string;
   textColor: string;
   fontSize: number;
   action: string;
+  isVisible: boolean;
 }
 
 interface RemoteTemplate {
@@ -382,6 +383,7 @@ const RemoteBuilder = () => {
       textColor: buttonFormData.textColor,
       fontSize: buttonFormData.fontSize,
       action: buttonFormData.action,
+      isVisible: true,
     };
 
     if (selectedRemote) {

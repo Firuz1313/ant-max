@@ -150,7 +150,7 @@ const StepsManager = () => {
     if (formData.deviceId) {
       return getProblemsForDevice(formData.deviceId);
     }
-    return problems.filter((p) => p.status === "active");
+    return problems.filter((p) => p.status === "published");
   };
 
   const getAvailableRemotes = () => {
@@ -834,7 +834,7 @@ const StepsManager = () => {
                 <SelectContent>
                   <SelectItem value="all">Все проблемы</SelectItem>
                   {problems
-                    .filter((p) => p.status === "active")
+                    .filter((p) => p.status === "published")
                     .map((problem) => (
                       <SelectItem key={problem.id} value={problem.id}>
                         {problem.title}
