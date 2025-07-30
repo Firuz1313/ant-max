@@ -461,7 +461,7 @@ const DragDropManager = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Все типы</SelectItem>
-                  <SelectItem value="device">Устройства</SelectItem>
+                  <SelectItem value="device">У��тройства</SelectItem>
                   <SelectItem value="problem">Проблемы</SelectItem>
                   <SelectItem value="step">Шаги</SelectItem>
                   <SelectItem value="remote">Пульты</SelectItem>
@@ -694,7 +694,7 @@ const DragDropManager = () => {
                 </li>
                 <li>• Выберите несколько элементов для массовых операций</li>
                 <li>
-                  • Испо��ьзуйте фильтры для быстрого поиска нужных элементов
+                  • Используйте фильтры для быстрого поиска нужных элементов
                 </li>
               </ul>
             </div>
