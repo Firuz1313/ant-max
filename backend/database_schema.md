@@ -2,7 +2,7 @@
 
 ## Обзор архитектуры
 
-Схема базы данных спроектирована на основе анализа frontend компонентов и типов данных из `src/types/index.ts`. Система поддержи��ает полный цикл диагностики ТВ-приставок с интерактивными элементами.
+Схема базы данных спроектирована на основе анализа frontend компонентов и типов данных из `src/types/index.ts`. Система поддерживает полный цикл диагностики ТВ-приставок с интерактивными элементами.
 
 ## Основные таблицы
 
@@ -126,7 +126,7 @@ CREATE TABLE diagnostic_steps (
     highlight_tv_area VARCHAR(255),
     tv_interface_id VARCHAR(255) REFERENCES tv_interfaces(id) ON DELETE SET NULL,
     
-    -- Интерактивные элеме��ты
+    -- Интерактивные элементы
     remote_id VARCHAR(255) REFERENCES remotes(id) ON DELETE SET NULL,
     action_type VARCHAR(50) CHECK (action_type IN ('button_press', 'navigation', 'wait', 'check', 'input', 'selection', 'confirmation', 'custom')),
     button_position JSONB, -- {"x": number, "y": number}
@@ -343,7 +343,7 @@ CREATE INDEX idx_sessions_start_time ON diagnostic_sessions(start_time);
 CREATE INDEX idx_change_logs_created_at ON change_logs(created_at);
 CREATE INDEX idx_users_last_login ON users(last_login);
 
--- Составные индексы
+-- Со��тавные индексы
 CREATE INDEX idx_problems_device_status ON problems(device_id, status);
 CREATE INDEX idx_steps_problem_number ON diagnostic_steps(problem_id, step_number);
 CREATE INDEX idx_sessions_device_time ON diagnostic_sessions(device_id, start_time);
