@@ -145,7 +145,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
         {/* Bottom Actions */}
         <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          <Link to="/">
+          <Link to="/admin">
             <Button
               variant="outline"
               className="w-full justify-start mb-2"
@@ -155,14 +155,16 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
               На главную
             </Button>
           </Link>
-          <Button
-            variant="ghost"
-            className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
-            size="sm"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Выйти
-          </Button>
+          <Link to="/">
+            <Button
+              variant="ghost"
+              className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+              size="sm"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Выйти
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -189,7 +191,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
                   Админ-пане��ь
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Управление системой диагностики ТВ-приставок
+                  Управление си��темой диагностики ТВ-приставок
                 </p>
               </div>
             </div>
