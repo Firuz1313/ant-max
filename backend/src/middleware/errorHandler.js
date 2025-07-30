@@ -39,7 +39,7 @@ const logError = (error, req) => {
 
 // Основной обработчик ошибок
 const errorHandler = (error, req, res, next) => {
-  // Логируем ошибку
+  // Логи��уем ошибку
   console.error('🚨 Ошибка сервера:', error.message);
   
   if (process.env.NODE_ENV === 'development') {
@@ -97,7 +97,7 @@ const errorHandler = (error, req, res, next) => {
     requestId: req.id || `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   };
   
-  // В режиме разработки добавляем дополнительную инфо��мацию
+  // В режиме разработки добавляем дополнительную информацию
   if (process.env.NODE_ENV === 'development') {
     errorResponse.debug = {
       originalMessage: error.message,
@@ -110,7 +110,7 @@ const errorHandler = (error, req, res, next) => {
   res.status(statusCode).json(errorResponse);
 };
 
-// Обработчик 404 ошибок
+// Обрабо��чик 404 ошибок
 export const notFoundHandler = (req, res) => {
   const error = {
     success: false,
@@ -135,7 +135,7 @@ export const handleUnhandledRejection = () => {
     
     // В продакшене можно завершить процесс
     if (process.env.NODE_ENV === 'production') {
-      console.log('🔄 Завершение процесса из-за критической ��шибки...');
+      console.log('🔄 Завершение процесса из-за критической ошибки...');
       process.exit(1);
     }
   });
