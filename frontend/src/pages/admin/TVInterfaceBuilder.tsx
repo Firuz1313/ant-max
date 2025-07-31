@@ -302,10 +302,17 @@ const TVInterfaceBuilder = () => {
       }
     } catch (error) {
       console.error("Error creating TV interface:", error);
+
+      let errorMessage = "Failed to create TV interface";
       if (error instanceof Error) {
+        errorMessage = error.message;
         console.error("Error details:", error.message);
         console.error("Error stack:", error.stack);
       }
+
+      // Show user-friendly error message
+      // You can implement a toast notification here
+      alert(`Error: ${errorMessage}. Please check the console for details.`);
     }
   };
 
@@ -1036,7 +1043,7 @@ const TVInterfaceBuilder = () => {
             Конструктор интерфейса ТВ
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
+            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой �� устройствам
           </p>
         </div>
         <div className="flex space-x-2">
@@ -1068,7 +1075,7 @@ const TVInterfaceBuilder = () => {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      placeholder="Введите название интерфейса"
+                      placeholder="Введите назван��е интерфейса"
                     />
                   </div>
                   <div>
