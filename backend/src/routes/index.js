@@ -96,7 +96,7 @@ router.get('/docs', (req, res) => {
             'DELETE /problems/:id': 'Удаление проблемы',
             'GET /problems/search': 'Поиск проблем',
             'GET /problems/popular': 'Популярные проблемы',
-            'GET /problems/stats': 'Статистика про��лем',
+            'GET /problems/stats': 'Статистика проблем',
             'GET /problems/export': 'Экспорт проблем',
             'GET /problems/device/:deviceId': 'Проблемы по устройству',
             'GET /problems/category/:category': 'Проблемы по категории',
@@ -145,6 +145,22 @@ router.get('/docs', (req, res) => {
             'POST /sessions/:id/progress': 'Обновление прогресса',
             'POST /sessions/cleanup': 'Очистка старых сессий',
             'POST /sessions/:id/restore': 'Восстановление архивированной сессии'
+          }
+        },
+        tvInterfaces: {
+          description: 'Управление интерфейсами ТВ приставок',
+          routes: {
+            'GET /tv-interfaces': 'Получение списка интерфейсов ТВ',
+            'GET /tv-interfaces/:id': 'Получение интерфейса ТВ по ID',
+            'POST /tv-interfaces': 'Создание нового интерфейса ТВ',
+            'PUT /tv-interfaces/:id': 'Обновление интерфейса ТВ',
+            'DELETE /tv-interfaces/:id': 'Удаление интерфейса ТВ',
+            'POST /tv-interfaces/:id/duplicate': 'Дублирование интерфейса ТВ',
+            'PATCH /tv-interfaces/:id/toggle': 'Активация/деактивация интерфейса ТВ',
+            'GET /tv-interfaces/device/:deviceId': 'Интерфейсы по устройству',
+            'GET /tv-interfaces/type/:type': 'Интерфейсы по типу',
+            'GET /tv-interfaces/:id/export': 'Экспорт интерфейса в JSON',
+            'POST /tv-interfaces/import': 'Импорт интерфейса из JSON'
           }
         }
       },
