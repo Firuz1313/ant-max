@@ -104,11 +104,11 @@ export class ApiClient {
       console.log(`📡 Response received: ${response.status} ${response.statusText}`);
       console.log(`📡 Response headers:`, Object.fromEntries(response.headers.entries()));
 
-      // Check response status first, then read body
-      let data: any;
       const contentType = response.headers.get('content-type');
       console.log(`📡 Content-Type: ${contentType}`);
 
+      // Read the response body once
+      let data: any;
       try {
         if (contentType?.includes('application/json')) {
           data = await response.json();
@@ -119,20 +119,18 @@ export class ApiClient {
         }
       } catch (parseError) {
         console.error(`📡 Parse error:`, parseError);
-        // If we can't parse the response, create a generic error
-        if (!response.ok) {
-          throw new ApiError(
-            `HTTP ${response.status}: ${response.statusText}`,
-            response.status
-          );
-        }
-        throw new ApiError('Failed to parse response', response.status);
+        throw new ApiError(
+          `Failed to parse response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`,
+          response.status
+        );
       }
 
+      // Check status after reading body
       if (!response.ok) {
         console.error(`📡 HTTP Error ${response.status}:`, data);
+        const errorMessage = data?.error || data?.message || response.statusText || 'Unknown error';
         throw new ApiError(
-          data?.error || data?.message || `HTTP ${response.status}: ${response.statusText}`,
+          `HTTP ${response.status}: ${errorMessage}`,
           response.status,
           data,
           data?.errorType
