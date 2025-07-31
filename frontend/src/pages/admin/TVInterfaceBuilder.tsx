@@ -141,7 +141,7 @@ const TVInterfaceBuilder = () => {
     { value: "none", label: "Без анимации" },
     { value: "pulse", label: "Пульсация" },
     { value: "glow", label: "Свечение" },
-    { value: "blink", label: "Мига��ие" },
+    { value: "blink", label: "Мига��и��" },
   ];
 
   const actionTypes = [
@@ -176,19 +176,29 @@ const TVInterfaceBuilder = () => {
   const loadTVInterfaces = async () => {
     try {
       setLoading(true);
-      console.log('Loading TV interfaces...');
-      console.log('API Base URL being used:', import.meta.env.VITE_API_BASE_URL || 'default');
+      console.log('🔄 Loading TV interfaces...');
+      console.log('🔧 API Base URL being used:', import.meta.env.VITE_API_BASE_URL || 'default');
 
-      // Доб��вляем простую проверку доступности API
+      // Проверяем доступность API
+      console.log('🏥 Checking API health...');
       try {
-        const testResponse = await fetch('/api/health');
-        console.log('API health check:', testResponse.status, testResponse.statusText);
+        const healthUrl = '/api/health';
+        console.log('🏥 Health check URL:', healthUrl);
+        const testResponse = await fetch(healthUrl);
+        console.log('🏥 API health check result:', testResponse.status, testResponse.statusText);
+
+        if (!testResponse.ok) {
+          console.warn('⚠️ API health check failed with status:', testResponse.status);
+        } else {
+          console.log('✅ API health check successful');
+        }
       } catch (healthError) {
-        console.warn('API health check failed:', healthError);
+        console.error('❌ API health check failed:', healthError);
       }
 
+      console.log('📋 Fetching TV interfaces list...');
       const response = await tvInterfacesAPI.getAll({ limit: 100 });
-      console.log('TV interfaces response:', response);
+      console.log('📋 TV interfaces response:', response);
 
       if (response && response.success && response.data) {
         setTVInterfaces(response.data);
@@ -206,7 +216,7 @@ const TVInterfaceBuilder = () => {
       setTVInterfaces([]);
 
       // Показываем уведомление пользователю
-      alert('Не удалось загрузить интерфейсы ТВ. Прове��ьте подключение к серверу.');
+      alert('Не удалось загрузить интерфейсы ТВ. Проверьте подключение к серверу.');
     } finally {
       setLoading(false);
     }
@@ -1553,7 +1563,7 @@ const TVInterfaceBuilder = () => {
               Интерфейсы не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Попробуйте изменить фильтры поиска или создайте новый интерфейс.
+              Попробуйте изменить фильтры поиска или ��оздайте новый интерфейс.
             </p>
           </CardContent>
         </Card>
