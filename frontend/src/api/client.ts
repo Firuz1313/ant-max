@@ -38,21 +38,11 @@ export class ApiClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, any>): string {
-    let fullUrl: string;
+    // Always use relative URLs for proxy to work correctly
+    const relativePath = `${this.baseUrl}${endpoint}`;
+    console.log(`API relative path: ${relativePath} (base: ${this.baseUrl}, endpoint: ${endpoint})`);
 
-    // Handle relative URLs (starting with /) vs absolute URLs
-    if (this.baseUrl.startsWith('http')) {
-      // Absolute URL
-      fullUrl = `${this.baseUrl}${endpoint}`;
-    } else {
-      // Relative URL - use current origin
-      const origin = typeof window !== 'undefined' ? window.location.origin : '';
-      fullUrl = `${origin}${this.baseUrl}${endpoint}`;
-    }
-
-    console.log(`API URL constructed: ${fullUrl} (base: ${this.baseUrl}, endpoint: ${endpoint})`);
-
-    const url = new URL(fullUrl);
+    const url = new URL(relativePath, window.location.origin);
 
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
