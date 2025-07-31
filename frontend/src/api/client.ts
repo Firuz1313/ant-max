@@ -50,6 +50,8 @@ export class ApiClient {
       fullUrl = `${origin}${this.baseUrl}${endpoint}`;
     }
 
+    console.log(`API URL constructed: ${fullUrl} (base: ${this.baseUrl}, endpoint: ${endpoint})`);
+
     const url = new URL(fullUrl);
 
     if (params) {
@@ -64,7 +66,9 @@ export class ApiClient {
       });
     }
 
-    return url.toString();
+    const finalUrl = url.toString();
+    console.log(`Final API URL: ${finalUrl}`);
+    return finalUrl;
   }
 
   private async makeRequest<T>(
