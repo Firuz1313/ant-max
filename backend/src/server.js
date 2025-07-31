@@ -139,15 +139,15 @@ process.on('SIGINT', () => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log('🚀 ANT Support API Server started successfully!');
-  console.log(`📍 Server running on port ${PORT}`);
-  console.log(`🌐 API available at: http://localhost:${PORT}/api/v1`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`📍 Server running on 127.0.0.1:${PORT}`);
+  console.log(`🌐 API available at: http://127.0.0.1:${PORT}/api/v1`);
+  console.log(`🏥 Health check: http://127.0.0.1:${PORT}/health`);
   console.log(`📝 Environment: ${NODE_ENV}`);
-  
+
   if (NODE_ENV === 'development') {
-    console.log('🔧 Development mode - CORS enabled for localhost');
+    console.log('🔧 Development mode - CORS enabled for localhost and cloud environments');
     console.log('📁 Static files served from: /media');
   }
 });
