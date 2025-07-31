@@ -3,6 +3,7 @@ import deviceRoutes from './deviceRoutes.js';
 import problemRoutes from './problemRoutes.js';
 import stepRoutes from './stepRoutes.js';
 import sessionRoutes from './sessionRoutes.js';
+import tvInterfaceRoutes from './tvInterfaceRoutes.js';
 
 const router = express.Router();
 
@@ -43,7 +44,8 @@ router.get('/info', (req, res) => {
         devices: `${API_V1_PREFIX}/devices`,
         problems: `${API_V1_PREFIX}/problems`,
         steps: `${API_V1_PREFIX}/steps`,
-        sessions: `${API_V1_PREFIX}/sessions`
+        sessions: `${API_V1_PREFIX}/sessions`,
+        tvInterfaces: `${API_V1_PREFIX}/tv-interfaces`
       },
       documentation: '/api/docs',
       health: '/api/health'
@@ -144,6 +146,22 @@ router.get('/docs', (req, res) => {
             'POST /sessions/cleanup': 'Очистка старых сессий',
             'POST /sessions/:id/restore': 'Восстановление архивированной сессии'
           }
+        },
+        tvInterfaces: {
+          description: 'Управление интерфейсами ТВ приставок',
+          routes: {
+            'GET /tv-interfaces': 'Получение списка интерфейсов ТВ',
+            'GET /tv-interfaces/:id': 'Получение интерфейса ТВ по ID',
+            'POST /tv-interfaces': 'Создание нового интерфейса ТВ',
+            'PUT /tv-interfaces/:id': 'Обновление интерфейса ТВ',
+            'DELETE /tv-interfaces/:id': 'Удаление интерфейса ТВ',
+            'POST /tv-interfaces/:id/duplicate': 'Дублирование интерфейса ТВ',
+            'PATCH /tv-interfaces/:id/toggle': 'Активация/деактивация интерфейса ТВ',
+            'GET /tv-interfaces/device/:deviceId': 'Интерфейсы по устройству',
+            'GET /tv-interfaces/type/:type': 'Интерфейсы по типу',
+            'GET /tv-interfaces/:id/export': 'Экспорт интерфейса в JSON',
+            'POST /tv-interfaces/import': 'Импорт интерфейса из JSON'
+          }
         }
       },
       errorCodes: {
@@ -189,6 +207,7 @@ router.use(`${API_V1_PREFIX}/devices`, deviceRoutes);
 router.use(`${API_V1_PREFIX}/problems`, problemRoutes);
 router.use(`${API_V1_PREFIX}/steps`, stepRoutes);
 router.use(`${API_V1_PREFIX}/sessions`, sessionRoutes);
+router.use(`${API_V1_PREFIX}/tv-interfaces`, tvInterfaceRoutes);
 
 // Обработчик для несуществующих эндпоинтов API
 router.use('*', (req, res) => {
@@ -204,7 +223,8 @@ router.use('*', (req, res) => {
       `${API_V1_PREFIX}/devices`,
       `${API_V1_PREFIX}/problems`,
       `${API_V1_PREFIX}/steps`,
-      `${API_V1_PREFIX}/sessions`
+      `${API_V1_PREFIX}/sessions`,
+      `${API_V1_PREFIX}/tv-interfaces`
     ],
     timestamp: new Date().toISOString()
   });

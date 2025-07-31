@@ -7,9 +7,10 @@ import { devicesApi } from './devices';
 import { problemsApi } from './problems';
 import { stepsApi } from './steps';
 import { sessionsApi } from './sessions';
+import { tvInterfacesAPI } from './tvInterfaces';
 
 // Re-export API services
-export { devicesApi, problemsApi, stepsApi, sessionsApi };
+export { devicesApi, problemsApi, stepsApi, sessionsApi, tvInterfacesAPI };
 
 // Export types for consumers
 export type {
@@ -58,6 +59,16 @@ export type {
   CleanupResult,
 } from './sessions';
 
+export type {
+  TVInterfaceAPI,
+  ClickableArea,
+  HighlightArea,
+  CreateTVInterfaceData,
+  UpdateTVInterfaceData,
+  TVInterfaceFilters,
+  TVInterfaceExportData,
+} from './tvInterfaces';
+
 // API Health check
 export const checkApiHealth = async (): Promise<boolean> => {
   try {
@@ -95,6 +106,7 @@ export const api = {
   problems: problemsApi,
   steps: stepsApi,
   sessions: sessionsApi,
+  tvInterfaces: tvInterfacesAPI,
   health: checkApiHealth,
   info: getApiInfo,
   docs: getApiDocs,

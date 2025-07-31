@@ -3,6 +3,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App.tsx";
 import "./index.css";
 
+// Suppress harmless ResizeObserver warnings
+window.addEventListener('error', (e) => {
+  if (e.message.includes('ResizeObserver loop')) {
+    e.stopImmediatePropagation();
+  }
+});
+
+// Suppress React Router future flag warnings
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (args[0]?.includes?.('React Router Future Flag Warning')) {
+    return;
+  }
+  originalWarn.apply(console, args);
+};
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {

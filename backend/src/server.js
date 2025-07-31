@@ -35,19 +35,24 @@ const corsOptions = {
       'http://localhost:3000',
       'http://localhost:8080'
     ];
-    
-    // Разрешить запросы без origin (например, мобильные приложения)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+
+    // В облачной среде разрешаем все origins
+    if (NODE_ENV === 'development' || !origin ||
+        origin.includes('fly.dev') ||
+        origin.includes('builder.codes') ||
+        origin.includes('projects.builder.my') ||
+        origin.includes('localhost') ||
+        allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 200
 };
 
 // Middleware
@@ -97,6 +102,16 @@ app.use('/media', express.static(path.join(__dirname, '../uploads')));
 // Кастомный middleware для логирования запросов
 app.use(requestLogger);
 
+// Дополнительное логирование для отладки
+app.use((req, res, next) => {
+  console.log(`🔍 [${new Date().toISOString()}] ${req.method} ${req.url}`);
+  console.log(`🔍 Headers:`, JSON.stringify(req.headers, null, 2));
+  if (req.body && Object.keys(req.body).length > 0) {
+    console.log(`🔍 Body:`, JSON.stringify(req.body, null, 2));
+  }
+  next();
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -137,16 +152,18 @@ process.on('SIGINT', () => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('🚀 ANT Support API Server started successfully!');
-  console.log(`📍 Server running on port ${PORT}`);
-  console.log(`🌐 API available at: http://localhost:${PORT}/api/v1`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`📍 Server running on 0.0.0.0:${PORT}`);
+  console.log(`🌐 API available at: http://0.0.0.0:${PORT}/api/v1`);
+  console.log(`🌐 API also available at: http://127.0.0.1:${PORT}/api/v1`);
+  console.log(`🏥 Health check: http://127.0.0.1:${PORT}/health`);
   console.log(`📝 Environment: ${NODE_ENV}`);
-  
+
   if (NODE_ENV === 'development') {
-    console.log('🔧 Development mode - CORS enabled for localhost');
+    console.log('🔧 Development mode - CORS enabled for localhost and cloud environments');
     console.log('📁 Static files served from: /media');
+    console.log('🔄 Vite proxy should forward /api/* requests from port 8080 to port 3000');
   }
 });
 
