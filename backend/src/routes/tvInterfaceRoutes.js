@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import TVInterfaceController from '../controllers/tvInterfaceController.js';
+import validateRequest from '../middleware/validateRequest.js';
+
 const router = express.Router();
-const TVInterfaceController = require('../controllers/tvInterfaceController');
-const validateRequest = require('../middleware/validateRequest');
 
 // Создание экземпляра контроллера
 const tvInterfaceController = new TVInterfaceController();
@@ -332,7 +333,7 @@ router.post('/:id/duplicate',
   tvInterfaceController.duplicateTVInterface.bind(tvInterfaceController)
 );
 
-// PATCH /api/v1/tv-interfaces/:id/toggle - Активация/деактивация интерфейса ТВ
+// PATCH /api/v1/tv-interfaces/:id/toggle - Активация/деактивация и��терфейса ТВ
 router.patch('/:id/toggle',
   validateRequest(idParamSchema),
   tvInterfaceController.toggleTVInterfaceStatus.bind(tvInterfaceController)
