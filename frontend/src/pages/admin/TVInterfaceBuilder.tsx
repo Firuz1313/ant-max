@@ -212,7 +212,7 @@ const TVInterfaceBuilder = () => {
       console.error("Error details:", error instanceof Error ? error.message : String(error));
       console.error("Error stack:", error instanceof Error ? error.stack : 'N/A');
 
-      // Fallback - создаем пустой массив чтобы интерфейс работал
+      // Fallback - создаем пустой массив чтобы ��нтерфейс работа��
       setTVInterfaces([]);
 
       // Показываем уведомление пользователю
@@ -317,6 +317,15 @@ const TVInterfaceBuilder = () => {
         console.warn('Image too large, skipping upload. Size:', Math.round(imageSize/1024), 'KB');
       }
 
+      // Quick connectivity test
+      console.log('🔍 Testing direct connectivity first...');
+      try {
+        const testResponse = await fetch('http://localhost:3000/health');
+        console.log('🔍 Direct health check result:', testResponse.status);
+      } catch (healthError) {
+        console.error('🔍 Direct health check failed:', healthError);
+      }
+
       console.log('🔄 Calling tvInterfacesAPI.create...');
       const newInterface = await tvInterfacesAPI.create(dataToSend);
       console.log('🎉 tvInterfacesAPI.create completed successfully');
@@ -380,7 +389,7 @@ const TVInterfaceBuilder = () => {
       }
     } catch (error) {
       console.error("Error deleting TV interface:", error);
-      alert("Оши��ка при удалении интерфейса");
+      alert("Ошибка при удалении интерфейса");
     }
   };
 
@@ -884,7 +893,7 @@ const TVInterfaceBuilder = () => {
                   <AlertDescription>
                     <div className="space-y-3">
                       <p className="text-sm font-medium">
-                        Редактирование: {selectedElement.name}
+                        Редактиров��ние: {selectedElement.name}
                       </p>
                       <div>
                         <Label htmlFor="edit-element-name">Название</Label>
@@ -1042,7 +1051,7 @@ const TVInterfaceBuilder = () => {
                     <Target className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p>Нет элементов</p>
                     <p className="text-xs">
-                      Добавьте интерактивные области или подсветку
+                      Добав��те интерактивные области или подсветку
                     </p>
                   </div>
                 )}
@@ -1439,7 +1448,7 @@ const TVInterfaceBuilder = () => {
             </Button>
             <Button onClick={saveInterfaceChanges}>
               <Save className="h-4 w-4 mr-2" />
-              Сохранить изменения
+              Сохранить изменени��
             </Button>
           </div>
         </DialogContent>
@@ -1501,7 +1510,7 @@ const TVInterfaceBuilder = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Выбери��е приставку" />
+                  <SelectValue placeholder="Выберите приставку" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="universal">Универсальный</SelectItem>
