@@ -226,10 +226,11 @@ const getApiBaseUrl = (): string => {
       return apiUrl;
     }
 
-    // Облачная среда - используем относительный путь
-    const cloudApiUrl = '/api';
-    console.log('Using cloud API URL (relative):', cloudApiUrl);
-    return cloudApiUrl;
+    // Облачная среда - try direct backend port first
+    const { port } = window.location;
+    const directBackendUrl = `${protocol}//${hostname}:3000/api`;
+    console.log('Using direct backend URL for cloud:', directBackendUrl);
+    return directBackendUrl;
   }
 
   // Fallback
