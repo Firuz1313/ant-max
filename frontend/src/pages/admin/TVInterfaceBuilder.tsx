@@ -268,17 +268,26 @@ const TVInterfaceBuilder = () => {
 
   const handleCreate = async () => {
     try {
-      console.log('Creating TV interface with data:', {
+      // Check image size to prevent 413 errors
+      const imageSize = previewImageUrl ? previewImageUrl.length : 0;
+      const maxSize = 1024 * 1024; // 1MB limit
+
+      const dataToSend = {
         ...formData,
         device_id: formData.device_id === "universal" ? undefined : formData.device_id,
-        screenshot_data: previewImageUrl ? 'base64_image_data' : undefined,
+        screenshot_data: (previewImageUrl && imageSize < maxSize) ? previewImageUrl : undefined,
+      };
+
+      console.log('Creating TV interface with data:', {
+        ...dataToSend,
+        screenshot_data: dataToSend.screenshot_data ? `[${Math.round(imageSize/1024)}KB image]` : undefined,
       });
 
-      const newInterface = await tvInterfacesAPI.create({
-        ...formData,
-        device_id: formData.device_id === "universal" ? undefined : formData.device_id,
-        screenshot_data: previewImageUrl || undefined,
-      });
+      if (previewImageUrl && imageSize >= maxSize) {
+        console.warn('Image too large, skipping upload. Size:', Math.round(imageSize/1024), 'KB');
+      }
+
+      const newInterface = await tvInterfacesAPI.create(dataToSend);
 
       console.log('TV interface creation response:', newInterface);
 
@@ -1140,7 +1149,7 @@ const TVInterfaceBuilder = () => {
                       <ImageIcon className="h-4 w-4 mr-2" />
                       {previewImageUrl
                         ? "Изменить изображение"
-                        : "Загрузить изображение"}
+                        : "Загр��зить изображение"}
                     </Button>
                   </div>
                   {previewImageUrl && (
