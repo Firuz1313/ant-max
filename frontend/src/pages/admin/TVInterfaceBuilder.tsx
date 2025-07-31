@@ -225,7 +225,7 @@ const TVInterfaceBuilder = () => {
     return matchesSearch && matchesType && matchesDevice;
   });
 
-  // Об��аботчики событий
+  // Обработчики событий
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -240,19 +240,34 @@ const TVInterfaceBuilder = () => {
 
   const handleCreate = async () => {
     try {
+      console.log('Creating TV interface with data:', {
+        ...formData,
+        device_id: formData.device_id === "universal" ? undefined : formData.device_id,
+        screenshot_data: previewImageUrl ? 'base64_image_data' : undefined,
+      });
+
       const newInterface = await tvInterfacesAPI.create({
         ...formData,
         device_id: formData.device_id === "universal" ? undefined : formData.device_id,
         screenshot_data: previewImageUrl || undefined,
       });
 
+      console.log('TV interface creation response:', newInterface);
+
       if (newInterface.success && newInterface.data) {
         setTVInterfaces(prev => [...prev, newInterface.data!]);
         setIsCreateDialogOpen(false);
         resetForm();
+        console.log('TV interface created successfully');
+      } else {
+        console.error('Invalid response from create API:', newInterface);
       }
     } catch (error) {
       console.error("Error creating TV interface:", error);
+      if (error instanceof Error) {
+        console.error("Error details:", error.message);
+        console.error("Error stack:", error.stack);
+      }
     }
   };
 
@@ -983,7 +998,7 @@ const TVInterfaceBuilder = () => {
             Конструктор интерфейса ТВ
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            ����здание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
+            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
           </p>
         </div>
         <div className="flex space-x-2">
@@ -1157,7 +1172,7 @@ const TVInterfaceBuilder = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Все приставки</SelectItem>
-                  <SelectItem value="universal">Универсальные</SelectItem>
+                  <SelectItem value="universal">Ун��версальные</SelectItem>
                   {devices.map((device) => (
                     <SelectItem key={device.id} value={device.id}>
                       <div className="flex items-center">
