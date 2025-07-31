@@ -9,10 +9,14 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:3000',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
         ws: true,
+        rewrite: (path) => {
+          console.log('Proxy rewrite:', path);
+          return path;
+        },
         configure: (proxy, _options) => {
           proxy.on('error', (err, req, _res) => {
             console.log('API Proxy error:', err.message, 'for', req.url);
