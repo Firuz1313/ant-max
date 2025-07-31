@@ -14,19 +14,19 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       '/api': {
-        target: process.env.VITE_API_PROXY_TARGET || 'http://localhost:3000',
+        target: 'http://127.0.0.1:3000',
         changeOrigin: true,
         secure: false,
         ws: false,
         configure: (proxy) => {
           proxy.on('proxyReq', (proxyReq, req) => {
-            console.log('[PROXY] Request:', req.method, req.url, '→ localhost:3000');
+            console.log('[🔄 PROXY] Request:', req.method, req.url, '→ 127.0.0.1:3000');
           });
           proxy.on('proxyRes', (proxyRes, req) => {
-            console.log('[PROXY] Response:', proxyRes.statusCode, 'for', req.url);
+            console.log('[✅ PROXY] Response:', proxyRes.statusCode, 'for', req.url);
           });
           proxy.on('error', (err, req) => {
-            console.log('[PROXY] Error:', err.message, 'for', req.url);
+            console.log('[❌ PROXY] Error:', err.message, 'for', req.url);
           });
         },
       },
