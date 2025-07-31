@@ -180,7 +180,10 @@ export class ApiClient {
 }
 
 // Create default API client instance
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
+  (typeof window !== 'undefined' && window.location.origin.includes('localhost')
+    ? 'http://localhost:3000/api'
+    : '/api');
 
 console.log('API Base URL:', API_BASE_URL);
 
