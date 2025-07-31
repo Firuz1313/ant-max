@@ -222,10 +222,28 @@ export class ApiClient {
 
 // Create default API client instance
 const getApiBaseUrl = (): string => {
-  // Всегда используем относительный путь для прокси в облачной среде
-  const apiUrl = '/api';
-  console.log('🌩️ Cloud environment - using relative API URL for proxy:', apiUrl);
-  return apiUrl;
+  // Проверяем переменную окружения
+  if (import.meta.env.VITE_API_BASE_URL) {
+    console.log('🔧 Using VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  // В облачной среде пытаемся использовать относительный пут�� для прокси
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+
+    // Если это облачная среда, используем относительный путь
+    if (hostname.includes('builder.codes') || hostname.includes('fly.dev')) {
+      const apiUrl = '/api';
+      console.log('🌩️ Cloud environment - using relative API URL for proxy:', apiUrl);
+      return apiUrl;
+    }
+  }
+
+  // Fallback
+  const fallbackUrl = '/api';
+  console.log('🔄 Using fallback API URL:', fallbackUrl);
+  return fallbackUrl;
 };
 
 const API_BASE_URL = getApiBaseUrl();
