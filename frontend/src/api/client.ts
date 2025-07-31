@@ -181,7 +181,7 @@ export class ApiClient {
 
 // Create default API client instance
 const getApiBaseUrl = (): string => {
-  // Сначала проверяем переменную окружения
+  // Сначала провер��ем переменную окружения
   if (import.meta.env.VITE_API_BASE_URL) {
     console.log('Using VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
     return import.meta.env.VITE_API_BASE_URL;
@@ -198,9 +198,9 @@ const getApiBaseUrl = (): string => {
       return apiUrl;
     }
 
-    // Облачная среда - пробуем прямое подключение к backend порту
-    const cloudApiUrl = `${protocol}//localhost:3000/api`;
-    console.log('Using cloud API URL:', cloudApiUrl);
+    // Облачная среда - используем относительный путь
+    const cloudApiUrl = '/api';
+    console.log('Using cloud API URL (relative):', cloudApiUrl);
     return cloudApiUrl;
   }
 
