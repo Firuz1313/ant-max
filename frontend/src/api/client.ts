@@ -188,6 +188,23 @@ export class ApiClient {
   async delete<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
     return this.makeRequest<T>(endpoint, { ...options, method: 'DELETE' });
   }
+
+  // Utility methods
+  setDefaultHeader(key: string, value: string): void {
+    this.defaultHeaders[key] = value;
+  }
+
+  removeDefaultHeader(key: string): void {
+    delete this.defaultHeaders[key];
+  }
+
+  setAuthToken(token: string): void {
+    this.setDefaultHeader('Authorization', `Bearer ${token}`);
+  }
+
+  clearAuth(): void {
+    this.removeDefaultHeader('Authorization');
+  }
 }
 
 // Create default API client instance
