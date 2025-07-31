@@ -231,4 +231,29 @@ export const apiClient = new ApiClient({
   timeout: 30000,
 });
 
+// Helper functions for common API patterns
+export const createPaginatedRequest = (
+  page: number = 1,
+  limit: number = 20,
+  filters?: FilterOptions
+) => {
+  return {
+    page,
+    limit,
+    ...filters,
+  };
+};
+
+export const handleApiError = (error: unknown): string => {
+  if (error instanceof ApiError) {
+    return error.message;
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'An unexpected error occurred';
+};
+
 export default apiClient;
