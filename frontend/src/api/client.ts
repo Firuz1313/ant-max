@@ -103,27 +103,58 @@ export class ApiClient {
       clearTimeout(timeoutId);
 
       console.log(`📡 Response: ${response.status} ${response.statusText}`);
+      console.log(`📡 Response bodyUsed: ${response.bodyUsed}`);
 
-      // Use arrayBuffer and then convert to avoid body stream issues
-      const buffer = await response.arrayBuffer();
-      const text = new TextDecoder().decode(buffer);
+      // Clone response immediately to avoid any body stream issues
+      let responseClone: Response;
+      try {
+        responseClone = response.clone();
+      } catch (cloneError) {
+        console.warn(`📡 Could not clone response:`, cloneError);
+        responseClone = response;
+      }
 
-      console.log(`📡 Response text length: ${text.length}`);
+      let responseData: any = {};
 
-      let responseData: any;
+      // Try to read response data safely
+      try {
+        // Check if body is still available
+        if (!response.bodyUsed) {
+          const contentType = response.headers.get('content-type');
 
-      // Try to parse as JSON first
-      if (text.trim()) {
-        try {
-          responseData = JSON.parse(text);
-          console.log(`📡 Parsed as JSON:`, responseData);
-        } catch (e) {
-          // If JSON parsing fails, use as text
-          responseData = text;
-          console.log(`📡 Using as text:`, text.substring(0, 100));
+          if (contentType && contentType.includes('application/json')) {
+            responseData = await response.json();
+            console.log(`��� Parsed JSON response:`, responseData);
+          } else {
+            const textData = await response.text();
+            console.log(`📡 Text response length: ${textData.length}`);
+
+            // Try to parse as JSON if it looks like JSON
+            if (textData.trim().startsWith('{') || textData.trim().startsWith('[')) {
+              try {
+                responseData = JSON.parse(textData);
+              } catch (e) {
+                responseData = { message: textData };
+              }
+            } else {
+              responseData = { message: textData };
+            }
+          }
+        } else {
+          console.warn(`📡 Response body already used, using clone`);
+          const textData = await responseClone.text();
+          try {
+            responseData = JSON.parse(textData);
+          } catch (e) {
+            responseData = { message: textData };
+          }
         }
-      } else {
-        responseData = {};
+      } catch (readError) {
+        console.error(`📡 Error reading response body:`, readError);
+        responseData = {
+          message: 'Could not read response body',
+          error: readError.message
+        };
       }
 
       if (!response.ok) {
