@@ -38,25 +38,28 @@ export class ApiClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, any>): string {
-    // Always use relative URLs for proxy to work correctly
+    // Build relative path for proxy to intercept
     const relativePath = `${this.baseUrl}${endpoint}`;
     console.log(`API relative path: ${relativePath} (base: ${this.baseUrl}, endpoint: ${endpoint})`);
 
-    const url = new URL(relativePath, window.location.origin);
-
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          if (Array.isArray(value)) {
-            value.forEach(v => url.searchParams.append(key, String(v)));
-          } else {
-            url.searchParams.append(key, String(value));
-          }
-        }
-      });
+    if (!params || Object.keys(params).length === 0) {
+      console.log(`Final API URL: ${relativePath}`);
+      return relativePath;
     }
 
-    const finalUrl = url.toString();
+    // Add query parameters
+    const searchParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        if (Array.isArray(value)) {
+          value.forEach(v => searchParams.append(key, String(v)));
+        } else {
+          searchParams.append(key, String(value));
+        }
+      }
+    });
+
+    const finalUrl = `${relativePath}?${searchParams.toString()}`;
     console.log(`Final API URL: ${finalUrl}`);
     return finalUrl;
   }
