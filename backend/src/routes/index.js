@@ -44,7 +44,8 @@ router.get('/info', (req, res) => {
         devices: `${API_V1_PREFIX}/devices`,
         problems: `${API_V1_PREFIX}/problems`,
         steps: `${API_V1_PREFIX}/steps`,
-        sessions: `${API_V1_PREFIX}/sessions`
+        sessions: `${API_V1_PREFIX}/sessions`,
+        tvInterfaces: `${API_V1_PREFIX}/tv-interfaces`
       },
       documentation: '/api/docs',
       health: '/api/health'
@@ -76,7 +77,7 @@ router.get('/docs', (req, res) => {
             'POST /devices': 'Создание нового устройства',
             'PUT /devices/:id': 'Обновление устройства',
             'DELETE /devices/:id': 'Удаление устройства',
-            'GET /devices/search': 'Пои��к устройств',
+            'GET /devices/search': 'Поиск устройств',
             'GET /devices/popular': 'Популярные устройства',
             'GET /devices/stats': 'Статистика устройств',
             'GET /devices/export': 'Экспорт устройств',
@@ -95,7 +96,7 @@ router.get('/docs', (req, res) => {
             'DELETE /problems/:id': 'Удаление проблемы',
             'GET /problems/search': 'Поиск проблем',
             'GET /problems/popular': 'Популярные проблемы',
-            'GET /problems/stats': 'Статистика проблем',
+            'GET /problems/stats': 'Статистика про��лем',
             'GET /problems/export': 'Экспорт проблем',
             'GET /problems/device/:deviceId': 'Проблемы по устройству',
             'GET /problems/category/:category': 'Проблемы по категории',
