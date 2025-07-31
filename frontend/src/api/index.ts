@@ -7,9 +7,10 @@ import { devicesApi } from './devices';
 import { problemsApi } from './problems';
 import { stepsApi } from './steps';
 import { sessionsApi } from './sessions';
+import { tvInterfacesAPI } from './tvInterfaces';
 
 // Re-export API services
-export { devicesApi, problemsApi, stepsApi, sessionsApi };
+export { devicesApi, problemsApi, stepsApi, sessionsApi, tvInterfacesAPI };
 
 // Export types for consumers
 export type {
