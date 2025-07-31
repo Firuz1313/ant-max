@@ -105,68 +105,39 @@ export class ApiClient {
         signal: controller.signal,
       });
 
-      console.log(`📡 Fetch completed`);;
-
+      console.log(`📡 Fetch completed with status: ${response.status}`);
       clearTimeout(timeoutId);
 
-      console.log(`📡 Response: ${response.status} ${response.statusText}`);
-      console.log(`📡 Response bodyUsed: ${response.bodyUsed}`);
+      // Ultra-simple approach: read response only once, immediately
+      let responseData: any = null;
+      let responseText = '';
 
-      // Clone response immediately to avoid any body stream issues
-      let responseClone: Response;
       try {
-        responseClone = response.clone();
-      } catch (cloneError) {
-        console.warn(`📡 Could not clone response:`, cloneError);
-        responseClone = response;
+        responseText = await response.text();
+        console.log(`📡 Response text (first 100 chars): ${responseText.substring(0, 100)}`);
+      } catch (textError) {
+        console.error(`📡 Failed to read response text:`, textError);
+        responseText = '';
       }
 
-      let responseData: any = {};
-
-      // Try to read response data safely
-      try {
-        // Check if body is still available
-        if (!response.bodyUsed) {
-          const contentType = response.headers.get('content-type');
-
-          if (contentType && contentType.includes('application/json')) {
-            responseData = await response.json();
-            console.log(`📡 Parsed JSON response:`, responseData);
-          } else {
-            const textData = await response.text();
-            console.log(`📡 Text response length: ${textData.length}`);
-
-            // Try to parse as JSON if it looks like JSON
-            if (textData.trim().startsWith('{') || textData.trim().startsWith('[')) {
-              try {
-                responseData = JSON.parse(textData);
-              } catch (e) {
-                responseData = { message: textData };
-              }
-            } else {
-              responseData = { message: textData };
-            }
-          }
-        } else {
-          console.warn(`📡 Response body already used, using clone`);
-          const textData = await responseClone.text();
-          try {
-            responseData = JSON.parse(textData);
-          } catch (e) {
-            responseData = { message: textData };
-          }
+      // Try to parse JSON if we have text
+      if (responseText.trim()) {
+        try {
+          responseData = JSON.parse(responseText);
+          console.log(`📡 Successfully parsed JSON`);
+        } catch (parseError) {
+          console.log(`📡 Not JSON, using as text`);
+          responseData = { message: responseText };
         }
-      } catch (readError) {
-        console.error(`📡 Error reading response body:`, readError);
-        responseData = {
-          message: 'Could not read response body',
-          error: readError.message
-        };
+      } else {
+        console.log(`📡 Empty response`);
+        responseData = {};
       }
 
+      // Check for HTTP errors AFTER reading the body
       if (!response.ok) {
-        const errorMessage = responseData?.error || responseData?.message || response.statusText;
-        console.error(`📡 HTTP Error ${response.status}:`, errorMessage);
+        const errorMessage = responseData?.error || responseData?.message || `HTTP ${response.status}`;
+        console.error(`📡 HTTP Error ${response.status}: ${errorMessage}`);
         throw new ApiError(
           `HTTP ${response.status}: ${errorMessage}`,
           response.status,
@@ -281,7 +252,7 @@ const getApiBaseUrl = (): string => {
       return proxyUrl;
     }
     
-    // Локальная разработка - прямое подключение к бэкенду
+    // Локальн��я разработка - прямое подключение к бэкенду
     if (hostname === 'localhost' && port === '8080') {
       const directUrl = 'http://localhost:3000/api';
       console.log('🏠 Local development - using direct connection:', directUrl);
