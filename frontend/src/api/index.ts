@@ -106,6 +106,7 @@ export const api = {
   problems: problemsApi,
   steps: stepsApi,
   sessions: sessionsApi,
+  tvInterfaces: tvInterfacesAPI,
   health: checkApiHealth,
   info: getApiInfo,
   docs: getApiDocs,
