@@ -12,20 +12,16 @@ export default defineConfig(({ mode }) => ({
         target: 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
-        ws: true,
-        rewrite: (path) => {
-          console.log('Proxy rewrite:', path);
-          return path;
-        },
-        configure: (proxy, _options) => {
-          proxy.on('error', (err, req, _res) => {
-            console.log('API Proxy error:', err.message, 'for', req.url);
+        ws: false,
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq, req) => {
+            console.log('[PROXY] Request:', req.method, req.url, '→ localhost:3000');
           });
-          proxy.on('proxyReq', (proxyReq, req, _res) => {
-            console.log('API Proxy request:', req.method, req.url, '→', proxyReq.getHeader('host'));
+          proxy.on('proxyRes', (proxyRes, req) => {
+            console.log('[PROXY] Response:', proxyRes.statusCode, 'for', req.url);
           });
-          proxy.on('proxyRes', (proxyRes, req, _res) => {
-            console.log('API Proxy response:', proxyRes.statusCode, 'for', req.url);
+          proxy.on('error', (err, req) => {
+            console.log('[PROXY] Error:', err.message, 'for', req.url);
           });
         },
       },
