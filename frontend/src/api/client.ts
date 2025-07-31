@@ -93,6 +93,7 @@ export class ApiClient {
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
+      console.log(`📡 Sending fetch request to: ${url}`);
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
@@ -100,18 +101,24 @@ export class ApiClient {
       });
 
       clearTimeout(timeoutId);
+      console.log(`📡 Response received: ${response.status} ${response.statusText}`);
+      console.log(`📡 Response headers:`, Object.fromEntries(response.headers.entries()));
 
       // Check response status first, then read body
       let data: any;
       const contentType = response.headers.get('content-type');
+      console.log(`📡 Content-Type: ${contentType}`);
 
       try {
         if (contentType?.includes('application/json')) {
           data = await response.json();
+          console.log(`📡 Parsed JSON data:`, data);
         } else {
           data = await response.text();
+          console.log(`📡 Response text:`, data.substring(0, 200));
         }
       } catch (parseError) {
+        console.error(`📡 Parse error:`, parseError);
         // If we can't parse the response, create a generic error
         if (!response.ok) {
           throw new ApiError(
@@ -123,6 +130,7 @@ export class ApiClient {
       }
 
       if (!response.ok) {
+        console.error(`📡 HTTP Error ${response.status}:`, data);
         throw new ApiError(
           data?.error || data?.message || `HTTP ${response.status}: ${response.statusText}`,
           response.status,
@@ -131,6 +139,7 @@ export class ApiClient {
         );
       }
 
+      console.log(`✅ API call successful:`, data);
       return data;
     } catch (error) {
       clearTimeout(timeoutId);
