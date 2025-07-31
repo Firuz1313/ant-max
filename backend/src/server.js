@@ -35,18 +35,20 @@ const corsOptions = {
       'http://localhost:3000',
       'http://localhost:8080'
     ];
-    
-    // Разрешить запросы без origin (например, мобильные приложения)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
+
+    // В облачной среде разрешаем все origins или те что содержат fly.dev
+    if (NODE_ENV === 'development' || !origin ||
+        origin.includes('fly.dev') ||
+        origin.includes('localhost') ||
+        allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
+      console.log('CORS blocked origin:', origin);
       callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 
