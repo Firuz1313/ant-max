@@ -246,28 +246,32 @@ export class ApiClient {
 
 // Create default API client instance
 const getApiBaseUrl = (): string => {
-  // Проверяем переменную окружения
-  if (import.meta.env.VITE_API_BASE_URL) {
-    console.log('🔧 Using VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
-    return import.meta.env.VITE_API_BASE_URL;
-  }
-
-  // В облачной среде пытаемся использовать относительный путь для прокси
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
+    const port = window.location.port;
 
-    // Если это облачная среда, используем относительный путь
+    console.log('🌐 Current location:', window.location.href);
+
+    // В облачной среде fly.dev/builder.codes
     if (hostname.includes('builder.codes') || hostname.includes('fly.dev')) {
-      const apiUrl = '/api';
-      console.log('🌩️ Cloud environment - using relative API URL for proxy:', apiUrl);
-      return apiUrl;
+      // Сначала пробуем proxy
+      const proxyUrl = '/api';
+      console.log('🌩️ Cloud environment - trying proxy URL:', proxyUrl);
+      return proxyUrl;
+    }
+
+    // Локальная разработка - прямое подключение к бэкенду
+    if (hostname === 'localhost' && port === '8080') {
+      const directUrl = 'http://localhost:3000/api';
+      console.log('🏠 Local development - using direct connection:', directUrl);
+      return directUrl;
     }
   }
 
-  // Fallback
-  const fallbackUrl = '/api';
-  console.log('🔄 Using fallback API URL:', fallbackUrl);
-  return fallbackUrl;
+  // Default fallback
+  const defaultUrl = '/api';
+  console.log('🔄 Using default API URL:', defaultUrl);
+  return defaultUrl;
 };
 
 const API_BASE_URL = getApiBaseUrl();
