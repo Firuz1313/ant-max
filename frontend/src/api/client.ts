@@ -84,7 +84,7 @@ export class ApiClient {
 
     const url = this.buildUrl(endpoint, params);
     console.log(`🚀 Making ${fetchOptions.method || 'GET'} request to: ${url}`);
-    
+
     const headers = {
       ...this.defaultHeaders,
       ...fetchOptions.headers,
@@ -101,23 +101,34 @@ export class ApiClient {
       });
 
       clearTimeout(timeoutId);
-      
+
       console.log(`📡 Response: ${response.status} ${response.statusText}`);
-      const contentType = response.headers.get('content-type');
 
-      // Read response body only once
+      // Use arrayBuffer and then convert to avoid body stream issues
+      const buffer = await response.arrayBuffer();
+      const text = new TextDecoder().decode(buffer);
+
+      console.log(`📡 Response text length: ${text.length}`);
+
       let responseData: any;
-      
-      if (contentType?.includes('application/json')) {
-        responseData = await response.json();
-      } else {
-        responseData = await response.text();
-      }
 
-      console.log(`📡 Response data:`, responseData);
+      // Try to parse as JSON first
+      if (text.trim()) {
+        try {
+          responseData = JSON.parse(text);
+          console.log(`📡 Parsed as JSON:`, responseData);
+        } catch (e) {
+          // If JSON parsing fails, use as text
+          responseData = text;
+          console.log(`📡 Using as text:`, text.substring(0, 100));
+        }
+      } else {
+        responseData = {};
+      }
 
       if (!response.ok) {
         const errorMessage = responseData?.error || responseData?.message || response.statusText;
+        console.error(`📡 HTTP Error ${response.status}:`, errorMessage);
         throw new ApiError(
           `HTTP ${response.status}: ${errorMessage}`,
           response.status,
@@ -125,21 +136,30 @@ export class ApiClient {
         );
       }
 
+      console.log(`✅ API call successful`);
       return responseData;
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       if (error instanceof ApiError) {
         throw error;
       }
-      
+
       if (error instanceof Error) {
+        console.error(`📡 Request Error:`, error.message);
+
         if (error.name === 'AbortError') {
           throw new ApiError('Request timeout', 408);
         }
+
+        // Handle specific body stream errors
+        if (error.message.includes('body stream') || error.message.includes('already read')) {
+          throw new ApiError('Response reading error - please try again', 0);
+        }
+
         throw new ApiError(error.message, 0);
       }
-      
+
       throw new ApiError('Unknown error occurred', 0);
     }
   }
