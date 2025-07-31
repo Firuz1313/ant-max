@@ -114,7 +114,7 @@ router.get('/docs', (req, res) => {
             'GET /steps/:id': 'Получение шага по ID',
             'POST /steps': 'Создание нового шага',
             'PUT /steps/:id': 'Обновление шага',
-            'DELETE /steps/:id': 'Уд��ление шага',
+            'DELETE /steps/:id': 'Удаление шага',
             'GET /steps/search': 'Поиск шагов',
             'GET /steps/problem/:problemId': 'Шаги по проблеме',
             'GET /steps/:id/next': 'Следующий шаг',
@@ -134,7 +134,7 @@ router.get('/docs', (req, res) => {
             'GET /sessions': 'Получение списка сессий',
             'GET /sessions/:id': 'Получение сессии по ID',
             'POST /sessions': 'Создание новой сессии',
-            'PUT /sessions/:id': 'Обновлен��е сессии',
+            'PUT /sessions/:id': 'Обновление сессии',
             'DELETE /sessions/:id': 'Удаление сессии',
             'GET /sessions/active': 'Активные сессии',
             'GET /sessions/stats': 'Статистика сессий',
@@ -153,7 +153,7 @@ router.get('/docs', (req, res) => {
             'GET /tv-interfaces': 'Получение списка интерфейсов ТВ',
             'GET /tv-interfaces/:id': 'Получение интерфейса ТВ по ID',
             'POST /tv-interfaces': 'Создание нового интерфейса ТВ',
-            'PUT /tv-interfaces/:id': 'Обновл��ние интерфейса ТВ',
+            'PUT /tv-interfaces/:id': 'Обновление интерфейса ТВ',
             'DELETE /tv-interfaces/:id': 'Удаление интерфейса ТВ',
             'POST /tv-interfaces/:id/duplicate': 'Дублирование интерфейса ТВ',
             'PATCH /tv-interfaces/:id/toggle': 'Активация/деактивация интерфейса ТВ',
@@ -171,7 +171,7 @@ router.get('/docs', (req, res) => {
         404: 'Not Found - Ресурс не найден',
         409: 'Conflict - Конфликт данных (дубликаты, ограничения)',
         422: 'Unprocessable Entity - Ошибка бизнес-логики',
-        429: 'Too Many Requests - Превышен лимит за��росов',
+        429: 'Too Many Requests - Превышен лимит запросов',
         500: 'Internal Server Error - Внутренняя ошибка сервера',
         503: 'Service Unavailable - Сервис временно недоступен'
       },
@@ -223,7 +223,8 @@ router.use('*', (req, res) => {
       `${API_V1_PREFIX}/devices`,
       `${API_V1_PREFIX}/problems`,
       `${API_V1_PREFIX}/steps`,
-      `${API_V1_PREFIX}/sessions`
+      `${API_V1_PREFIX}/sessions`,
+      `${API_V1_PREFIX}/tv-interfaces`
     ],
     timestamp: new Date().toISOString()
   });
