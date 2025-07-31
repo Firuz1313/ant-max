@@ -3,6 +3,7 @@ import deviceRoutes from './deviceRoutes.js';
 import problemRoutes from './problemRoutes.js';
 import stepRoutes from './stepRoutes.js';
 import sessionRoutes from './sessionRoutes.js';
+import tvInterfaceRoutes from './tvInterfaceRoutes.js';
 
 const router = express.Router();
 
@@ -75,7 +76,7 @@ router.get('/docs', (req, res) => {
             'POST /devices': 'Создание нового устройства',
             'PUT /devices/:id': 'Обновление устройства',
             'DELETE /devices/:id': 'Удаление устройства',
-            'GET /devices/search': 'Поиск устройств',
+            'GET /devices/search': 'Пои��к устройств',
             'GET /devices/popular': 'Популярные устройства',
             'GET /devices/stats': 'Статистика устройств',
             'GET /devices/export': 'Экспорт устройств',
