@@ -36,9 +36,11 @@ const corsOptions = {
       'http://localhost:8080'
     ];
 
-    // В облачной среде разрешаем все origins или те что содержат fly.dev
+    // В облачной среде разрешаем все origins
     if (NODE_ENV === 'development' || !origin ||
         origin.includes('fly.dev') ||
+        origin.includes('builder.codes') ||
+        origin.includes('projects.builder.my') ||
         origin.includes('localhost') ||
         allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
@@ -49,7 +51,8 @@ const corsOptions = {
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  optionsSuccessStatus: 200
 };
 
 // Middleware
