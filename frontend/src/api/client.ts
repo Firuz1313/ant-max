@@ -40,30 +40,33 @@ export class ApiClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, any>): string {
-    // Build relative path for proxy to intercept
-    const relativePath = `${this.baseUrl}${endpoint}`;
-    console.log(`API relative path: ${relativePath} (base: ${this.baseUrl}, endpoint: ${endpoint})`);
+    // Always build relative path for proxy to intercept
+    let relativePath = `${this.baseUrl}${endpoint}`;
 
-    if (!params || Object.keys(params).length === 0) {
-      console.log(`Final API URL: ${relativePath}`);
-      return relativePath;
+    // Ensure it starts with / for relative URL
+    if (!relativePath.startsWith('/')) {
+      relativePath = `/${relativePath}`;
     }
 
-    // Add query parameters
-    const searchParams = new URLSearchParams();
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        if (Array.isArray(value)) {
-          value.forEach(v => searchParams.append(key, String(v)));
-        } else {
-          searchParams.append(key, String(value));
-        }
-      }
-    });
+    console.log(`🔗 Building relative URL: ${relativePath}`);
 
-    const finalUrl = `${relativePath}?${searchParams.toString()}`;
-    console.log(`Final API URL: ${finalUrl}`);
-    return finalUrl;
+    // Add query parameters if present
+    if (params && Object.keys(params).length > 0) {
+      const searchParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (Array.isArray(value)) {
+            value.forEach(v => searchParams.append(key, String(v)));
+          } else {
+            searchParams.append(key, String(value));
+          }
+        }
+      });
+      relativePath = `${relativePath}?${searchParams.toString()}`;
+    }
+
+    console.log(`✅ Final relative URL for proxy: ${relativePath}`);
+    return relativePath;
   }
 
   private async makeRequest<T>(
