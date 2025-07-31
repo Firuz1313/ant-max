@@ -107,7 +107,37 @@ export class ApiClient {
       const contentType = response.headers.get('content-type');
       console.log(`📡 Content-Type: ${contentType}`);
 
-      // Read the response body once
+      // Clone response to avoid body stream issues
+      const responseClone = response.clone();
+
+      // Check status first before reading body
+      if (!response.ok) {
+        console.error(`📡 HTTP Error ${response.status}`);
+
+        // Try to read error details from response
+        let errorData: any = {};
+        try {
+          if (contentType?.includes('application/json')) {
+            errorData = await responseClone.json();
+          } else {
+            const textData = await responseClone.text();
+            errorData = { message: textData };
+          }
+        } catch (parseError) {
+          console.error(`📡 Error parse failed:`, parseError);
+          errorData = { message: response.statusText };
+        }
+
+        const errorMessage = errorData?.error || errorData?.message || response.statusText || 'Unknown error';
+        throw new ApiError(
+          `HTTP ${response.status}: ${errorMessage}`,
+          response.status,
+          errorData,
+          errorData?.errorType
+        );
+      }
+
+      // Read successful response body
       let data: any;
       try {
         if (contentType?.includes('application/json')) {
@@ -122,18 +152,6 @@ export class ApiClient {
         throw new ApiError(
           `Failed to parse response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`,
           response.status
-        );
-      }
-
-      // Check status after reading body
-      if (!response.ok) {
-        console.error(`📡 HTTP Error ${response.status}:`, data);
-        const errorMessage = data?.error || data?.message || response.statusText || 'Unknown error';
-        throw new ApiError(
-          `HTTP ${response.status}: ${errorMessage}`,
-          response.status,
-          data,
-          data?.errorType
         );
       }
 
