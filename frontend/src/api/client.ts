@@ -87,6 +87,7 @@ export class ApiClient {
 
     const url = this.buildUrl(endpoint, params);
     console.log(`🚀 Making ${fetchOptions.method || 'GET'} request to: ${url} (attempt ${retryAttempt + 1}/${this.maxRetries + 1})`);
+
     const headers = {
       ...this.defaultHeaders,
       ...fetchOptions.headers,
@@ -97,6 +98,7 @@ export class ApiClient {
 
     try {
       console.log(`📡 Sending fetch request to: ${url}`);
+
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
@@ -104,55 +106,59 @@ export class ApiClient {
       });
 
       clearTimeout(timeoutId);
-      console.log(`📡 Response received: ${response.status} ${response.statusText}`);
-      console.log(`📡 Response headers:`, Object.fromEntries(response.headers.entries()));
 
+      console.log(`📡 Response received: ${response.status} ${response.statusText}`);
       const contentType = response.headers.get('content-type');
       console.log(`📡 Content-Type: ${contentType}`);
 
-      // Read response body first, then check status
-      let data: any;
-      let responseText = '';
+      // Handle the response based on status and content type
+      let result: any;
 
-      try {
-        // Read the response body once
-        responseText = await response.text();
-        console.log(`📡 Response text received:`, responseText.substring(0, 200));
-
-        // Try to parse as JSON if content-type suggests it
-        if (contentType?.includes('application/json') && responseText.trim()) {
-          try {
-            data = JSON.parse(responseText);
-            console.log(`📡 Parsed JSON data:`, data);
-          } catch (jsonError) {
-            console.warn(`📡 JSON parse failed, using text:`, jsonError);
-            data = { message: responseText };
-          }
-        } else {
-          data = { message: responseText };
-        }
-      } catch (readError) {
-        console.error(`📡 Failed to read response:`, readError);
-        throw new ApiError(
-          `Failed to read response: ${readError instanceof Error ? readError.message : 'Unknown error'}`,
-          response.status
-        );
-      }
-
-      // Check status after reading body
       if (!response.ok) {
-        console.error(`📡 HTTP Error ${response.status}:`, data);
-        const errorMessage = data?.error || data?.message || response.statusText || 'Unknown error';
+        // Handle error responses
+        let errorText = '';
+        try {
+          errorText = await response.text();
+        } catch (e) {
+          errorText = response.statusText;
+        }
+
+        let errorData: any = { message: errorText };
+        if (contentType?.includes('application/json') && errorText.trim()) {
+          try {
+            errorData = JSON.parse(errorText);
+          } catch (e) {
+            // Keep errorData as is
+          }
+        }
+
+        console.error(`📡 HTTP Error ${response.status}:`, errorData);
+        const errorMessage = errorData?.error || errorData?.message || response.statusText || 'Unknown error';
+
         throw new ApiError(
           `HTTP ${response.status}: ${errorMessage}`,
           response.status,
-          data,
-          data?.errorType
+          errorData,
+          errorData?.errorType
         );
       }
 
-      console.log(`✅ API call successful:`, data);
-      return data;
+      // Handle successful responses
+      if (contentType?.includes('application/json')) {
+        try {
+          result = await response.json();
+          console.log(`📡 Parsed JSON data:`, result);
+        } catch (e) {
+          console.warn(`📡 Failed to parse JSON, reading as text`);
+          result = await response.text();
+        }
+      } else {
+        result = await response.text();
+        console.log(`📡 Response text:`, result.substring(0, 200));
+      }
+
+      console.log(`✅ API call successful`);
+      return result;
     } catch (error) {
       clearTimeout(timeoutId);
 
