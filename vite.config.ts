@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: process.env.NODE_ENV === 'production' ? 'http://127.0.0.1:3000' : 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
         ws: true,
