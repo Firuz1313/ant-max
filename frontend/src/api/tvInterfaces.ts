@@ -100,8 +100,8 @@ export const tvInterfacesAPI = {
       }
     });
 
-    const response = await apiClient.get(`/tv-interfaces?${params.toString()}`);
-    return response.data;
+    const response = await apiClient.get(`/v1/tv-interfaces?${params.toString()}`);
+    return response;
   },
 
   // Получение интерфейса ТВ по ID
