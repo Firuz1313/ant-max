@@ -10,6 +10,15 @@ window.addEventListener('error', (e) => {
   }
 });
 
+// Suppress React Router future flag warnings
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  if (args[0]?.includes?.('React Router Future Flag Warning')) {
+    return;
+  }
+  originalWarn.apply(console, args);
+};
+
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
