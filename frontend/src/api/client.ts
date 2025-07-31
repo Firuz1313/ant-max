@@ -74,8 +74,9 @@ export class ApiClient {
     options: RequestOptions = {}
   ): Promise<T> {
     const { params, timeout = this.timeout, ...fetchOptions } = options;
-    
+
     const url = this.buildUrl(endpoint, params);
+    console.log(`🚀 Making ${fetchOptions.method || 'GET'} request to: ${url}`);
     const headers = {
       ...this.defaultHeaders,
       ...fetchOptions.headers,
