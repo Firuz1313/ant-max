@@ -81,7 +81,7 @@ const TVInterfaceBuilder = () => {
   const [selectedInterface, setSelectedInterface] = useState<TVInterfaceAPI | null>(null);
   const [selectedElement, setSelectedElement] = useState<InterfaceElement | null>(null);
   
-  // Состояние диалогов
+  // Состояние диало��ов
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isEditorDialogOpen, setIsEditorDialogOpen] = useState(false);
@@ -275,7 +275,8 @@ const TVInterfaceBuilder = () => {
       const dataToSend = {
         ...formData,
         device_id: formData.device_id === "universal" ? undefined : formData.device_id,
-        screenshot_data: (previewImageUrl && imageSize < maxSize) ? previewImageUrl : undefined,
+        // Temporarily disable image upload to test API connectivity
+        screenshot_data: undefined,
       };
 
       console.log('Creating TV interface with data:', {
@@ -1149,7 +1150,7 @@ const TVInterfaceBuilder = () => {
                       <ImageIcon className="h-4 w-4 mr-2" />
                       {previewImageUrl
                         ? "Изменить изображение"
-                        : "Загр��зить изображение"}
+                        : "Загрузить изображение"}
                     </Button>
                   </div>
                   {previewImageUrl && (
@@ -1358,7 +1359,7 @@ const TVInterfaceBuilder = () => {
                         <DropdownMenuItem
                           onClick={() => handleToggleStatus(iface.id)}
                         >
-                          {iface.is_active ? "Деактивировать" : "Активировать"}
+                          {iface.is_active ? "Деактиви��овать" : "Активировать"}
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <Download className="h-4 w-4 mr-2" />
