@@ -91,18 +91,30 @@ export class ApiClient {
 
       clearTimeout(timeoutId);
 
+      // Check response status first, then read body
       let data: any;
       const contentType = response.headers.get('content-type');
-      
-      if (contentType?.includes('application/json')) {
-        data = await response.json();
-      } else {
-        data = await response.text();
+
+      try {
+        if (contentType?.includes('application/json')) {
+          data = await response.json();
+        } else {
+          data = await response.text();
+        }
+      } catch (parseError) {
+        // If we can't parse the response, create a generic error
+        if (!response.ok) {
+          throw new ApiError(
+            `HTTP ${response.status}: ${response.statusText}`,
+            response.status
+          );
+        }
+        throw new ApiError('Failed to parse response', response.status);
       }
 
       if (!response.ok) {
         throw new ApiError(
-          data?.error || data?.message || `HTTP ${response.status}`,
+          data?.error || data?.message || `HTTP ${response.status}: ${response.statusText}`,
           response.status,
           data,
           data?.errorType
