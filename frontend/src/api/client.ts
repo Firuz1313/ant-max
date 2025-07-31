@@ -180,12 +180,34 @@ export class ApiClient {
 }
 
 // Create default API client instance
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ||
-  (typeof window !== 'undefined' && window.location.origin.includes('localhost')
-    ? 'http://localhost:3000/api'
-    : '/api');
+const getApiBaseUrl = (): string => {
+  // Если есть переменная окружения, используем её
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  // Если в браузере
+  if (typeof window !== 'undefined') {
+    const { protocol, hostname, port } = window.location;
+
+    // Локальная разработка
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:3000/api';
+    }
+
+    // Облачная среда - используем относительный путь
+    return '/api';
+  }
+
+  // Fallback
+  return '/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 console.log('API Base URL:', API_BASE_URL);
+console.log('Current environment:', import.meta.env.MODE);
+console.log('Window location:', typeof window !== 'undefined' ? window.location.href : 'N/A');
 
 export const apiClient = new ApiClient({
   baseUrl: API_BASE_URL,
