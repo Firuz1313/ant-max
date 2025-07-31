@@ -224,9 +224,12 @@ const API_BASE_URL = getApiBaseUrl();
 
 console.log('=== API Configuration ===');
 console.log('API Base URL:', API_BASE_URL);
+console.log('API Base URL type:', typeof API_BASE_URL);
+console.log('API Base URL length:', API_BASE_URL.length);
 console.log('Environment:', import.meta.env.MODE);
 console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 console.log('Window location:', typeof window !== 'undefined' ? window.location.href : 'N/A');
+console.log('Window origin:', typeof window !== 'undefined' ? window.location.origin : 'N/A');
 console.log('========================');
 
 export const apiClient = new ApiClient({
