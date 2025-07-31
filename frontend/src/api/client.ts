@@ -141,19 +141,25 @@ export class ApiClient {
       return data;
     } catch (error) {
       clearTimeout(timeoutId);
-      
+
       if (error instanceof ApiError) {
+        console.error(`📡 API Error ${error.status}:`, error.message);
         throw error;
       }
-      
+
       if (error instanceof Error) {
+        console.error(`📡 Request Error:`, error.message);
         if (error.name === 'AbortError') {
           throw new ApiError('Request timeout', 408);
         }
-        throw new ApiError(error.message, 0);
+        if (error.message.includes('Failed to fetch')) {
+          throw new ApiError('Network error - could not connect to server', 0, error);
+        }
+        throw new ApiError(error.message, 0, error);
       }
-      
-      throw new ApiError('Unknown error occurred', 0);
+
+      console.error(`📡 Unknown Error:`, error);
+      throw new ApiError('Unknown error occurred', 0, error);
     }
   }
 
@@ -228,7 +234,7 @@ const getApiBaseUrl = (): string => {
     return import.meta.env.VITE_API_BASE_URL;
   }
 
-  // В облачной среде пытаемся использовать относительный пут�� для прокси
+  // В облачной среде пытаемся использовать относительный путь для прокси
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
 
