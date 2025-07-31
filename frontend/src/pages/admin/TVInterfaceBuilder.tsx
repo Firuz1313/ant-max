@@ -230,9 +230,37 @@ const TVInterfaceBuilder = () => {
     const file = event.target.files?.[0];
     if (file) {
       setCurrentImageFile(file);
+
+      // Compress image to reduce payload size
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        // Calculate new dimensions to keep under reasonable size
+        const maxWidth = 1200;
+        const maxHeight = 800;
+        let { width, height } = img;
+
+        if (width > maxWidth || height > maxHeight) {
+          const ratio = Math.min(maxWidth / width, maxHeight / height);
+          width *= ratio;
+          height *= ratio;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        // Convert to base64 with compression
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        setPreviewImageUrl(compressedDataUrl);
+      };
+
       const reader = new FileReader();
       reader.onload = (e) => {
-        setPreviewImageUrl(e.target?.result as string);
+        img.src = e.target?.result as string;
       };
       reader.readAsDataURL(file);
     }
