@@ -177,10 +177,20 @@ const TVInterfaceBuilder = () => {
     try {
       setLoading(true);
       console.log('Loading TV interfaces...');
+      console.log('API Base URL being used:', import.meta.env.VITE_API_BASE_URL || 'default');
+
+      // Добавляем простую проверку доступности API
+      try {
+        const testResponse = await fetch('/api/health');
+        console.log('API health check:', testResponse.status, testResponse.statusText);
+      } catch (healthError) {
+        console.warn('API health check failed:', healthError);
+      }
+
       const response = await tvInterfacesAPI.getAll({ limit: 100 });
       console.log('TV interfaces response:', response);
 
-      if (response.success && response.data) {
+      if (response && response.success && response.data) {
         setTVInterfaces(response.data);
         console.log('Successfully loaded', response.data.length, 'TV interfaces');
       } else {
@@ -190,8 +200,13 @@ const TVInterfaceBuilder = () => {
     } catch (error) {
       console.error("Error loading TV interfaces:", error);
       console.error("Error details:", error instanceof Error ? error.message : String(error));
-      // Показываем пустой список вместо зависания
+      console.error("Error stack:", error instanceof Error ? error.stack : 'N/A');
+
+      // Fallback - создаем пустой массив чтобы интерфейс работал
       setTVInterfaces([]);
+
+      // Показываем уведомление пользователю
+      alert('Не удалось загрузить интерфейсы ТВ. Проверьте подключение к серверу.');
     } finally {
       setLoading(false);
     }
@@ -210,7 +225,7 @@ const TVInterfaceBuilder = () => {
     return matchesSearch && matchesType && matchesDevice;
   });
 
-  // Обработчики событий
+  // Об��аботчики событий
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -690,7 +705,7 @@ const TVInterfaceBuilder = () => {
                   <AlertDescription>
                     <div className="space-y-3">
                       <p className="text-sm">
-                        Кликните на изображение для создания {elementCreationType === 'clickable' ? 'интеракти��ной области' : 'области подсветки'}
+                        Кликните на изображение для создания {elementCreationType === 'clickable' ? 'интерактивной области' : 'области подсветки'}
                       </p>
                       <div>
                         <Label htmlFor="element-name">Название</Label>
@@ -968,7 +983,7 @@ const TVInterfaceBuilder = () => {
             Конструктор интерфейса ТВ
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
+            ����здание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
           </p>
         </div>
         <div className="flex space-x-2">
@@ -1471,7 +1486,7 @@ const TVInterfaceBuilder = () => {
           <CardContent className="p-12 text-center">
             <Monitor className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              Интерфейс�� не найдены
+              Интерфейсы не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               Попробуйте изменить фильтры поиска или создайте новый интерфейс.
