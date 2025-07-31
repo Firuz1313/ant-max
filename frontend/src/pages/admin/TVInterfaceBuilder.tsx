@@ -141,7 +141,7 @@ const TVInterfaceBuilder = () => {
     { value: "none", label: "Без анимации" },
     { value: "pulse", label: "Пульсация" },
     { value: "glow", label: "Свечение" },
-    { value: "blink", label: "Мига��и��" },
+    { value: "blink", label: "Мига��ие" },
   ];
 
   const actionTypes = [
@@ -278,13 +278,30 @@ const TVInterfaceBuilder = () => {
 
   const handleCreate = async () => {
     try {
+      // Validate required fields
+      if (!formData.name || formData.name.trim().length === 0) {
+        alert('Название интерфейса обязательно');
+        return;
+      }
+
+      if (!formData.type) {
+        alert('Тип интерфейса обязателен');
+        return;
+      }
+
       // Check image size to prevent 413 errors
       const imageSize = previewImageUrl ? previewImageUrl.length : 0;
       const maxSize = 1024 * 1024; // 1MB limit
 
       const dataToSend = {
         ...formData,
+        name: formData.name.trim(),
+        description: formData.description?.trim() || '',
         device_id: formData.device_id === "universal" ? undefined : formData.device_id,
+        clickable_areas: [],
+        highlight_areas: [],
+        responsive: formData.responsive || false,
+        is_active: true,
         // Temporarily disable image upload to test API connectivity
         screenshot_data: undefined,
       };
@@ -363,7 +380,7 @@ const TVInterfaceBuilder = () => {
       }
     } catch (error) {
       console.error("Error deleting TV interface:", error);
-      alert("Ошибка при удалении интерфейса");
+      alert("Оши��ка при удалении интерфейса");
     }
   };
 
@@ -1484,7 +1501,7 @@ const TVInterfaceBuilder = () => {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Выберите приставку" />
+                  <SelectValue placeholder="Выбери��е приставку" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="universal">Универсальный</SelectItem>
@@ -1563,7 +1580,7 @@ const TVInterfaceBuilder = () => {
               Интерфейсы не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Попробуйте изменить фильтры поиска или ��оздайте новый интерфейс.
+              Попробуйте изменить фильтры поиска или создайте новый интерфейс.
             </p>
           </CardContent>
         </Card>
