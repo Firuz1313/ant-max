@@ -179,7 +179,7 @@ const TVInterfaceBuilder = () => {
       console.log('Loading TV interfaces...');
       console.log('API Base URL being used:', import.meta.env.VITE_API_BASE_URL || 'default');
 
-      // Добавляем простую проверку доступности API
+      // Доб��вляем простую проверку доступности API
       try {
         const testResponse = await fetch('/api/health');
         console.log('API health check:', testResponse.status, testResponse.statusText);
@@ -206,7 +206,7 @@ const TVInterfaceBuilder = () => {
       setTVInterfaces([]);
 
       // Показываем уведомление пользователю
-      alert('Не удалось загрузить интерфейсы ТВ. Проверьте подключение к серверу.');
+      alert('Не удалось загрузить интерфейсы ТВ. Прове��ьте подключение к серверу.');
     } finally {
       setLoading(false);
     }
@@ -279,16 +279,20 @@ const TVInterfaceBuilder = () => {
         screenshot_data: undefined,
       };
 
-      console.log('Creating TV interface with data:', {
+      console.log('🚀 Creating TV interface with data:', {
         ...dataToSend,
         screenshot_data: dataToSend.screenshot_data ? `[${Math.round(imageSize/1024)}KB image]` : undefined,
       });
+
+      console.log('📊 JSON size:', JSON.stringify(dataToSend).length, 'bytes');
 
       if (previewImageUrl && imageSize >= maxSize) {
         console.warn('Image too large, skipping upload. Size:', Math.round(imageSize/1024), 'KB');
       }
 
+      console.log('🔄 Calling tvInterfacesAPI.create...');
       const newInterface = await tvInterfacesAPI.create(dataToSend);
+      console.log('🎉 tvInterfacesAPI.create completed successfully');
 
       console.log('TV interface creation response:', newInterface);
 
