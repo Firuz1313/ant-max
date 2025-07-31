@@ -59,6 +59,16 @@ export type {
   CleanupResult,
 } from './sessions';
 
+export type {
+  TVInterfaceAPI,
+  ClickableArea,
+  HighlightArea,
+  CreateTVInterfaceData,
+  UpdateTVInterfaceData,
+  TVInterfaceFilters,
+  TVInterfaceExportData,
+} from './tvInterfaces';
+
 // API Health check
 export const checkApiHealth = async (): Promise<boolean> => {
   try {
