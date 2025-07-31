@@ -174,7 +174,7 @@ class TVInterfaceController {
         if (!device) {
           return res.status(400).json({
             success: false,
-            error: 'Указанное устройство не найдено',
+            error: 'Указанное устройство не н��йдено',
             timestamp: new Date().toISOString()
           });
         }
@@ -289,7 +289,7 @@ class TVInterfaceController {
       });
 
     } catch (error) {
-      console.error('Ошибка удаления интерфейса ТВ:', error);
+      console.error('Ошибка удаления интерфейса ��В:', error);
       res.status(500).json({
         success: false,
         error: 'Внутренняя ошибка сервера',
@@ -486,4 +486,4 @@ class TVInterfaceController {
   }
 }
 
-module.exports = TVInterfaceController;
+export default TVInterfaceController;
