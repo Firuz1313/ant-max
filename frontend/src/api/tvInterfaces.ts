@@ -106,62 +106,62 @@ export const tvInterfacesAPI = {
 
   // Получение интерфейса ТВ по ID
   async getById(id: string): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.get(`/tv-interfaces/${id}`);
-    return response.data;
+    const response = await apiClient.get(`/v1/tv-interfaces/${id}`);
+    return response;
   },
 
   // Создание нового интерфейса ТВ
   async create(data: CreateTVInterfaceData): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.post('/tv-interfaces', data);
-    return response.data;
+    const response = await apiClient.post('/v1/tv-interfaces', data);
+    return response;
   },
 
   // Обновление интерфейса ТВ
   async update(id: string, data: UpdateTVInterfaceData): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.put(`/tv-interfaces/${id}`, data);
-    return response.data;
+    const response = await apiClient.put(`/v1/tv-interfaces/${id}`, data);
+    return response;
   },
 
   // Удаление интерфейса ТВ
   async delete(id: string): Promise<APIResponse<void>> {
-    const response = await apiClient.delete(`/tv-interfaces/${id}`);
-    return response.data;
+    const response = await apiClient.delete(`/v1/tv-interfaces/${id}`);
+    return response;
   },
 
   // Дублирование интерфейса ТВ
   async duplicate(id: string, name?: string): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.post(`/tv-interfaces/${id}/duplicate`, { name });
-    return response.data;
+    const response = await apiClient.post(`/v1/tv-interfaces/${id}/duplicate`, { name });
+    return response;
   },
 
   // Активация/деактивация интерфейса ТВ
   async toggleStatus(id: string): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.patch(`/tv-interfaces/${id}/toggle`);
-    return response.data;
+    const response = await apiClient.patch(`/v1/tv-interfaces/${id}/toggle`);
+    return response;
   },
 
   // Получение интерфейсов по устройству
   async getByDevice(deviceId: string): Promise<APIResponse<TVInterfaceAPI[]>> {
-    const response = await apiClient.get(`/tv-interfaces/device/${deviceId}`);
-    return response.data;
+    const response = await apiClient.get(`/v1/tv-interfaces/device/${deviceId}`);
+    return response;
   },
 
   // Получение интерфейсов по типу
   async getByType(type: TVInterfaceAPI['type']): Promise<APIResponse<TVInterfaceAPI[]>> {
-    const response = await apiClient.get(`/tv-interfaces/type/${type}`);
-    return response.data;
+    const response = await apiClient.get(`/v1/tv-interfaces/type/${type}`);
+    return response;
   },
 
   // Экспорт интерфейса в JSON
   async export(id: string): Promise<TVInterfaceExportData> {
-    const response = await apiClient.get(`/tv-interfaces/${id}/export`);
-    return response.data;
+    const response = await apiClient.get(`/v1/tv-interfaces/${id}/export`);
+    return response;
   },
 
   // Импорт интерфейса из JSON
   async import(data: TVInterfaceExportData): Promise<APIResponse<TVInterfaceAPI>> {
-    const response = await apiClient.post('/tv-interfaces/import', data);
-    return response.data;
+    const response = await apiClient.post('/v1/tv-interfaces/import', data);
+    return response;
   },
 
   // Поиск интерфейсов
