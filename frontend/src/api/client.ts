@@ -1,5 +1,7 @@
 import { APIResponse, PaginatedResponse, FilterOptions } from '../types';
 
+// Force recompilation - 2025-01-30
+
 export interface ApiClientConfig {
   baseUrl: string;
   timeout?: number;
