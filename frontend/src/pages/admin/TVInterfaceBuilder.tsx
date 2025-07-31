@@ -56,36 +56,43 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Slider } from "@/components/ui/slider";
 import { useData } from "@/contexts/DataContext";
-import { tvInterfacesAPI, TVInterfaceAPI, ClickableArea, HighlightArea } from "@/api/tvInterfaces";
+import {
+  tvInterfacesAPI,
+  TVInterfaceAPI,
+  ClickableArea,
+  HighlightArea,
+} from "@/api/tvInterfaces";
 
 // Интерфейсы для элементов
 interface TVInterfaceElement extends ClickableArea {
-  type: 'clickable';
+  type: "clickable";
 }
 
 interface TVInterfaceHighlight extends HighlightArea {
-  type: 'highlight';
+  type: "highlight";
 }
 
 type InterfaceElement = TVInterfaceElement | TVInterfaceHighlight;
 
 const TVInterfaceBuilder = () => {
   const { getActiveDevices, getDeviceById } = useData();
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Состояние компонента
   const [tvInterfaces, setTVInterfaces] = useState<TVInterfaceAPI[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedInterface, setSelectedInterface] = useState<TVInterfaceAPI | null>(null);
-  const [selectedElement, setSelectedElement] = useState<InterfaceElement | null>(null);
-  
+  const [selectedInterface, setSelectedInterface] =
+    useState<TVInterfaceAPI | null>(null);
+  const [selectedElement, setSelectedElement] =
+    useState<InterfaceElement | null>(null);
+
   // Состояние диало��ов
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isEditorDialogOpen, setIsEditorDialogOpen] = useState(false);
-  
+
   // Состояние фильтров
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
@@ -94,17 +101,22 @@ const TVInterfaceBuilder = () => {
   // Состояние редактора
   const [isEditingMode, setIsEditingMode] = useState(false);
   const [isCreatingElement, setIsCreatingElement] = useState(false);
-  const [elementCreationType, setElementCreationType] = useState<'clickable' | 'highlight'>('clickable');
+  const [elementCreationType, setElementCreationType] = useState<
+    "clickable" | "highlight"
+  >("clickable");
   const [currentImageFile, setCurrentImageFile] = useState<File | null>(null);
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null);
   const [isPickingMode, setIsPickingMode] = useState(false);
-  const [cursorPosition, setCursorPosition] = useState<{ x: number; y: number } | null>(null);
+  const [cursorPosition, setCursorPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   // Данные форм
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    type: "custom" as TVInterfaceAPI['type'],
+    type: "custom" as TVInterfaceAPI["type"],
     device_id: "",
     responsive: false,
   });
@@ -112,10 +124,10 @@ const TVInterfaceBuilder = () => {
   const [elementFormData, setElementFormData] = useState({
     name: "",
     action: "",
-    shape: "rectangle" as ClickableArea['shape'],
+    shape: "rectangle" as ClickableArea["shape"],
     color: "#3b82f6",
     opacity: 0.7,
-    animation: "none" as HighlightArea['animation'],
+    animation: "none" as HighlightArea["animation"],
   });
 
   const devices = getActiveDevices();
@@ -176,47 +188,69 @@ const TVInterfaceBuilder = () => {
   const loadTVInterfaces = async () => {
     try {
       setLoading(true);
-      console.log('🔄 Loading TV interfaces...');
-      console.log('🔧 API Base URL being used:', import.meta.env.VITE_API_BASE_URL || 'default');
+      console.log("🔄 Loading TV interfaces...");
+      console.log(
+        "🔧 API Base URL being used:",
+        import.meta.env.VITE_API_BASE_URL || "default",
+      );
 
       // Проверяем доступность API
-      console.log('🏥 Checking API health...');
+      console.log("🏥 Checking API health...");
       try {
-        const healthUrl = '/api/health';
-        console.log('🏥 Health check URL:', healthUrl);
+        const healthUrl = "/api/health";
+        console.log("🏥 Health check URL:", healthUrl);
         const testResponse = await fetch(healthUrl);
-        console.log('🏥 API health check result:', testResponse.status, testResponse.statusText);
+        console.log(
+          "🏥 API health check result:",
+          testResponse.status,
+          testResponse.statusText,
+        );
 
         if (!testResponse.ok) {
-          console.warn('⚠️ API health check failed with status:', testResponse.status);
+          console.warn(
+            "⚠️ API health check failed with status:",
+            testResponse.status,
+          );
         } else {
-          console.log('✅ API health check successful');
+          console.log("✅ API health check successful");
         }
       } catch (healthError) {
-        console.error('❌ API health check failed:', healthError);
+        console.error("❌ API health check failed:", healthError);
       }
 
-      console.log('📋 Fetching TV interfaces list...');
+      console.log("📋 Fetching TV interfaces list...");
       const response = await tvInterfacesAPI.getAll({ limit: 100 });
-      console.log('📋 TV interfaces response:', response);
+      console.log("📋 TV interfaces response:", response);
 
       if (response && response.success && response.data) {
         setTVInterfaces(response.data);
-        console.log('Successfully loaded', response.data.length, 'TV interfaces');
+        console.log(
+          "Successfully loaded",
+          response.data.length,
+          "TV interfaces",
+        );
       } else {
-        console.warn('Invalid response format:', response);
+        console.warn("Invalid response format:", response);
         setTVInterfaces([]);
       }
     } catch (error) {
       console.error("Error loading TV interfaces:", error);
-      console.error("Error details:", error instanceof Error ? error.message : String(error));
-      console.error("Error stack:", error instanceof Error ? error.stack : 'N/A');
+      console.error(
+        "Error details:",
+        error instanceof Error ? error.message : String(error),
+      );
+      console.error(
+        "Error stack:",
+        error instanceof Error ? error.stack : "N/A",
+      );
 
       // Fallback - создаем пустой массив чтобы ��нтерфейс работа��
       setTVInterfaces([]);
 
       // Показываем уведомление пользователю
-      alert('Не удалось загрузить интерфейсы ТВ. Проверьте подключение к серверу.');
+      alert(
+        "Не удалось загрузить интерфейсы ТВ. Проверьте подключение к серверу.",
+      );
     } finally {
       setLoading(false);
     }
@@ -228,8 +262,8 @@ const TVInterfaceBuilder = () => {
       iface.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       iface.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = filterType === "all" || iface.type === filterType;
-    const matchesDevice = 
-      filterDevice === "all" || 
+    const matchesDevice =
+      filterDevice === "all" ||
       iface.device_id === filterDevice ||
       (filterDevice === "universal" && !iface.device_id);
     return matchesSearch && matchesType && matchesDevice;
@@ -242,8 +276,8 @@ const TVInterfaceBuilder = () => {
       setCurrentImageFile(file);
 
       // Compress image to reduce payload size
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
       const img = new Image();
 
       img.onload = () => {
@@ -264,7 +298,7 @@ const TVInterfaceBuilder = () => {
         ctx?.drawImage(img, 0, 0, width, height);
 
         // Convert to base64 with compression
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.7);
         setPreviewImageUrl(compressedDataUrl);
       };
 
@@ -280,12 +314,12 @@ const TVInterfaceBuilder = () => {
     try {
       // Validate required fields
       if (!formData.name || formData.name.trim().length === 0) {
-        alert('Название интерфейса обязательно');
+        alert("Название интерфейса обязательно");
         return;
       }
 
       if (!formData.type) {
-        alert('Тип интерфейса обязателен');
+        alert("Тип интерфейса обязателен");
         return;
       }
 
@@ -296,8 +330,9 @@ const TVInterfaceBuilder = () => {
       const dataToSend = {
         ...formData,
         name: formData.name.trim(),
-        description: formData.description?.trim() || '',
-        device_id: formData.device_id === "universal" ? undefined : formData.device_id,
+        description: formData.description?.trim() || "",
+        device_id:
+          formData.device_id === "universal" ? undefined : formData.device_id,
         clickable_areas: [],
         highlight_areas: [],
         responsive: formData.responsive || false,
@@ -306,39 +341,45 @@ const TVInterfaceBuilder = () => {
         screenshot_data: undefined,
       };
 
-      console.log('🚀 Creating TV interface with data:', {
+      console.log("🚀 Creating TV interface with data:", {
         ...dataToSend,
-        screenshot_data: dataToSend.screenshot_data ? `[${Math.round(imageSize/1024)}KB image]` : undefined,
+        screenshot_data: dataToSend.screenshot_data
+          ? `[${Math.round(imageSize / 1024)}KB image]`
+          : undefined,
       });
 
-      console.log('📊 JSON size:', JSON.stringify(dataToSend).length, 'bytes');
+      console.log("📊 JSON size:", JSON.stringify(dataToSend).length, "bytes");
 
       if (previewImageUrl && imageSize >= maxSize) {
-        console.warn('Image too large, skipping upload. Size:', Math.round(imageSize/1024), 'KB');
+        console.warn(
+          "Image too large, skipping upload. Size:",
+          Math.round(imageSize / 1024),
+          "KB",
+        );
       }
 
       // Quick connectivity test
-      console.log('🔍 Testing direct connectivity first...');
+      console.log("🔍 Testing direct connectivity first...");
       try {
-        const testResponse = await fetch('http://localhost:3000/health');
-        console.log('🔍 Direct health check result:', testResponse.status);
+        const testResponse = await fetch("http://localhost:3000/health");
+        console.log("🔍 Direct health check result:", testResponse.status);
       } catch (healthError) {
-        console.error('🔍 Direct health check failed:', healthError);
+        console.error("🔍 Direct health check failed:", healthError);
       }
 
-      console.log('🔄 Calling tvInterfacesAPI.create...');
+      console.log("🔄 Calling tvInterfacesAPI.create...");
       const newInterface = await tvInterfacesAPI.create(dataToSend);
-      console.log('🎉 tvInterfacesAPI.create completed successfully');
+      console.log("🎉 tvInterfacesAPI.create completed successfully");
 
-      console.log('TV interface creation response:', newInterface);
+      console.log("TV interface creation response:", newInterface);
 
       if (newInterface.success && newInterface.data) {
-        setTVInterfaces(prev => [...prev, newInterface.data!]);
+        setTVInterfaces((prev) => [...prev, newInterface.data!]);
         setIsCreateDialogOpen(false);
         resetForm();
-        console.log('TV interface created successfully');
+        console.log("TV interface created successfully");
       } else {
-        console.error('Invalid response from create API:', newInterface);
+        console.error("Invalid response from create API:", newInterface);
       }
     } catch (error) {
       console.error("Error creating TV interface:", error);
@@ -360,17 +401,21 @@ const TVInterfaceBuilder = () => {
     if (!selectedInterface) return;
 
     try {
-      const updatedInterface = await tvInterfacesAPI.update(selectedInterface.id, {
-        ...formData,
-        device_id: formData.device_id === "universal" ? undefined : formData.device_id,
-        screenshot_data: previewImageUrl || selectedInterface.screenshot_data,
-      });
+      const updatedInterface = await tvInterfacesAPI.update(
+        selectedInterface.id,
+        {
+          ...formData,
+          device_id:
+            formData.device_id === "universal" ? undefined : formData.device_id,
+          screenshot_data: previewImageUrl || selectedInterface.screenshot_data,
+        },
+      );
 
       if (updatedInterface.success && updatedInterface.data) {
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === selectedInterface.id ? updatedInterface.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === selectedInterface.id ? updatedInterface.data! : iface,
+          ),
         );
         setIsEditDialogOpen(false);
         setSelectedInterface(null);
@@ -385,7 +430,9 @@ const TVInterfaceBuilder = () => {
     try {
       const result = await tvInterfacesAPI.delete(interfaceId);
       if (result.success) {
-        setTVInterfaces(prev => prev.filter(iface => iface.id !== interfaceId));
+        setTVInterfaces((prev) =>
+          prev.filter((iface) => iface.id !== interfaceId),
+        );
       }
     } catch (error) {
       console.error("Error deleting TV interface:", error);
@@ -397,10 +444,10 @@ const TVInterfaceBuilder = () => {
     try {
       const result = await tvInterfacesAPI.toggleStatus(interfaceId);
       if (result.success && result.data) {
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === interfaceId ? result.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === interfaceId ? result.data! : iface,
+          ),
         );
       }
     } catch (error) {
@@ -410,9 +457,12 @@ const TVInterfaceBuilder = () => {
 
   const handleDuplicate = async (iface: TVInterfaceAPI) => {
     try {
-      const result = await tvInterfacesAPI.duplicate(iface.id, `${iface.name} (копия)`);
+      const result = await tvInterfacesAPI.duplicate(
+        iface.id,
+        `${iface.name} (копия)`,
+      );
       if (result.success && result.data) {
-        setTVInterfaces(prev => [...prev, result.data!]);
+        setTVInterfaces((prev) => [...prev, result.data!]);
       }
     } catch (error) {
       console.error("Error duplicating TV interface:", error);
@@ -420,7 +470,9 @@ const TVInterfaceBuilder = () => {
   };
 
   // Обработчики редактора
-  const handleCanvasMouseMove = (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasMouseMove = (
+    event: React.MouseEvent<HTMLCanvasElement>,
+  ) => {
     if (!canvasRef.current) return;
 
     const canvas = canvasRef.current;
@@ -434,7 +486,9 @@ const TVInterfaceBuilder = () => {
     setCursorPosition({ x, y });
   };
 
-  const handleCanvasClick = async (event: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasClick = async (
+    event: React.MouseEvent<HTMLCanvasElement>,
+  ) => {
     if (!isCreatingElement || !canvasRef.current || !selectedInterface) return;
 
     const canvas = canvasRef.current;
@@ -445,42 +499,53 @@ const TVInterfaceBuilder = () => {
     const x = (event.clientX - rect.left) * scaleX;
     const y = (event.clientY - rect.top) * scaleY;
 
-    const newElement: ClickableArea | HighlightArea = elementCreationType === 'clickable' 
-      ? {
-          id: `clickable_${Date.now()}`,
-          name: elementFormData.name || "Новая область",
-          position: { x, y },
-          size: { width: 100, height: 50 },
-          shape: elementFormData.shape,
-          action: elementFormData.action || "click",
-        }
-      : {
-          id: `highlight_${Date.now()}`,
-          name: elementFormData.name || "Область подсветки",
-          position: { x, y },
-          size: { width: 100, height: 50 },
-          color: elementFormData.color,
-          opacity: elementFormData.opacity,
-          animation: elementFormData.animation,
-        };
-
-    try {
-      const updateData = elementCreationType === 'clickable'
+    const newElement: ClickableArea | HighlightArea =
+      elementCreationType === "clickable"
         ? {
-            clickable_areas: [...selectedInterface.clickable_areas, newElement as ClickableArea]
+            id: `clickable_${Date.now()}`,
+            name: elementFormData.name || "Новая область",
+            position: { x, y },
+            size: { width: 100, height: 50 },
+            shape: elementFormData.shape,
+            action: elementFormData.action || "click",
           }
         : {
-            highlight_areas: [...selectedInterface.highlight_areas, newElement as HighlightArea]
+            id: `highlight_${Date.now()}`,
+            name: elementFormData.name || "Область подсветки",
+            position: { x, y },
+            size: { width: 100, height: 50 },
+            color: elementFormData.color,
+            opacity: elementFormData.opacity,
+            animation: elementFormData.animation,
           };
 
-      const result = await tvInterfacesAPI.update(selectedInterface.id, updateData);
-      
+    try {
+      const updateData =
+        elementCreationType === "clickable"
+          ? {
+              clickable_areas: [
+                ...selectedInterface.clickable_areas,
+                newElement as ClickableArea,
+              ],
+            }
+          : {
+              highlight_areas: [
+                ...selectedInterface.highlight_areas,
+                newElement as HighlightArea,
+              ],
+            };
+
+      const result = await tvInterfacesAPI.update(
+        selectedInterface.id,
+        updateData,
+      );
+
       if (result.success && result.data) {
         setSelectedInterface(result.data);
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === selectedInterface.id ? result.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === selectedInterface.id ? result.data! : iface,
+          ),
         );
       }
     } catch (error) {
@@ -491,11 +556,14 @@ const TVInterfaceBuilder = () => {
     resetElementForm();
   };
 
-  const handleElementEdit = (element: ClickableArea | HighlightArea, type: 'clickable' | 'highlight') => {
+  const handleElementEdit = (
+    element: ClickableArea | HighlightArea,
+    type: "clickable" | "highlight",
+  ) => {
     const elementWithType = { ...element, type } as InterfaceElement;
     setSelectedElement(elementWithType);
-    
-    if (type === 'clickable') {
+
+    if (type === "clickable") {
       const clickableElement = element as ClickableArea;
       setElementFormData({
         name: clickableElement.name,
@@ -524,7 +592,7 @@ const TVInterfaceBuilder = () => {
     try {
       let updateData: any = {};
 
-      if (selectedElement.type === 'clickable') {
+      if (selectedElement.type === "clickable") {
         const updatedElement = {
           ...selectedElement,
           name: elementFormData.name,
@@ -532,8 +600,8 @@ const TVInterfaceBuilder = () => {
           shape: elementFormData.shape,
         };
 
-        updateData.clickable_areas = selectedInterface.clickable_areas.map(el =>
-          el.id === selectedElement.id ? updatedElement : el
+        updateData.clickable_areas = selectedInterface.clickable_areas.map(
+          (el) => (el.id === selectedElement.id ? updatedElement : el),
         );
       } else {
         const updatedElement = {
@@ -544,19 +612,22 @@ const TVInterfaceBuilder = () => {
           animation: elementFormData.animation,
         };
 
-        updateData.highlight_areas = selectedInterface.highlight_areas.map(el =>
-          el.id === selectedElement.id ? updatedElement : el
+        updateData.highlight_areas = selectedInterface.highlight_areas.map(
+          (el) => (el.id === selectedElement.id ? updatedElement : el),
         );
       }
 
-      const result = await tvInterfacesAPI.update(selectedInterface.id, updateData);
-      
+      const result = await tvInterfacesAPI.update(
+        selectedInterface.id,
+        updateData,
+      );
+
       if (result.success && result.data) {
         setSelectedInterface(result.data);
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === selectedInterface.id ? result.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === selectedInterface.id ? result.data! : iface,
+          ),
         );
         setSelectedElement(null);
         resetElementForm();
@@ -566,26 +637,36 @@ const TVInterfaceBuilder = () => {
     }
   };
 
-  const handleElementDelete = async (elementId: string, type: 'clickable' | 'highlight') => {
+  const handleElementDelete = async (
+    elementId: string,
+    type: "clickable" | "highlight",
+  ) => {
     if (!selectedInterface) return;
 
     try {
       let updateData: any = {};
 
-      if (type === 'clickable') {
-        updateData.clickable_areas = selectedInterface.clickable_areas.filter(el => el.id !== elementId);
+      if (type === "clickable") {
+        updateData.clickable_areas = selectedInterface.clickable_areas.filter(
+          (el) => el.id !== elementId,
+        );
       } else {
-        updateData.highlight_areas = selectedInterface.highlight_areas.filter(el => el.id !== elementId);
+        updateData.highlight_areas = selectedInterface.highlight_areas.filter(
+          (el) => el.id !== elementId,
+        );
       }
 
-      const result = await tvInterfacesAPI.update(selectedInterface.id, updateData);
-      
+      const result = await tvInterfacesAPI.update(
+        selectedInterface.id,
+        updateData,
+      );
+
       if (result.success && result.data) {
         setSelectedInterface(result.data);
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === selectedInterface.id ? result.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === selectedInterface.id ? result.data! : iface,
+          ),
         );
       }
     } catch (error) {
@@ -649,13 +730,16 @@ const TVInterfaceBuilder = () => {
         screenshot_data: previewImageUrl || selectedInterface.screenshot_data,
       };
 
-      const result = await tvInterfacesAPI.update(selectedInterface.id, updateData);
-      
+      const result = await tvInterfacesAPI.update(
+        selectedInterface.id,
+        updateData,
+      );
+
       if (result.success && result.data) {
-        setTVInterfaces(prev => 
-          prev.map(iface => 
-            iface.id === selectedInterface.id ? result.data! : iface
-          )
+        setTVInterfaces((prev) =>
+          prev.map((iface) =>
+            iface.id === selectedInterface.id ? result.data! : iface,
+          ),
         );
         setIsEditorDialogOpen(false);
       }
@@ -669,8 +753,14 @@ const TVInterfaceBuilder = () => {
     if (!selectedInterface) return null;
 
     const allElements = [
-      ...selectedInterface.clickable_areas.map(el => ({ ...el, type: 'clickable' as const })),
-      ...selectedInterface.highlight_areas.map(el => ({ ...el, type: 'highlight' as const }))
+      ...selectedInterface.clickable_areas.map((el) => ({
+        ...el,
+        type: "clickable" as const,
+      })),
+      ...selectedInterface.highlight_areas.map((el) => ({
+        ...el,
+        type: "highlight" as const,
+      })),
     ];
 
     return (
@@ -717,18 +807,28 @@ const TVInterfaceBuilder = () => {
               <div
                 key={element.id}
                 className={`absolute border-2 cursor-pointer hover:border-blue-700 transition-colors ${
-                  selectedElement?.id === element.id ? "border-blue-500" : 
-                  element.type === 'clickable' ? "border-green-500" : "border-orange-500"
+                  selectedElement?.id === element.id
+                    ? "border-blue-500"
+                    : element.type === "clickable"
+                      ? "border-green-500"
+                      : "border-orange-500"
                 }`}
                 style={{
                   left: `${(element.position.x / 800) * 100}%`,
                   top: `${(element.position.y / 450) * 100}%`,
                   width: `${(element.size.width / 800) * 100}%`,
                   height: `${(element.size.height / 450) * 100}%`,
-                  backgroundColor: element.type === 'highlight' 
-                    ? (element as HighlightArea).color + Math.round((element as HighlightArea).opacity * 255).toString(16).padStart(2, '0')
-                    : "rgba(34, 197, 94, 0.3)",
-                  borderRadius: (element as ClickableArea).shape === "circle" ? "50%" : "4px",
+                  backgroundColor:
+                    element.type === "highlight"
+                      ? (element as HighlightArea).color +
+                        Math.round((element as HighlightArea).opacity * 255)
+                          .toString(16)
+                          .padStart(2, "0")
+                      : "rgba(34, 197, 94, 0.3)",
+                  borderRadius:
+                    (element as ClickableArea).shape === "circle"
+                      ? "50%"
+                      : "4px",
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -738,9 +838,13 @@ const TVInterfaceBuilder = () => {
                 <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-white">
                   {element.name}
                 </span>
-                <div className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border border-white ${
-                  element.type === 'clickable' ? 'bg-green-500' : 'bg-orange-500'
-                }`}></div>
+                <div
+                  className={`absolute -top-1 -right-1 w-3 h-3 rounded-full border border-white ${
+                    element.type === "clickable"
+                      ? "bg-green-500"
+                      : "bg-orange-500"
+                  }`}
+                ></div>
               </div>
             ))}
           </div>
@@ -758,28 +862,44 @@ const TVInterfaceBuilder = () => {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 gap-2">
                 <Button
-                  variant={isCreatingElement && elementCreationType === 'clickable' ? "default" : "outline"}
+                  variant={
+                    isCreatingElement && elementCreationType === "clickable"
+                      ? "default"
+                      : "outline"
+                  }
                   onClick={() => {
-                    setIsCreatingElement(!isCreatingElement || elementCreationType !== 'clickable');
-                    setElementCreationType('clickable');
+                    setIsCreatingElement(
+                      !isCreatingElement || elementCreationType !== "clickable",
+                    );
+                    setElementCreationType("clickable");
                     setSelectedElement(null);
                   }}
                   className="w-full"
                 >
                   <Crosshair className="h-4 w-4 mr-2" />
-                  {isCreatingElement && elementCreationType === 'clickable' ? "Отменить" : "Интерактивная область"}
+                  {isCreatingElement && elementCreationType === "clickable"
+                    ? "Отменить"
+                    : "Интерактивная область"}
                 </Button>
                 <Button
-                  variant={isCreatingElement && elementCreationType === 'highlight' ? "default" : "outline"}
+                  variant={
+                    isCreatingElement && elementCreationType === "highlight"
+                      ? "default"
+                      : "outline"
+                  }
                   onClick={() => {
-                    setIsCreatingElement(!isCreatingElement || elementCreationType !== 'highlight');
-                    setElementCreationType('highlight');
+                    setIsCreatingElement(
+                      !isCreatingElement || elementCreationType !== "highlight",
+                    );
+                    setElementCreationType("highlight");
                     setSelectedElement(null);
                   }}
                   className="w-full"
                 >
                   <Target className="h-4 w-4 mr-2" />
-                  {isCreatingElement && elementCreationType === 'highlight' ? "Отменить" : "Область подсветки"}
+                  {isCreatingElement && elementCreationType === "highlight"
+                    ? "Отменить"
+                    : "Область подсветки"}
                 </Button>
                 <Button
                   variant="outline"
@@ -805,7 +925,10 @@ const TVInterfaceBuilder = () => {
                   <AlertDescription>
                     <div className="space-y-3">
                       <p className="text-sm">
-                        Кликните на изображение для создания {elementCreationType === 'clickable' ? 'интерактивной области' : 'области подсветки'}
+                        Кликните на изображение для создания{" "}
+                        {elementCreationType === "clickable"
+                          ? "интерактивной области"
+                          : "области подсветки"}
                       </p>
                       <div>
                         <Label htmlFor="element-name">Название</Label>
@@ -821,7 +944,7 @@ const TVInterfaceBuilder = () => {
                           placeholder="Название области"
                         />
                       </div>
-                      {elementCreationType === 'clickable' && (
+                      {elementCreationType === "clickable" && (
                         <div>
                           <Label htmlFor="element-action">Действие</Label>
                           <Select
@@ -846,7 +969,7 @@ const TVInterfaceBuilder = () => {
                           </Select>
                         </div>
                       )}
-                      {elementCreationType === 'highlight' && (
+                      {elementCreationType === "highlight" && (
                         <>
                           <div>
                             <Label htmlFor="element-color">Цвет</Label>
@@ -864,7 +987,8 @@ const TVInterfaceBuilder = () => {
                           </div>
                           <div>
                             <Label htmlFor="element-opacity">
-                              Прозрачность: {Math.round(elementFormData.opacity * 100)}%
+                              Прозрачность:{" "}
+                              {Math.round(elementFormData.opacity * 100)}%
                             </Label>
                             <Slider
                               id="element-opacity"
@@ -908,8 +1032,8 @@ const TVInterfaceBuilder = () => {
                           }
                         />
                       </div>
-                      
-                      {selectedElement.type === 'clickable' && (
+
+                      {selectedElement.type === "clickable" && (
                         <div>
                           <Label htmlFor="edit-element-action">Действие</Label>
                           <Select
@@ -935,7 +1059,7 @@ const TVInterfaceBuilder = () => {
                         </div>
                       )}
 
-                      {selectedElement.type === 'highlight' && (
+                      {selectedElement.type === "highlight" && (
                         <>
                           <div>
                             <Label htmlFor="edit-element-color">Цвет</Label>
@@ -953,7 +1077,8 @@ const TVInterfaceBuilder = () => {
                           </div>
                           <div>
                             <Label htmlFor="edit-element-opacity">
-                              Прозрачность: {Math.round(elementFormData.opacity * 100)}%
+                              Прозрачность:{" "}
+                              {Math.round(elementFormData.opacity * 100)}%
                             </Label>
                             <Slider
                               id="edit-element-opacity"
@@ -970,13 +1095,16 @@ const TVInterfaceBuilder = () => {
                             />
                           </div>
                           <div>
-                            <Label htmlFor="edit-element-animation">Анимация</Label>
+                            <Label htmlFor="edit-element-animation">
+                              Анимация
+                            </Label>
                             <Select
                               value={elementFormData.animation}
                               onValueChange={(value) =>
                                 setElementFormData({
                                   ...elementFormData,
-                                  animation: value as HighlightArea['animation'],
+                                  animation:
+                                    value as HighlightArea["animation"],
                                 })
                               }
                             >
@@ -985,7 +1113,10 @@ const TVInterfaceBuilder = () => {
                               </SelectTrigger>
                               <SelectContent>
                                 {animations.map((anim) => (
-                                  <SelectItem key={anim.value} value={anim.value}>
+                                  <SelectItem
+                                    key={anim.value}
+                                    value={anim.value}
+                                  >
                                     {anim.label}
                                   </SelectItem>
                                 ))}
@@ -1002,7 +1133,12 @@ const TVInterfaceBuilder = () => {
                         </Button>
                         <Button
                           variant="destructive"
-                          onClick={() => handleElementDelete(selectedElement.id, selectedElement.type)}
+                          onClick={() =>
+                            handleElementDelete(
+                              selectedElement.id,
+                              selectedElement.type,
+                            )
+                          }
                           size="sm"
                         >
                           <Trash2 className="h-3 w-3 mr-1" />
@@ -1038,12 +1174,18 @@ const TVInterfaceBuilder = () => {
                     <div>
                       <div className="font-medium text-sm">{element.name}</div>
                       <div className="text-xs text-gray-500">
-                        {element.type === 'clickable' ? `Действие: ${(element as ClickableArea).action}` : 'Подсветка'}
+                        {element.type === "clickable"
+                          ? `Действие: ${(element as ClickableArea).action}`
+                          : "Подсветка"}
                       </div>
                     </div>
-                    <div className={`w-3 h-3 rounded-full ${
-                      element.type === 'clickable' ? 'bg-green-500' : 'bg-orange-500'
-                    }`}></div>
+                    <div
+                      className={`w-3 h-3 rounded-full ${
+                        element.type === "clickable"
+                          ? "bg-green-500"
+                          : "bg-orange-500"
+                      }`}
+                    ></div>
                   </div>
                 ))}
                 {allElements.length === 0 && (
@@ -1068,7 +1210,9 @@ const TVInterfaceBuilder = () => {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <Monitor className="h-12 w-12 mx-auto mb-4 text-gray-400 animate-pulse" />
-          <p className="text-gray-600 dark:text-gray-400">Загрузка интерфейсов ТВ...</p>
+          <p className="text-gray-600 dark:text-gray-400">
+            Загрузка интерфейсов ТВ...
+          </p>
         </div>
       </div>
     );
@@ -1083,7 +1227,8 @@ const TVInterfaceBuilder = () => {
             Конструктор интерфейса ТВ
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой �� устройствам
+            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с
+            привязкой �� устройствам
           </p>
         </div>
         <div className="flex space-x-2">
@@ -1125,7 +1270,7 @@ const TVInterfaceBuilder = () => {
                       onValueChange={(value) =>
                         setFormData({
                           ...formData,
-                          type: value as TVInterfaceAPI['type'],
+                          type: value as TVInterfaceAPI["type"],
                         })
                       }
                     >
@@ -1294,7 +1439,8 @@ const TVInterfaceBuilder = () => {
           const device = iface.device_id
             ? getDeviceById(iface.device_id)
             : null;
-          const totalElements = iface.clickable_areas.length + iface.highlight_areas.length;
+          const totalElements =
+            iface.clickable_areas.length + iface.highlight_areas.length;
 
           return (
             <Card key={iface.id} className="relative">
@@ -1349,20 +1495,27 @@ const TVInterfaceBuilder = () => {
                         Тип:
                       </span>
                       <span className="font-medium">
-                        {interfaceTypes.find((t) => t.value === iface.type)?.label}
+                        {
+                          interfaceTypes.find((t) => t.value === iface.type)
+                            ?.label
+                        }
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
                         Интерактивных областей:
                       </span>
-                      <span className="font-medium">{iface.clickable_areas.length}</span>
+                      <span className="font-medium">
+                        {iface.clickable_areas.length}
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">
                         Областей подсветки:
                       </span>
-                      <span className="font-medium">{iface.highlight_areas.length}</span>
+                      <span className="font-medium">
+                        {iface.highlight_areas.length}
+                      </span>
                     </div>
                   </div>
 
@@ -1438,7 +1591,9 @@ const TVInterfaceBuilder = () => {
               Интерактивный редактор: {selectedInterface?.name}
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-hidden">{renderInterfaceEditor()}</div>
+          <div className="flex-1 overflow-hidden">
+            {renderInterfaceEditor()}
+          </div>
           <div className="flex justify-end space-x-2 pt-4">
             <Button
               variant="outline"
@@ -1480,7 +1635,7 @@ const TVInterfaceBuilder = () => {
                   onValueChange={(value) =>
                     setFormData({
                       ...formData,
-                      type: value as TVInterfaceAPI['type'],
+                      type: value as TVInterfaceAPI["type"],
                     })
                   }
                 >
