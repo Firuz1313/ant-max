@@ -38,8 +38,20 @@ export class ApiClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, any>): string {
-    const url = new URL(`${this.baseUrl}${endpoint}`);
-    
+    let fullUrl: string;
+
+    // Handle relative URLs (starting with /) vs absolute URLs
+    if (this.baseUrl.startsWith('http')) {
+      // Absolute URL
+      fullUrl = `${this.baseUrl}${endpoint}`;
+    } else {
+      // Relative URL - use current origin
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      fullUrl = `${origin}${this.baseUrl}${endpoint}`;
+    }
+
+    const url = new URL(fullUrl);
+
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
@@ -51,7 +63,7 @@ export class ApiClient {
         }
       });
     }
-    
+
     return url.toString();
   }
 
