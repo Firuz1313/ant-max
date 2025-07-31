@@ -125,7 +125,7 @@ const TVInterfaceBuilder = () => {
     { value: "settings", label: "Настройки", icon: Settings },
     { value: "channels", label: "Каналы", icon: PlayCircle },
     { value: "apps", label: "Приложения", icon: Grid3X3 },
-    { value: "guide", label: "Программа передач", icon: Layers },
+    { value: "guide", label: "��рограмма передач", icon: Layers },
     { value: "no-signal", label: "Нет сигнала", icon: Monitor },
     { value: "error", label: "Ошибка", icon: AlertTriangle },
     { value: "custom", label: "Пользовательский", icon: Settings },
@@ -141,7 +141,7 @@ const TVInterfaceBuilder = () => {
     { value: "none", label: "Без анимации" },
     { value: "pulse", label: "Пульсация" },
     { value: "glow", label: "Свечение" },
-    { value: "blink", label: "Мигание" },
+    { value: "blink", label: "Мига��ие" },
   ];
 
   const actionTypes = [
@@ -176,12 +176,22 @@ const TVInterfaceBuilder = () => {
   const loadTVInterfaces = async () => {
     try {
       setLoading(true);
+      console.log('Loading TV interfaces...');
       const response = await tvInterfacesAPI.getAll({ limit: 100 });
+      console.log('TV interfaces response:', response);
+
       if (response.success && response.data) {
         setTVInterfaces(response.data);
+        console.log('Successfully loaded', response.data.length, 'TV interfaces');
+      } else {
+        console.warn('Invalid response format:', response);
+        setTVInterfaces([]);
       }
     } catch (error) {
       console.error("Error loading TV interfaces:", error);
+      console.error("Error details:", error instanceof Error ? error.message : String(error));
+      // Показываем пустой список вместо зависания
+      setTVInterfaces([]);
     } finally {
       setLoading(false);
     }
@@ -680,7 +690,7 @@ const TVInterfaceBuilder = () => {
                   <AlertDescription>
                     <div className="space-y-3">
                       <p className="text-sm">
-                        Кликните на изображение для создания {elementCreationType === 'clickable' ? 'интерактивной области' : 'области подсветки'}
+                        Кликните на изображение для создания {elementCreationType === 'clickable' ? 'интеракти��ной области' : 'области подсветки'}
                       </p>
                       <div>
                         <Label htmlFor="element-name">Название</Label>
@@ -958,7 +968,7 @@ const TVInterfaceBuilder = () => {
             Конструктор интерфейса ТВ
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Создание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
+            ��оздание и настройка интерактивных интерфейсов ТВ-приставок с привязкой к устройствам
           </p>
         </div>
         <div className="flex space-x-2">
@@ -1128,7 +1138,7 @@ const TVInterfaceBuilder = () => {
             <div className="flex gap-2">
               <Select value={filterDevice} onValueChange={setFilterDevice}>
                 <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Пристав��а" />
+                  <SelectValue placeholder="Приставка" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Все приставки</SelectItem>
@@ -1461,7 +1471,7 @@ const TVInterfaceBuilder = () => {
           <CardContent className="p-12 text-center">
             <Monitor className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              Интерфейсы не найдены
+              Интерфейс�� не найдены
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
               Попробуйте изменить фильтры поиска или создайте новый интерфейс.
