@@ -1,4 +1,4 @@
-const BaseModel = require('./BaseModel');
+import BaseModel from './BaseModel.js';
 
 class TVInterface extends BaseModel {
   constructor() {
@@ -37,7 +37,7 @@ class TVInterface extends BaseModel {
       errors.push('Области подсветки должны быть массивом');
     }
 
-    // Валидация интерактивных областей
+    // ��алидация интерактивных областей
     if (data.clickable_areas) {
       data.clickable_areas.forEach((area, index) => {
         if (!area.id || typeof area.id !== 'string') {
