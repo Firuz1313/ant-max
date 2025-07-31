@@ -4,7 +4,7 @@ import validateRequest from '../middleware/validateRequest.js';
 
 const router = express.Router();
 
-// Создание экземпляра контроллера
+// Создание экземп��яра контроллера
 const tvInterfaceController = new TVInterfaceController();
 
 // Схемы валидации для Joi
@@ -303,7 +303,7 @@ const typeParamSchema = {
 // GET /api/v1/tv-interfaces - Получение списка всех интерфейсов ТВ
 router.get('/', tvInterfaceController.getAllTVInterfaces.bind(tvInterfaceController));
 
-// GET /api/v1/tv-interfaces/:id - Получение интерфейса ТВ по ID
+// GET /api/v1/tv-interfaces/:id - Получение интерф��йса ТВ по ID
 router.get('/:id', 
   validateRequest(idParamSchema),
   tvInterfaceController.getTVInterfaceById.bind(tvInterfaceController)
@@ -333,7 +333,7 @@ router.post('/:id/duplicate',
   tvInterfaceController.duplicateTVInterface.bind(tvInterfaceController)
 );
 
-// PATCH /api/v1/tv-interfaces/:id/toggle - Активация/деактивация и��терфейса ТВ
+// PATCH /api/v1/tv-interfaces/:id/toggle - Активация/деактивация интерфейса ТВ
 router.patch('/:id/toggle',
   validateRequest(idParamSchema),
   tvInterfaceController.toggleTVInterfaceStatus.bind(tvInterfaceController)
@@ -362,4 +362,4 @@ router.post('/import',
   tvInterfaceController.importTVInterface.bind(tvInterfaceController)
 );
 
-module.exports = router;
+export default router;
