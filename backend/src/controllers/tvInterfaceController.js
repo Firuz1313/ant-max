@@ -1,5 +1,5 @@
-const TVInterface = require('../models/TVInterface');
-const Device = require('../models/Device');
+import TVInterface from '../models/TVInterface.js';
+import Device from '../models/Device.js';
 
 class TVInterfaceController {
   constructor() {
@@ -42,7 +42,7 @@ class TVInterfaceController {
       if (search && search.trim()) {
         tvInterfaces = await this.tvInterface.search(search.trim());
         
-        // Применяем д��полнительные фильтры после поиска
+        // Применяем дополнительные фильтры после поиска
         if (Object.keys(filters).length > 0) {
           tvInterfaces = tvInterfaces.filter(tvInterface => {
             return Object.entries(filters).every(([key, value]) => {
@@ -453,7 +453,7 @@ class TVInterfaceController {
     try {
       const { id } = req.params;
 
-      // Проверка существования инте��фейса
+      // Проверка существования интерфейса
       const existingTVInterface = await this.tvInterface.findById(id);
       if (!existingTVInterface) {
         return res.status(404).json({
