@@ -90,15 +90,22 @@ export class ApiClient {
       ...fetchOptions.headers,
     };
 
+    console.log(`📤 Request headers:`, headers);
+    console.log(`📤 Request body:`, fetchOptions.body ? 'Has body' : 'No body');
+    console.log(`📤 Request method:`, fetchOptions.method || 'GET');
+
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
 
     try {
+      console.log(`📡 Sending fetch request...`);
       const response = await fetch(url, {
         ...fetchOptions,
         headers,
         signal: controller.signal,
       });
+
+      console.log(`📡 Fetch completed`);;
 
       clearTimeout(timeoutId);
 
@@ -124,7 +131,7 @@ export class ApiClient {
 
           if (contentType && contentType.includes('application/json')) {
             responseData = await response.json();
-            console.log(`��� Parsed JSON response:`, responseData);
+            console.log(`📡 Parsed JSON response:`, responseData);
           } else {
             const textData = await response.text();
             console.log(`📡 Text response length: ${textData.length}`);
