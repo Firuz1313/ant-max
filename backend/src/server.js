@@ -139,17 +139,18 @@ process.on('SIGINT', () => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log('🚀 ANT Support API Server started successfully!');
-  console.log(`📍 Server running on all interfaces:${PORT}`);
-  console.log(`🌐 API available at: http://localhost:${PORT}/api/v1`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/health`);
+  console.log(`📍 Server running on 0.0.0.0:${PORT}`);
+  console.log(`🌐 API available at: http://0.0.0.0:${PORT}/api/v1`);
+  console.log(`🌐 API also available at: http://127.0.0.1:${PORT}/api/v1`);
+  console.log(`🏥 Health check: http://127.0.0.1:${PORT}/health`);
   console.log(`📝 Environment: ${NODE_ENV}`);
 
   if (NODE_ENV === 'development') {
     console.log('🔧 Development mode - CORS enabled for localhost and cloud environments');
     console.log('📁 Static files served from: /media');
-    console.log('🔄 Proxy should forward /api requests from port 8080');
+    console.log('🔄 Vite proxy should forward /api/* requests from port 8080 to port 3000');
   }
 });
 
