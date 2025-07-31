@@ -37,7 +37,7 @@ class TVInterface extends BaseModel {
       errors.push('Области подсветки должны быть массивом');
     }
 
-    // ��алидация интерактивных областей
+    // Валидация интерактивных областей
     if (data.clickable_areas) {
       data.clickable_areas.forEach((area, index) => {
         if (!area.id || typeof area.id !== 'string') {
@@ -158,7 +158,7 @@ class TVInterface extends BaseModel {
     return await this.findAll(filters);
   }
 
-  // Получение интерфейсов по типу
+  // ��олучение интерфейсов по типу
   async findByType(type) {
     const filters = { type: type, is_active: true };
     return await this.findAll(filters);
@@ -203,7 +203,7 @@ class TVInterface extends BaseModel {
     return null;
   }
 
-  // Дублирование интерфейса
+  // Дублир��вание интерфейса
   async duplicate(id, newName) {
     const original = await this.findById(id);
     if (!original) {
@@ -307,4 +307,4 @@ class TVInterface extends BaseModel {
   }
 }
 
-module.exports = TVInterface;
+export default TVInterface;
