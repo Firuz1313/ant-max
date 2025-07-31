@@ -163,6 +163,13 @@ export class ApiClient {
     } catch (error) {
       clearTimeout(timeoutId);
 
+      // Retry logic for network errors
+      if (retryAttempt < this.maxRetries && this.shouldRetry(error)) {
+        console.warn(`🔄 Retrying request (${retryAttempt + 1}/${this.maxRetries})...`);
+        await this.delay(1000 * (retryAttempt + 1)); // Exponential backoff
+        return this.makeRequest(endpoint, options, retryAttempt + 1);
+      }
+
       if (error instanceof ApiError) {
         console.error(`📡 API Error ${error.status}:`, error.message);
         throw error;
@@ -182,6 +189,24 @@ export class ApiClient {
       console.error(`📡 Unknown Error:`, error);
       throw new ApiError('Unknown error occurred', 0, error);
     }
+  }
+
+  private shouldRetry(error: any): boolean {
+    if (error instanceof ApiError) {
+      // Retry on 404, 500, 502, 503, 504
+      return [404, 500, 502, 503, 504].includes(error.status);
+    }
+    if (error instanceof Error) {
+      // Retry on network errors
+      return error.message.includes('Failed to fetch') ||
+             error.message.includes('Network error') ||
+             error.name === 'AbortError';
+    }
+    return false;
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   // HTTP Methods
