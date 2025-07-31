@@ -110,51 +110,44 @@ export class ApiClient {
       const contentType = response.headers.get('content-type');
       console.log(`📡 Content-Type: ${contentType}`);
 
-      // Clone response to avoid body stream issues
-      const responseClone = response.clone();
+      // Read response body first, then check status
+      let data: any;
+      let responseText = '';
 
-      // Check status first before reading body
-      if (!response.ok) {
-        console.error(`📡 HTTP Error ${response.status}`);
+      try {
+        // Read the response body once
+        responseText = await response.text();
+        console.log(`📡 Response text received:`, responseText.substring(0, 200));
 
-        // Try to read error details from response
-        let errorData: any = {};
-        try {
-          if (contentType?.includes('application/json')) {
-            errorData = await responseClone.json();
-          } else {
-            const textData = await responseClone.text();
-            errorData = { message: textData };
+        // Try to parse as JSON if content-type suggests it
+        if (contentType?.includes('application/json') && responseText.trim()) {
+          try {
+            data = JSON.parse(responseText);
+            console.log(`📡 Parsed JSON data:`, data);
+          } catch (jsonError) {
+            console.warn(`📡 JSON parse failed, using text:`, jsonError);
+            data = { message: responseText };
           }
-        } catch (parseError) {
-          console.error(`📡 Error parse failed:`, parseError);
-          errorData = { message: response.statusText };
+        } else {
+          data = { message: responseText };
         }
-
-        const errorMessage = errorData?.error || errorData?.message || response.statusText || 'Unknown error';
+      } catch (readError) {
+        console.error(`📡 Failed to read response:`, readError);
         throw new ApiError(
-          `HTTP ${response.status}: ${errorMessage}`,
-          response.status,
-          errorData,
-          errorData?.errorType
+          `Failed to read response: ${readError instanceof Error ? readError.message : 'Unknown error'}`,
+          response.status
         );
       }
 
-      // Read successful response body
-      let data: any;
-      try {
-        if (contentType?.includes('application/json')) {
-          data = await response.json();
-          console.log(`📡 Parsed JSON data:`, data);
-        } else {
-          data = await response.text();
-          console.log(`📡 Response text:`, data.substring(0, 200));
-        }
-      } catch (parseError) {
-        console.error(`📡 Parse error:`, parseError);
+      // Check status after reading body
+      if (!response.ok) {
+        console.error(`📡 HTTP Error ${response.status}:`, data);
+        const errorMessage = data?.error || data?.message || response.statusText || 'Unknown error';
         throw new ApiError(
-          `Failed to parse response: ${parseError instanceof Error ? parseError.message : 'Unknown error'}`,
-          response.status
+          `HTTP ${response.status}: ${errorMessage}`,
+          response.status,
+          data,
+          data?.errorType
         );
       }
 
