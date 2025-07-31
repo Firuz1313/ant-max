@@ -40,15 +40,21 @@ export class ApiClient {
   }
 
   private buildUrl(endpoint: string, params?: Record<string, any>): string {
-    // Always build relative path for proxy to intercept
-    let relativePath = `${this.baseUrl}${endpoint}`;
+    let fullUrl: string;
 
-    // Ensure it starts with / for relative URL
-    if (!relativePath.startsWith('/')) {
-      relativePath = `/${relativePath}`;
+    // Check if baseUrl is absolute (starts with http)
+    if (this.baseUrl.startsWith('http')) {
+      // Direct connection to backend
+      fullUrl = `${this.baseUrl}${endpoint}`;
+      console.log(`🔗 Building direct URL: ${fullUrl}`);
+    } else {
+      // Relative URL for proxy
+      fullUrl = `${this.baseUrl}${endpoint}`;
+      if (!fullUrl.startsWith('/')) {
+        fullUrl = `/${fullUrl}`;
+      }
+      console.log(`🔗 Building relative URL: ${fullUrl}`);
     }
-
-    console.log(`🔗 Building relative URL: ${relativePath}`);
 
     // Add query parameters if present
     if (params && Object.keys(params).length > 0) {
@@ -62,11 +68,12 @@ export class ApiClient {
           }
         }
       });
-      relativePath = `${relativePath}?${searchParams.toString()}`;
+      const separator = fullUrl.includes('?') ? '&' : '?';
+      fullUrl = `${fullUrl}${separator}${searchParams.toString()}`;
     }
 
-    console.log(`✅ Final relative URL for proxy: ${relativePath}`);
-    return relativePath;
+    console.log(`✅ Final API URL: ${fullUrl}`);
+    return fullUrl;
   }
 
   private async makeRequest<T>(
